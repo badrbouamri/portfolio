@@ -1,0 +1,35 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project state
+
+This repo currently contains **no application code** — only planning docs (`docs/`) and an empty git history (no commits yet). Before writing code, check `docs/tasks.md` for the current milestone and work top-to-bottom within it; do not jump ahead to a later milestone's tasks.
+
+- `docs/PRD_Portfolio_Badr_Eddine_ELBOUAMRI.md` — the full product spec. It is the source of truth for design tokens, content structure, and copy rules. Read the relevant section before building the related feature rather than relying on memory of it.
+- `docs/tasks.md` — milestone checklist (M0–M7) derived from the PRD's roadmap (§13). Reflects actual progress; check items off as they're completed.
+
+Once the Next.js app is scaffolded (M2), this file should be updated with real build/lint/test commands — there are none to document yet.
+
+## What this project is
+
+A bilingual (FR/EN) portfolio site for a mechanical engineer targeting Moroccan industrial/automotive employers. It is a static content site, not an app with users/auth/database. The two audiences with opposing needs — HR screening in 30 seconds vs. an engineering manager reading a case study in detail — is the central design constraint driving nearly every layout decision (PRD §2, §4).
+
+## Planned architecture (PRD §9)
+
+- **Stack:** Next.js 15 App Router + TypeScript strict, Tailwind CSS v4 (tokens in `@theme`), next-intl for locale routing (`/fr` default, `/en`), MDX content validated with Zod at build time, Recharts for charts, `@react-three/fiber` dynamically imported for the optional 3D viewer, Resend for the contact form, Vercel Web Analytics. **No database, no auth in V1** — content lives in-repo as MDX, git is the CMS.
+- **Content is the bottleneck, not code** (PRD §10) — most milestones are blocked on writing/translating case studies before the corresponding page can be wired up with real content.
+- **Case studies are the core content unit.** Every one follows a fixed 12-block skeleton (PRD §6) and a Zod-validated frontmatter schema (category, kpis, tools, confidential flag, etc.). The skeleton order is intentional and must not be reordered per-project — that consistency is what makes the site skimmable.
+- **Confidentiality is load-bearing, not cosmetic.** Case studies drawn from internship work (Stellantis, AIC, Nexteer) must never publish absolute costs, volumes, real part/supplier names, or screenshots of internal documents/dashboards — see the hard rules in PRD §6. Any Stellantis-sourced content additionally requires verifying the confidentiality clause in the convention de stage first (M0). When touching content files, check the `confidential` frontmatter field and the organisation's `organisationPublic` flag before rendering real names.
+- **Design tokens are centrally enforced**, not ad hoc — colors, type scale, and spacing are declared as CSS variables per PRD §8.2–8.4 specifically to prevent an AI-assisted build from drifting into generic/templated styling. Reuse the tokens rather than introducing new colors or one-off spacing values.
+- **The Cartouche** (PRD §8.6) is the one signature UI component — a technical-drawing-style title block opening every case study. It's the most distinctive piece of the design language; don't reinvent similar title treatments elsewhere.
+- **Demos are evidence, not nav destinations** — they live under `/fr/demos/[slug]`, linked from within case studies, never from the main header. They must never ship half-finished or with a visible loading/error state; a demo not yet ready stays behind a feature flag rather than shipping broken (PRD §11.2).
+- Build order matters and is specified in PRD §9.5 — scaffold/tokens/i18n first, then layout shell, then the content pipeline + one seeded case study, then the case study template, then index/filtering, then homepage, then the remaining static pages, then contact, then SEO, then demos last.
+
+## Conventions to follow when generating copy/content
+
+- French is the source-of-truth locale; English is a reviewed translation, never machine-translated as-is (PRD §10.5 has known FR→EN term mappings for this domain, e.g. *gamme* → routing/process sheet, *rebut* → scrap).
+- All numeric data (KPIs, dates, tool tags, figure captions) is set in monospace and French-formatted in FR (comma decimal, non-breaking space before `%`) — this is a deliberate typographic rule (PRD §8.3), not a default.
+- No percentage/skill bars, no decorative sequence numbering on non-sequential content, no marketing adjectives without an evidence link — tone rules are in PRD §3.5 and §8.10.
+## Important Note 
+after major changes , please update this file (@CLAUDE.md). keep this file up-to-date with the project’s status.
