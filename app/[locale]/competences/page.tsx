@@ -145,7 +145,6 @@ export default async function CompetencesPage({
                   <li key={item.text}>
                     <Link
                       href={item.href}
-                      locale="fr"
                       className="text-sm text-accent hover:underline"
                     >
                       {item.text}

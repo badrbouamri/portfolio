@@ -1,0 +1,94 @@
+---
+slug: "irrigation-intelligente-iot"
+locale: "en"
+title: "Smart IoT Irrigation System"
+subtitle: "Automated, connected watering driven by sensors and weather data"
+category: "digital"
+organisation: "Personal project"
+organisationPublic: true
+location: "Kénitra, Morocco"
+period:
+  start: "To be confirmed" # ⚠️ TO COMPLETE — real dates unknown, do not guess
+  end: "To be confirmed" # ⚠️ TO COMPLETE — real dates unknown, do not guess
+durationLabel: "To be confirmed" # ⚠️ TO COMPLETE
+role: "Designer & developer"
+summary: "Design of an automated irrigation system (ESP32, MQTT, weather API) with remote supervision, for optimised water-consumption management."
+featured: true
+order: 4
+confidential: false
+tools: ["ESP32", "MQTT", "OpenWeather API"]
+methods: []
+kpis: []
+hero: null
+gallery: []
+links: []
+related: []
+---
+
+## Context
+
+A personal project carried out outside any academic setting, with no client brief or company constraint. The starting goal: explore IoT applied to a concrete problem — watering — rather than staying on an isolated programming exercise. The system targets home or small-plot use, where irrigation today is triggered manually or on a simple timer, without accounting for actual soil conditions or upcoming weather.
+
+> ⚠️ TO COMPLETE — specify the exact context (test plot, personal garden, an ENSET club/association project?) and the precise initial motivation.
+
+## Problem
+
+A fixed-timer watering schedule ignores two pieces of information that are readily available: actual soil moisture and upcoming rainfall. As a result, a non-connected system either over-waters (wasting water) or under-waters (water stress), with no data available afterward to verify which.
+
+## Objectives
+
+- Automate irrigation triggering from a local measurement (soil moisture), rather than a fixed timer.
+- Integrate a weather forecast (OpenWeather API) to avoid watering before expected rain.
+- Enable remote supervision and control of the system.
+
+## My role
+
+A personal project carried out solo: architecture design, embedded firmware development, and setting up communication and remote supervision. No team split to document — the entire chain, from sensor to supervision, is this same individual work.
+
+## Approach & methodology
+
+The chosen architecture follows a simple chain, typical of this kind of IoT project:
+
+1. **Local acquisition** — an ESP32 microcontroller continuously reads a soil moisture sensor (and, where relevant, other environmental readings).
+2. **Local decision** — a moisture threshold triggers a pre-decision to water directly on the ESP32, without permanently depending on a network connection.
+3. **Weather correction** — before executing the watering action, the system queries the OpenWeather API to check for imminent rain and adjusts or cancels the decision.
+4. **Communication** — measurements and system status are reported via the **MQTT** protocol, chosen for its lightweight publish/subscribe model suited to resource-constrained devices, rather than classic HTTP polling, which is more costly in energy and network traffic.
+5. **Remote supervision** — a dashboard makes it possible to track the system's status and history, and to intervene manually if needed.
+
+> ⚠️ TO COMPLETE — confirm the exact implementation details (MQTT broker used, topic structure, the supervision interface actually built): the description above reflects the general intended architecture, not the verified detail of the code.
+
+## Tools & methods
+
+`ESP32` · `MQTT` · `OpenWeather API` · soil moisture sensor
+
+## Engineering analysis
+
+Two design choices deserve justification:
+
+**MQTT rather than direct HTTP polling.** A battery-powered or power-constrained connected device benefits from minimising the number and duration of active network connections. MQTT's publish/subscribe model lets the ESP32 transmit only when an event warrants it (state change, significant reading), instead of continuously polling or being polled — reducing both power consumption and network load.
+
+**Local decision before remote correction.** Keeping the moisture threshold directly on the ESP32 (rather than offloading everything to a server) ensures the system keeps working autonomously even during a network outage or when the weather API is unavailable — the weather data then refines a decision that remains functional without it.
+
+> ⚠️ TO COMPLETE — this is the most important block in the write-up ("the block that gets you hired," per the expected structure). What's missing here is the analysis specific to the actual project: hypotheses tested and rejected, moisture-threshold calibration, and possibly a figure/diagram of the architecture or decision logic to insert.
+
+## Challenges encountered
+
+> ⚠️ TO COMPLETE — list 2–3 real challenges encountered (e.g. sensor reliability, handling Wi-Fi connection loss, power supply, calibrating the moisture threshold by soil type, weather API latency). Do not invent generic difficulties: this block loses all its value if it doesn't reflect a lived experience.
+
+## Solutions implemented
+
+- An automated, connected irrigation system combining local moisture measurement and weather forecasting.
+- An MQTT communication chain between the ESP32 and the supervision layer.
+- A remote supervision interface for tracking and managing water consumption.
+
+> ⚠️ TO COMPLETE — name the delivered artefacts precisely (e.g. firmware/repo name, a screenshot or diagram of the supervision interface actually built).
+
+## Results
+
+The system works as a prototype demonstrating the full chain: measurement → local decision → weather correction → action → remote supervision. **No quantified water-consumption gain is available at this stage** — this project has not undergone a comparative (before/after) measurement that would quantify a real water saving. Presenting it honestly as a functional prototype, rather than putting forward an unmeasured savings percentage, is deliberate.
+
+> ⚠️ TO COMPLETE — if a real measurement or estimate exists (even approximate), add it here along with its calculation method.
+
+## What I take from this
+
+> ⚠️ TO COMPLETE — 3–5 personal lines: what this project changed in how I approach IoT, a limitation identified in hindsight, a technical choice I'd make differently today. Write in the first person, no platitudes.

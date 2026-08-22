@@ -2,16 +2,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { getTranslations } from "next-intl/server";
 import { getAllCaseStudies } from "@/lib/content";
+import type { Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/Section";
 import { Rule } from "@/components/ui/Rule";
 import { Tag } from "@/components/ui/Tag";
 
-// Biography source of truth is content/fr/biographie.md (174 words, first person,
-// already written and reviewed). Read at build time and rendered as-is — never
-// paraphrased. No EN version exists yet; see the pending-translation note below.
-function readBiographyParagraphs(): string[] {
-  const filePath = path.join(process.cwd(), "content", "fr", "biographie.md");
+// Biography is a reviewed human translation per locale (content/fr/biographie.md,
+// content/en/biographie.md) — read at build time and rendered as-is, never paraphrased.
+function readBiographyParagraphs(locale: string): string[] {
+  const filePath = path.join(process.cwd(), "content", locale, "biographie.md");
   const raw = fs.readFileSync(filePath, "utf-8");
   const body = raw.replace(/^\s*<!--[\s\S]*?-->\s*/, "");
   return body
@@ -43,16 +43,15 @@ export default async function ParcoursPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations("Parcours");
-  const isEn = locale === "en";
 
-  const bioParagraphs = readBiographyParagraphs();
+  const bioParagraphs = readBiographyParagraphs(locale);
 
-  // Experience is sourced from the (French) case study frontmatter regardless of
-  // page locale — no EN case studies exist yet. "Projet personnel" entries (the
-  // IoT irrigation project) are not work experience and are excluded here; they
-  // live on the Projets index / Compétences evidence links instead.
-  const caseStudyEntries: ExperienceEntry[] = getAllCaseStudies("fr")
-    .filter((cs) => cs.organisation !== "Projet personnel")
+  // Experience is sourced from the case study frontmatter in the current locale.
+  // "Projet personnel"/"Personal project" entries (the IoT irrigation project) are
+  // not work experience and are excluded here; they live on the Projets index /
+  // Compétences evidence links instead.
+  const caseStudyEntries: ExperienceEntry[] = getAllCaseStudies(locale as Locale)
+    .filter((cs) => cs.organisation !== "Projet personnel" && cs.organisation !== "Personal project")
     .map((cs) => ({
       role: cs.role,
       organisation: cs.organisation,
@@ -82,11 +81,6 @@ export default async function ParcoursPage({
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-[1fr_220px]">
         <div>
           <h2 className="mb-3 text-lg text-ink">{t("bio_heading")}</h2>
-          {isEn ? (
-            <p className="mb-4 border-l-2 border-signal pl-4 text-sm italic text-steel">
-              {t("content_pending_note")}
-            </p>
-          ) : null}
           <div className="measure text-graphite">
             {bioParagraphs.map((paragraph, index) => (
               <p key={index} className="mb-4">
@@ -131,7 +125,6 @@ export default async function ParcoursPage({
               {entry.href ? (
                 <Link
                   href={entry.href}
-                  locale="fr"
                   className="mt-1 inline-block text-sm text-accent hover:underline"
                 >
                   {t("experience_case_study_link")}
