@@ -19,7 +19,19 @@
   "Competences": {},
   "Contact": {},
   "Projets": {
-    "index_pending_note": "Project index — pending dedicated M2 workstream."
+    "eyebrow": "Case studies",
+    "title": "Projects",
+    "intro": "A selection of industrial and personal projects, from field diagnostics to data-driven monitoring.",
+    "filter_label": "Filter by category",
+    "filter_all": "All",
+    "category_methodes": "Methods",
+    "category_lean": "Lean & Quality",
+    "category_maintenance": "Maintenance",
+    "category_conception": "Design & Simulation",
+    "category_digital": "Digital & IoT",
+    "card_cta": "View case study",
+    "empty_message": "No project in this category.",
+    "empty_cta": "View all projects"
   },
   "CaseStudy": {
     "cartouche_projet": "PROJECT",
