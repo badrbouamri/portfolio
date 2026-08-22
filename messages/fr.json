@@ -1,0 +1,45 @@
+{
+  "Header": {
+    "nav_accueil": "Accueil",
+    "nav_parcours": "Parcours",
+    "nav_competences": "Compétences",
+    "nav_projets": "Projets",
+    "nav_contact": "Contact",
+    "cv_download": "Télécharger le CV"
+  },
+  "Footer": {
+    "contact_heading": "Contact",
+    "location": "Kénitra, Maroc",
+    "legal_link": "Mentions légales"
+  },
+  "Home": {
+    "pending_note": "Accueil — en attente du chantier M2 dédié."
+  },
+  "Parcours": {},
+  "Competences": {},
+  "Contact": {},
+  "Projets": {
+    "index_pending_note": "Index des projets — en attente du chantier M2 dédié."
+  },
+  "CaseStudy": {
+    "cartouche_projet": "PROJET",
+    "cartouche_organisation": "ORGANISATION",
+    "cartouche_periode": "PÉRIODE",
+    "cartouche_role": "RÔLE",
+    "cartouche_methodes": "MÉTHODES",
+    "cartouche_confidentialite": "INDICE DE CONFIDENTIALITÉ",
+    "confidentiality_notice": "Données volontairement indexées ou anonymisées par respect de la confidentialité industrielle.",
+    "organisation_generic": "Équipementier automobile",
+    "section_contexte": "Contexte",
+    "section_probleme": "Problématique",
+    "section_objectifs": "Objectifs",
+    "section_role": "Mon rôle",
+    "section_demarche": "Démarche & méthodologie",
+    "section_outils": "Outils & méthodes",
+    "section_analyse": "Analyse d'ingénieur",
+    "section_defis": "Difficultés rencontrées",
+    "section_solutions": "Solutions mises en œuvre",
+    "section_resultats": "Résultats",
+    "section_enseignements": "Ce que j'en retiens"
+  }
+}
