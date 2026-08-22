@@ -5,11 +5,10 @@ Derived from PRD v1.0. Each milestone has an exit criterion — do not start the
 ## M0 — Unblock (Days 1–3)
 **Exit:** legal status known; repo deploying a placeholder.
 
-- [ ] Check domain availability: `badreddine-elbouamri.com` → fallbacks if taken
-- [ ] Buy domain (or defer and launch on `*.vercel.app` — must not block launch)
-- [ ] Create GitHub repo (git remote add origin https://github.com/badrbouamri/portfolio.git)
-- [ ] Connect repo to Vercel, confirm preview deployments work
-- [ ] Deploy placeholder page to confirm pipeline
+- [x] Domain deferred — launching on `*.vercel.app` for now per PRD §1.1 (does not block launch); revisit purchase later
+- [x] Create GitHub repo (remote: https://github.com/badrbouamri/portfolio.git) — initial commit pushed to `main`
+- [ ] Connect repo to Vercel, confirm preview deployments work — **needs your Vercel account** (see below), not something I can do headless
+- [x] Deploy placeholder page to confirm pipeline — `index.html` committed, deploys once Vercel is connected
 
 ## M1 — Content Core (Days 3–10)
 **Exit:** 3 case studies complete in Markdown, offline (not yet in the site).
