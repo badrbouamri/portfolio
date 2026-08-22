@@ -28,27 +28,29 @@ Derived from PRD v1.0. Each milestone has an exit criterion — do not start the
 ## M2 — Scaffold & Build (Days 8–16, overlaps M1)
 **Exit:** all V1 pages rendering with real FR content.
 
-- [ ] Scaffold Next.js 15 App Router + TypeScript strict
-- [ ] Set up Tailwind v4 with design tokens from §8.2 in `@theme`
-- [ ] Self-host fonts (IBM Plex Sans / Sans Condensed / Mono) via `next/font/local`
-- [ ] Set up next-intl, locale-prefixed routing (`/fr` default, `/en`)
-- [ ] Build layout shell: Header, Footer, LocaleSwitcher, CvButton
-- [ ] Define Zod content schema (§6 frontmatter) in `/lib/schema.ts`
-- [ ] Build MDX pipeline (`/content/fr/projets/*.mdx`, `/en/projets/*.mdx`), validate at build time
-- [ ] Seed one case study through the pipeline end-to-end
-- [ ] Build case study template + **Cartouche** component (§8.6)
-- [ ] Build remaining case-block components: KpiRow, FigureBlock, MethodSteps, ToolChips, ConfidentialNotice
-- [ ] Build Projets index: card grid + client-side filtering by category, URL-synced (`?categorie=`)
-- [ ] Build Homepage: Hero, ProofBar (3 facts), FeaturedProjects (3 cards), CompetenceBlocks, MiniTimeline, Contact block (§4.4)
-- [ ] Build Parcours page: bio, photo, experience timeline, education, certifications (empty for now), languages, availability (§5.2)
-- [ ] Build Compétences page: 6 groups with one evidence line each, linked to case studies (§5.3)
-- [ ] Build Contact page: form (nom/email/organisation/message) + honeypot + rate limit + Zod validation + Resend Server Action, plus plain-text email/phone/LinkedIn/location (§5.8)
-- [ ] Build `/mentions-legales` page (§5.9)
-- [ ] Wire CV download action: `/fr/cv` fires analytics event then redirects to PDF (never expose raw path in nav)
-- [ ] Add SEO: per-locale metadata, hreflang alternates, `sitemap.ts`, JSON-LD Person schema
-- [ ] Add OG images (`opengraph-image.tsx`)
-- [ ] Add Vercel Web Analytics + Speed Insights, wire events: `cv_download`, `case_study_read`, `demo_opened`, `contact_submitted`, `locale_switched`
-- [ ] Load real FR content (bio + 3 case studies from M1) into the site
+- [x] Scaffold Next.js 15 App Router + TypeScript strict
+- [x] Set up Tailwind v4 with design tokens from §8.2 in `@theme`
+- [x] Self-host fonts (IBM Plex Sans / Sans Condensed / Mono) via `next/font/local`
+- [x] Set up next-intl, locale-prefixed routing (`/fr` default, `/en`)
+- [x] Build layout shell: Header, Footer, LocaleSwitcher, CvButton
+- [x] Define Zod content schema (§6 frontmatter) in `/lib/schema.ts`
+- [x] Build MDX pipeline (`/content/fr/projets/*.mdx`), validate at build time — `/en/projets/*.mdx` doesn't exist yet, pipeline tolerates its absence (real EN case studies are M3)
+- [x] Seed one case study through the pipeline end-to-end — all 3 render
+- [x] Build case study template + **Cartouche** component (§8.6)
+- [x] Build remaining case-block components: KpiRow, FigureBlock, MethodSteps, ToolChips, ConfidentialNotice
+- [x] Build Projets index: card grid + client-side filtering by category, URL-synced (`?categorie=`) — server-rendered per request, no flash of unfiltered content
+- [x] Build Homepage: Hero, ProofBar (3 facts), FeaturedProjects, CompetenceBlocks, MiniTimeline, Contact block (§4.4) — FeaturedProjects renders 2 real cards, not 3 (no `conception`-category case study exists yet — known gap, see M6/M7)
+- [x] Build Parcours page: bio, photo placeholder (no real photo yet — flagged inline), experience timeline, education, certifications (honest empty state), languages, availability (§5.2)
+- [x] Build Compétences page: 6 groups with one evidence line each, linked to case studies where real evidence exists — Conception & Simulation and Sciences de l'ingénieur groups are honestly unlinked (§5.3)
+- [x] Build Contact page: form (nom/email/organisation/message) + honeypot + rate limit + Zod validation + Resend Server Action, plus plain-text email/phone/location (§5.8) — LinkedIn shown as text only, no URL (none verified yet); `RESEND_API_KEY` not configured, so sending degrades gracefully to a logged error + user-facing message until the key is added in Vercel
+- [ ] Build `/mentions-legales` page (§5.9) — not yet built, still open
+- [x] Wire CV download action: `/fr/cv` (and `/en/cv`, serving the FR PDF until an EN version exists) redirects to the PDF — analytics event is currently a stub call, not yet wired to a real provider
+- [ ] Add SEO: per-locale metadata, hreflang alternates, `sitemap.ts`, JSON-LD Person schema — not started
+- [ ] Add OG images (`opengraph-image.tsx`) — not started
+- [ ] Add Vercel Web Analytics + Speed Insights, wire events: `cv_download`, `case_study_read`, `demo_opened`, `contact_submitted`, `locale_switched` — not started, stub call points exist (CvButton, LocaleSwitcher) for future wiring
+- [x] Load real FR content (bio + 3 case studies from M1) into the site
+
+**M2 is not fully closed** — `/mentions-legales`, SEO, OG images, and analytics wiring (PRD §9.5 step 9) are still open. Everything else (steps 1–8) is built, merged to `main`, and passes `npm run build`/`npm run lint`/a live smoke test across every route in both locales.
 
 ## M3 — Bilingual (Days 14–18)
 **Exit:** EN parity, no untranslated strings.
