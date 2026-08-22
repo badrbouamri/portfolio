@@ -19,7 +19,19 @@
   "Competences": {},
   "Contact": {},
   "Projets": {
-    "index_pending_note": "Index des projets — en attente du chantier M2 dédié."
+    "eyebrow": "Études de cas",
+    "title": "Projets",
+    "intro": "Une sélection de projets industriels et personnels, du diagnostic terrain au pilotage par la donnée.",
+    "filter_label": "Filtrer par catégorie",
+    "filter_all": "Tous",
+    "category_methodes": "Méthodes",
+    "category_lean": "Lean & Qualité",
+    "category_maintenance": "Maintenance",
+    "category_conception": "Conception & Simulation",
+    "category_digital": "Digital & IoT",
+    "card_cta": "Voir l'étude de cas",
+    "empty_message": "Aucun projet dans cette catégorie.",
+    "empty_cta": "Voir tous les projets"
   },
   "CaseStudy": {
     "cartouche_projet": "PROJET",
