@@ -1,0 +1,94 @@
+---
+slug: "irrigation-intelligente-iot"
+locale: "fr"
+title: "Système d'irrigation intelligent IoT"
+subtitle: "Arrosage automatisé et connecté, piloté par capteurs et météo"
+category: "digital"
+organisation: "Projet personnel"
+organisationPublic: true
+location: "Kénitra, Maroc"
+period:
+  start: "À préciser" # ⚠️ À COMPLÉTER — dates réelles inconnues, ne pas deviner
+  end: "À préciser" # ⚠️ À COMPLÉTER — dates réelles inconnues, ne pas deviner
+durationLabel: "À préciser" # ⚠️ À COMPLÉTER
+role: "Concepteur & développeur"
+summary: "Conception d'un système d'irrigation automatisé (ESP32, MQTT, API météo) avec supervision à distance, pour une gestion optimisée de la consommation d'eau."
+featured: true
+order: 4
+confidential: false
+tools: ["ESP32", "MQTT", "OpenWeather API"]
+methods: []
+kpis: []
+hero: null
+gallery: []
+links: []
+related: []
+---
+
+## Contexte
+
+Projet personnel mené en dehors du cadre académique, sans commande ni contrainte d'un client ou d'une entreprise. L'objectif de départ : explorer l'IoT appliqué à un problème concret — l'arrosage — plutôt que de rester sur un exercice de programmation isolé. Le système cible un usage domestique ou de petite parcelle, où l'arrosage est aujourd'hui déclenché manuellement ou sur une simple minuterie, sans tenir compte de l'état réel du sol ni de la météo à venir.
+
+> ⚠️ À COMPLÉTER — préciser le contexte exact (parcelle test, jardin personnel, projet de club/association ENSET ?) et la motivation initiale précise.
+
+## Problématique
+
+Un arrosage à minuterie fixe ignore deux informations pourtant disponibles : l'humidité réelle du sol et les précipitations à venir. Résultat, un système non connecté sur-arrose (gaspillage d'eau) ou sous-arrose (stress hydrique), sans qu'aucune donnée ne permette de le vérifier a posteriori.
+
+## Objectifs
+
+- Automatiser le déclenchement de l'arrosage à partir d'une mesure locale (humidité du sol), plutôt que d'une minuterie fixe.
+- Intégrer une prévision météo (API OpenWeather) pour éviter d'arroser avant une pluie prévue.
+- Permettre une supervision et un pilotage à distance du système.
+
+## Mon rôle
+
+Projet personnel réalisé seul : conception de l'architecture, développement du firmware embarqué, mise en place de la communication et de la supervision à distance. Aucune répartition d'équipe à documenter — l'ensemble de la chaîne, du capteur à la supervision, relève de ce même travail individuel.
+
+## Démarche & méthodologie
+
+L'architecture retenue suit une chaîne simple, typique d'un projet IoT de ce type :
+
+1. **Acquisition locale** — un microcontrôleur ESP32 lit en continu un capteur d'humidité du sol (et, le cas échéant, d'autres grandeurs environnementales).
+2. **Décision locale** — un seuil d'humidité déclenche une pré-décision d'arrosage directement sur l'ESP32, sans dépendre en permanence d'une connexion réseau.
+3. **Correction météo** — avant d'exécuter l'arrosage, le système interroge l'API OpenWeather pour vérifier une pluie imminente et ajuster ou annuler la décision.
+4. **Communication** — les mesures et l'état du système remontent via le protocole **MQTT**, choisi pour son fonctionnement en publication/abonnement, léger et adapté à des objets à ressources limitées, plutôt qu'un polling HTTP classique plus coûteux en énergie et en trafic.
+5. **Supervision à distance** — un tableau de bord permet de suivre l'état du système et son historique, et d'intervenir manuellement si besoin.
+
+> ⚠️ À COMPLÉTER — confirmer le détail exact de l'implémentation (broker MQTT utilisé, structure des topics, interface de supervision réellement construite) : la description ci-dessus reflète l'architecture générale annoncée, pas le détail vérifié du code.
+
+## Outils & méthodes
+
+`ESP32` · `MQTT` · `API OpenWeather` · capteur d'humidité du sol
+
+## Analyse d'ingénieur
+
+Deux choix de conception méritent d'être justifiés :
+
+**MQTT plutôt qu'un polling HTTP direct.** Un objet connecté sur batterie ou alimentation limitée gagne à minimiser le nombre et la durée des connexions réseau actives. Le modèle publication/abonnement de MQTT permet à l'ESP32 de n'émettre que lorsqu'un événement le justifie (changement d'état, mesure significative), au lieu d'interroger ou d'être interrogé en continu — ce qui réduit la consommation et la charge réseau.
+
+**Décision locale avant correction distante.** Faire porter le seuil d'humidité directement sur l'ESP32 (plutôt que de tout déporter vers un serveur) garantit que le système continue à fonctionner de façon autonome même en cas de coupure réseau ou d'indisponibilité de l'API météo — la donnée météo vient ensuite affiner une décision qui reste fonctionnelle sans elle.
+
+> ⚠️ À COMPLÉTER — ce bloc est le plus important du dossier ("le bloc qui fait recruter", selon la structure attendue). Il manque ici l'analyse spécifique au projet réel : hypothèses testées et rejetées, calibration du seuil d'humidité, éventuel figure/schéma d'architecture ou de logique de décision à insérer.
+
+## Difficultés rencontrées
+
+> ⚠️ À COMPLÉTER — lister 2 à 3 difficultés réelles rencontrées (ex. fiabilité du capteur, gestion de la perte de connexion Wi-Fi, alimentation électrique, calibration du seuil d'humidité selon le type de sol, latence de l'API météo). Ne pas inventer de difficultés génériques : ce bloc perd toute sa valeur s'il ne reflète pas une expérience vécue.
+
+## Solutions mises en œuvre
+
+- Système d'irrigation automatisé et connecté associant mesure locale d'humidité et prévision météo.
+- Chaîne de communication MQTT entre l'ESP32 et la supervision.
+- Interface de supervision à distance pour le suivi et la gestion de la consommation d'eau.
+
+> ⚠️ À COMPLÉTER — nommer précisément les artefacts livrés (ex. nom du firmware/repo, capture ou schéma de l'interface de supervision réellement construite).
+
+## Résultats
+
+Le système fonctionne comme prototype démontrant la chaîne complète : mesure → décision locale → correction météo → action → supervision à distance. **Aucun résultat chiffré de gain en consommation d'eau n'est disponible à ce stade** — ce projet n'a pas fait l'objet d'une mesure comparative (avant/après) permettant de quantifier une économie d'eau réelle. Le présenter honnêtement comme un prototype fonctionnel, plutôt que d'avancer un pourcentage d'économie non mesuré, est délibéré.
+
+> ⚠️ À COMPLÉTER — si une mesure ou une estimation existe réellement (même approximative), l'ajouter ici avec sa méthode de calcul.
+
+## Ce que j'en retiens
+
+> ⚠️ À COMPLÉTER — 3 à 5 lignes personnelles, prembattre : ce que ce projet a changé dans la façon d'aborder l'IoT, une limite identifiée a posteriori, un choix technique qui serait refait différemment aujourd'hui. À écrire à la première personne, sans platitude.

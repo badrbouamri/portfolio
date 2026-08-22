@@ -13,13 +13,14 @@ Derived from PRD v1.0. Each milestone has an exit criterion — do not start the
 ## M1 — Content Core (Days 3–10)
 **Exit:** 3 case studies complete in Markdown, offline (not yet in the site).
 
-- [ ] Retrieve PFE report (drafts / encadrant / ENSET library) — source for case study 1
-- [ ] Write professional biography, FR, 150–200 words (§10.1 structure)
-- [ ] Write case study: `stellantis-maitrise-cout-transformation` (methodes + lean) to the 12-block skeleton (§6)
-- [ ] Write case study: `aic-diagnostic-pliage-cintrage` (maintenance) to the 12-block skeleton
-- [ ] Write 3rd case study — academic design/dimensionnement project (conception) or `irrigation-intelligente-iot` (digital)
-- [ ] Apply confidentiality rules to each: anonymise costs/volumes/codenames, add the standard indexation notice
-- [ ] Redraw figures per case study (Pareto, Ishikawa/AMDEC extract, layout, calculation) — no screenshots of internal docs
+- [ ] **Verify the Stellantis confidentiality clause (convention de stage) before publishing** — restored as a hard blocker on the Stellantis case study specifically; see `⚠️ NE PAS PUBLIER` note at the top of that file (PRD §10.3)
+- [ ] Retrieve PFE report (drafts / encadrant / ENSET library) — needed to fill the placeholders left in the Stellantis case study below
+- [x] Write professional biography, FR, 174 words — `content/fr/biographie.md` (draft, needs your review for voice)
+- [~] Write case study: `stellantis-maitrise-cout-transformation` (methodes, featured) — `content/fr/projets/stellantis-maitrise-cout-transformation.mdx`. Skeleton drafted from CV facts only; **Analyse d'ingénieur, cause-racine detail, Difficultés, Résultats (étanchéité), Enseignements are placeholders** — real content needs the PFE report, and publication is blocked on the confidentiality check above
+- [~] Write case study: `aic-diagnostic-pliage-cintrage` (maintenance, not featured — homepage's 3 featured slots are Stellantis + a conception project + a digital project per PRD §4.4) — `content/fr/projets/aic-diagnostic-pliage-cintrage.mdx`. Skeleton from CV facts; **Analyse d'ingénieur, Difficultés, failure-mode detail are placeholders**; Résultats block is an honest interim statement (plan handed off to site maintenance team), not a placeholder
+- [~] Write 3rd case study: `irrigation-intelligente-iot` (digital, featured) — `content/fr/projets/irrigation-intelligente-iot.mdx`. Skeleton from CV facts; **exact dates unknown (period/durationLabel explicitly marked "À préciser" — do not guess a date**); Analyse d'ingénieur partially filled with legitimate generic IoT engineering reasoning (MQTT vs polling, local vs remote decision), flagged as needing project-specific specifics on top
+- [x] Apply confidentiality rules to each: anonymised, standard indexation notice added to Stellantis and AIC (irrigation project is personal, not confidential)
+- [ ] Redraw figures per case study (Pareto, Ishikawa/AMDEC extract, layout, calculation) — no screenshots of internal docs — blocked on real data from PFE report / your own diagrams
 - [ ] Take/select professional photograph (current, neutral background)
 - [ ] Assemble CV PDF, FR — filename `CV_ELBOUAMRI_BadrEddine_FR.pdf`, portfolio URL in header
 - [ ] Assemble CV PDF, EN — `..._EN.pdf`
