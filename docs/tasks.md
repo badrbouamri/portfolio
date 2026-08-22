@@ -55,11 +55,11 @@ Derived from PRD v1.0. Each milestone has an exit criterion — do not start the
 ## M3 — Bilingual (Days 14–18)
 **Exit:** EN parity, no untranslated strings.
 
-- [ ] Translate biography to EN
-- [ ] Translate all 3 case studies to EN, reviewed line by line (watch technical term mapping, §10.5)
-- [ ] Translate UI strings in `/messages/en.json`
-- [ ] Verify hreflang tags resolve correctly both directions
-- [ ] Full locale QA pass: switch FR↔EN on every page, check for leftover FR/EN strings
+- [x] Translate biography to EN — `content/en/biographie.md` (181 words, faithful translation, not machine-translated)
+- [x] Translate all 3 case studies to EN, reviewed line by line (watch technical term mapping, §10.5) — `content/en/projets/*.mdx`. `⚠️ À COMPLÉTER` placeholders preserved as `⚠️ TO COMPLETE` in all 3 (root-cause reasoning/difficulties/lessons still need the real PFE/PFA report — not fabricated in either language); Stellantis EN file keeps the same `NE PAS PUBLIER`/confidentiality-clause warning
+- [x] Translate UI strings in `/messages/en.json` — done incrementally across the M2 workstreams; this pass removed the stale "(FR)" suffixes and pending-translation banner now that real EN case studies exist, and fixed hardcoded `locale="fr"` overrides in Parcours/Compétences case-study links
+- [x] Verify hreflang tags resolve correctly both directions — added `generateMetadata` + `alternates.languages` in `app/[locale]/layout.tsx` (fr/en/x-default), confirmed via rendered `<link rel="alternate">` tags on both `/fr` and `/en`. Note: this covers site-wide root hreflang only — per-page metadata, sitemap, and JSON-LD are still M2's open SEO item, not duplicated here.
+- [x] Full locale QA pass: switch FR↔EN on every page, check for leftover FR/EN strings — all 16 routes (8 pages × 2 locales) return 200; grepped rendered EN HTML for common FR UI words, only false positives found (a JSON namespace key, and the deliberately-untranslated FR job-title phrase "Ingénieur Méthodes, Industrialisation..." which recruiters search for by that exact French term)
 
 ## M4 — Test & Harden (Days 16–20)
 **Exit:** all performance/accessibility budgets met, zero typos.
