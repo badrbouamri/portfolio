@@ -48,7 +48,7 @@ export function ConsommablesApp() {
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div data-demo-root className="flex flex-col gap-8">
       <p className="border-l-2 border-signal bg-surface px-4 py-2 text-sm italic text-steel">
         {t("banner")}
       </p>

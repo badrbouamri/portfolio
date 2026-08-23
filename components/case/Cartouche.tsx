@@ -25,7 +25,10 @@ export function Cartouche({ frontmatter }: CartoucheProps) {
   const confidentialite = frontmatter.confidential ? "Indexée / anonymisée" : "Publique";
 
   return (
-    <div className="grid grid-cols-1 border border-rule bg-surface sm:grid-cols-3 lg:grid-cols-6">
+    <div
+      data-print-avoid-break
+      className="grid grid-cols-1 border border-rule bg-surface sm:grid-cols-3 lg:grid-cols-6"
+    >
       <Field label={t("cartouche_projet")} value={frontmatter.title} />
       <Field label={t("cartouche_organisation")} value={organisationLabel} />
       <Field label={t("cartouche_periode")} value={periode} />

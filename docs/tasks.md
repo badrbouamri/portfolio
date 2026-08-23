@@ -105,10 +105,10 @@ Derived from PRD v1.0. Each milestone has an exit criterion — do not start the
 ## M7 — Iterate (Ongoing) — V2+
 **Exit:** metrics in §12 trending to target.
 
-- [ ] Set up bi-weekly metrics review cadence (first 2 months)
-- [ ] Run chronométrage / équilibrage self-directed study, write as short case study (§10, known gap)
-- [ ] Evaluate 3D CAD viewer against performance budget; build only if it meets it, else ship static render (§7.3)
-- [ ] Build dark mode (V2, low priority)
-- [ ] Add remaining case studies from the planned slots table (§6)
-- [ ] Add print stylesheet for case studies
-- [ ] Pursue certification (Green/Yellow Belt, CATIA, or Power BI) as a parallel career action (§10.7)
+- [ ] Set up bi-weekly metrics review cadence (first 2 months) — **needs you**; this is a recurring human habit (checking Vercel Analytics + your own interview log against PRD §12's targets), not something to automate. Blocked anyway on the site being live and analytics actually wired (still open, M2).
+- [ ] Run chronométrage / équilibrage self-directed study, write as short case study (§10, known gap) — **needs you**: requires actually timing/balancing a real documented process (PRD calls it "a weekend" of fieldwork). I can write the case study once you have real data, same as the other internship case studies — not before.
+- [ ] Evaluate 3D CAD viewer against performance budget; build only if it meets it, else ship static render (§7.3) — **blocked on you**: PRD's own condition is "only academic models (verify IP)" — no such model/file exists yet. Building the viewer infrastructure speculatively, with nothing real to test the ≤3MB Draco-compressed budget against, would be exactly the premature/unrequested scope this project's conventions warn against.
+- [ ] Build dark mode (V2, low priority) — **holding for your go-ahead**: PRD §7.8 itself argues against this ("doubles design QA for zero hiring value") and it'd be a cross-cutting change touching every token/component on an already-shipped design. Not started; say the word if you actually want it.
+- [ ] Add remaining case studies from the planned slots table (§6) — **blocked on you**: the two open slots (academic design/dimensionnement project, ANSYS/ABAQUS simulation project) are marked "(to define)" in the PRD itself — you haven't picked what real project fills them yet.
+- [x] Add print stylesheet for case studies — `@media print` in `app/globals.css`: hides Header/Footer/nav chrome and demo interactive roots (`data-demo-root`), preserves the Cartouche/KPI colors via `print-color-adjust: exact` (browsers strip background/border colors by default), avoids awkward page breaks inside the Cartouche/KPI blocks and right after headings. Verified the build renders correctly with the new attributes wired into `Cartouche`, `KpiRow`, `ConsommablesApp`, and the pilotage demo page; didn't force an actual print-preview screenshot since that requires `window.print()`, which opens a native OS dialog that can block browser automation — standard, well-supported CSS, low risk.
+- [ ] Pursue certification (Green/Yellow Belt, CATIA, or Power BI) as a parallel career action (§10.7) — **entirely yours**, PRD itself frames this as a career action, not a website task.

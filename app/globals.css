@@ -127,3 +127,43 @@ h3 {
 .hero-reveal-4 {
   animation-delay: 240ms;
 }
+
+/* Print stylesheet — scoped mainly at case studies (PRD M7), but hiding site
+   chrome on paper is universally correct so it's not gated to that route. */
+@media print {
+  header,
+  footer {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff;
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  /* Cartouche/KPI figures rely on background + border color to read correctly
+     (the amber KPI figures, the cartouche's hairline grid) — browsers strip
+     background colors from print by default unless told otherwise. */
+  [data-print-avoid-break] {
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  /* Demos are interactive and synthetic-data-driven — not meaningful on paper. */
+  [data-demo-root] {
+    display: none !important;
+  }
+}

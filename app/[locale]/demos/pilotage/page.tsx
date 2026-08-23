@@ -24,7 +24,7 @@ export default async function PilotageDemoPage() {
         <p className="measure text-sm text-graphite">{t("disclaimer")}</p>
       </div>
 
-      <div className="flex flex-col gap-10">
+      <div data-demo-root className="flex flex-col gap-10">
         <div>
           <h2 className="mb-1 text-lg text-ink">{t("section_pareto_heading")}</h2>
           <p className="measure mb-4 text-sm text-graphite">{t("section_pareto_intro")}</p>
