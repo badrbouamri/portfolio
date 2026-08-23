@@ -13,7 +13,7 @@ Derived from PRD v1.0. Each milestone has an exit criterion — do not start the
 ## M1 — Content Core (Days 3–10)
 **Exit:** 3 case studies complete in Markdown, offline (not yet in the site).
 
-- [ ] **Verify the Stellantis confidentiality clause (convention de stage) before publishing** — restored as a hard blocker on the Stellantis case study specifically; see `⚠️ NE PAS PUBLIER` note at the top of that file (PRD §10.3)
+- [x] **Verify the Stellantis confidentiality clause (convention de stage) before publishing** — confirmed cleared (2026-08-23). Removed the `⚠️ NE PAS PUBLIER` warning comments from both FR/EN case study files and the sitemap exclusion that had been added as a precaution in M5.
 - [ ] Retrieve PFE report (drafts / encadrant / ENSET library) — needed to fill the placeholders left in the Stellantis case study below
 - [x] Write professional biography, FR, 174 words — `content/fr/biographie.md` (draft, needs your review for voice)
 - [~] Write case study: `stellantis-maitrise-cout-transformation` (methodes, featured) — `content/fr/projets/stellantis-maitrise-cout-transformation.mdx`. Skeleton drafted from CV facts only; **Analyse d'ingénieur, cause-racine detail, Difficultés, Résultats (étanchéité), Enseignements are placeholders** — real content needs the PFE report, and publication is blocked on the confidentiality check above
