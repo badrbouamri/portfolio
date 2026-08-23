@@ -166,5 +166,19 @@
     "section_solutions": "Solutions mises en œuvre",
     "section_resultats": "Résultats",
     "section_enseignements": "Ce que j'en retiens"
+  },
+  "Legal": {
+    "eyebrow": "Mentions légales",
+    "title": "Mentions légales & confidentialité",
+    "identity_heading": "Éditeur",
+    "identity_text": "Ce site est édité par Badr Eddine ELBOUAMRI, à titre personnel, dans le cadre d'une recherche d'emploi. Contact : badrbouamri4@gmail.com.",
+    "anonymisation_heading": "Anonymisation des projets industriels",
+    "anonymisation_text": "Les études de cas issues de stages en entreprise (Stellantis, AIC Métallurgie, Nexteer Automotive) sont volontairement indexées ou anonymisées : aucun coût absolu, volume de production, nom de fournisseur, référence pièce réelle ou capture d'écran de document interne n'est publié. Seuls des résultats relatifs ou indexés, des schémas redessinés et des données synthétiques sont présentés.",
+    "analytics_heading": "Analytics",
+    "analytics_text": "Le site n'utilise pas de cookies de suivi publicitaire. Une mesure d'audience respectueuse de la vie privée (Vercel Web Analytics), sans cookies, est prévue pour comprendre la fréquentation du site.",
+    "contact_data_heading": "Données du formulaire de contact",
+    "contact_data_text": "Les informations transmises via le formulaire de contact (nom, e-mail, organisation, message) sont utilisées uniquement pour répondre à votre message. Elles ne sont ni revendues, ni partagées avec un tiers, ni utilisées à des fins commerciales.",
+    "rights_heading": "Vos droits",
+    "rights_text": "Pour toute question ou demande de suppression concernant vos données, contactez-moi directement par e-mail."
   }
 }

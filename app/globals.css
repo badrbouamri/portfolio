@@ -5,10 +5,16 @@
   --surface: #ffffff;
   --ink: #14181b;
   --graphite: #3a4249;
-  --steel: #78838c;
+  /* Darkened from the original PRD §8.2 value (#78838c) after M4's Lighthouse/axe
+     pass found it failed WCAG AA (4.5:1) at the 12px sizes actually used sitewide
+     for eyebrows/captions/dates — this shade holds 4.5:1+ against both --paper and
+     --surface while keeping the same steel-gray hue. */
+  --steel: #626d77;
   --rule: #dce0e3;
   --accent: #0b5563;
-  --signal: #b26b00;
+  /* Darkened from the original PRD §8.2 value (#b26b00), which measured 4.2:1 (not
+     the required 4.5:1) against --surface for the 14px KPI figures — same amber hue. */
+  --signal: #9c5e00;
 }
 
 @theme inline {

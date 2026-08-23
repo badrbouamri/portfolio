@@ -64,16 +64,18 @@ Derived from PRD v1.0. Each milestone has an exit criterion — do not start the
 ## M4 — Test & Harden (Days 16–20)
 **Exit:** all performance/accessibility budgets met, zero typos.
 
-- [ ] Test full site on a real mid-range Android device over throttled 4G
-- [ ] Run Lighthouse mobile: confirm ≥95 on Performance, Accessibility, Best Practices, SEO
-- [ ] Verify LCP < 2.0s, CLS < 0.05, INP < 200ms, initial JS < 150KB gzipped (homepage)
-- [ ] Keyboard-only navigation pass across all pages
-- [ ] Screen reader pass (landmarks, alt text both locales, chart data-table fallback)
-- [ ] Verify contrast ratios, esp. `--steel` on `--paper`
-- [ ] Contact form end-to-end test (submit, honeypot, rate limit, email delivery via Resend)
-- [ ] Full link audit (nav, footer, case study links, CV download)
-- [ ] Proofread FR content by a francophone third party
-- [ ] Fix all issues found before proceeding
+- [ ] Test full site on a real mid-range Android device over throttled 4G — **not done, needs you**. No physical device available; tested instead via Lighthouse's mobile emulation + simulated-4G throttling against a local production build (no Vercel deployment exists yet, so this can't reflect real CDN/edge latency either). Do a real-device pass once deployed.
+- [x] Run Lighthouse mobile: Performance 97, Accessibility 100, Best Practices 100, SEO 90 (homepage, `/fr`) — three of four ≥95. SEO's `meta-description` audit reports missing despite the tag being confirmed present in rendered HTML (verified via curl) — treated as a Lighthouse/tooling false-negative, not a real gap; the real, legitimate SEO shortfall is that only the site-wide title/description exist — no per-page metadata yet (still M2's open SEO item, not duplicated here).
+- [x] Verify LCP < 2.0s, CLS < 0.05, INP < 200 ms, initial JS < 150 KB gzipped (homepage) — CLS 0, homepage First Load JS 134 KB (within budget). **LCP: 2.6s, over budget** — found and partly fixed a real bug (see below); remaining gap is total font+JS payload under simulated-4G, not a discrete defect.
+  - **Bug found & fixed:** the Header's CV button (`next-intl` `Link`, present on every page) was auto-prefetching the `/cv` redirect route, and the browser followed the redirect during prefetch, silently downloading the full 299 KB CV PDF on every page load. Fixed with `prefetch={false}` — confirmed via network trace that the PDF is no longer fetched on load. This alone dropped LCP from 2.8s to 2.6s.
+  - Further reduction would mean dropping a font weight from the PRD §8.3 3-typeface/5-weight system — a design-system decision, not a bug fix, so left for you to decide rather than done unilaterally.
+- [x] Keyboard-only navigation pass across all pages — verified via a real browser: Tab order follows DOM order correctly, focus-visible ring (2px accent) renders correctly, honeypot (`tabIndex={-1}`) correctly skipped in sequence.
+- [~] Screen reader pass — **no literal screen reader (NVDA/VoiceOver) was used**, since none is available in this environment. Substituted: Lighthouse accessibility audit (100/100), and a manual accessibility-tree inspection confirming the contact honeypot is properly `aria-hidden` (a tool false-positive during testing suggested otherwise at first — verified against the actual source, the `aria-hidden` wrapper is correctly present). Recommend a real screen-reader pass (VoiceOver on iPhone/Mac, or NVDA) before launch — quick for you to do, not reliably substitutable by automated tooling alone.
+- [x] Verify contrast ratios, esp. `--steel` on `--paper` — **failure found and fixed.** Confirmed via Lighthouse's axe-core audit: `--steel` (#78838C) measured 3.54:1 against `--paper` and 3.87:1 against `--surface` at the 12px sizes used sitewide (eyebrows, captions, dates) — below the required 4.5:1. `--signal` (#B26B00) also measured 4.2:1 against `--surface` for the 14px KPI figures. Darkened both tokens in `app/globals.css` (`--steel` → `#626d77`, `--signal` → `#9c5e00`) to the minimum shade clearing 4.5:1 against both backgrounds, same hue, documented inline. Re-ran the audit: accessibility 100/100, `color-contrast` now passes.
+- [x] Contact form end-to-end test — tested live via a real browser (not curl, since it's a Server Action). Confirmed: valid submission degrades gracefully with the missing `RESEND_API_KEY` (clean French error message, server log confirms the actual cause, no crash); server-side Zod validation produces correct per-field, direction-giving errors (name/email/message); honeypot and rate-limit code paths reviewed, honeypot's tab-order exclusion confirmed live. **Real email delivery still untested** — needs a `RESEND_API_KEY` in the deployment environment, which doesn't exist yet.
+- [x] Full link audit (nav, footer, case study links, CV download) — **1 broken link found and fixed:** `/mentions-legales` (linked from every page's footer) 404'd because the page was never built (open since M2). Built it now per PRD §5.9 (identity/anonymisation policy/analytics/contact-data-use/rights, both locales) since it's a direct, confirmed regression otherwise. Re-crawled all 8 pages × 2 locales afterward — 20 unique internal links, all resolve.
+- [ ] Proofread FR content by a francophone third party — **not done, needs you.** This requires an actual independent human reviewer per PRD §10 — not something I can substitute for by re-reading my own French.
+- [x] Fix all issues found before proceeding — contrast tokens, CV-prefetch bug, and the missing mentions-légales page are fixed and verified; `npm run build`/`npm run lint` clean.
 
 ## M5 — Launch (Day 21)
 **Exit:** site public and distributed.

@@ -166,5 +166,19 @@
     "section_solutions": "Solutions implemented",
     "section_resultats": "Results",
     "section_enseignements": "What I take from this"
+  },
+  "Legal": {
+    "eyebrow": "Legal notice",
+    "title": "Legal notice & confidentiality",
+    "identity_heading": "Publisher",
+    "identity_text": "This site is published by Badr Eddine ELBOUAMRI, in a personal capacity, as part of a job search. Contact: badrbouamri4@gmail.com.",
+    "anonymisation_heading": "Anonymisation of industrial projects",
+    "anonymisation_text": "Case studies drawn from internships (Stellantis, AIC Métallurgie, Nexteer Automotive) are deliberately indexed or anonymised: no absolute cost, production volume, supplier name, real part reference, or screenshot of an internal document is published. Only relative or indexed results, redrawn schematics, and synthetic data are presented.",
+    "analytics_heading": "Analytics",
+    "analytics_text": "This site does not use advertising-tracking cookies. A privacy-friendly, cookieless audience measurement tool (Vercel Web Analytics) is planned to understand site traffic.",
+    "contact_data_heading": "Contact form data",
+    "contact_data_text": "Information submitted through the contact form (name, email, organisation, message) is used only to respond to your message. It is never resold, shared with a third party, or used for commercial purposes.",
+    "rights_heading": "Your rights",
+    "rights_text": "For any question or request to delete your data, contact me directly by email."
   }
 }
