@@ -1,0 +1,87 @@
+---
+slug: "gestion-consommables"
+locale: "fr"
+title: "Application de gestion des consommables (reconstruction personnelle)"
+subtitle: "Stock, seuils d'alerte et historique de consommation par poste — démo interactive"
+category: "digital"
+organisation: "Projet personnel"
+organisationPublic: true
+location: "Kénitra, Maroc"
+period:
+  start: "2026-08"
+  end: "2026-08"
+durationLabel: "quelques jours"
+role: "Concepteur & développeur"
+summary: "Reconstruction personnelle, à partir de zéro, du concept d'un outil de gestion des consommables conçu en stage : suivi de stock, seuils d'alerte et historique de consommation par poste, démo interactive avec données fictives."
+featured: false
+order: 6
+confidential: false
+tools: ["React", "Next.js", "TypeScript", "Tailwind CSS"]
+methods: []
+kpis: []
+hero: null
+gallery: []
+links: [{ "label": "Voir la démo", "href": "/demos/consommables", "type": "demo" }]
+related: []
+---
+
+## Contexte
+
+Durant mon stage chez Stellantis, j'ai conçu et développé une application de gestion des consommables d'atelier (stock, seuils d'alerte, consommation par poste), utilisée en production. Ce code appartient à l'entreprise : il n'est ni publié ni réutilisé ici. Ce projet est une **reconstruction personnelle**, écrite de zéro en dehors du cadre professionnel, qui reprend uniquement le concept général — pas le code, pas les données, pas les noms de poste réels de l'outil original.
+
+## Problématique
+
+Un suivi de consommables sans seuil d'alerte explicite dépend de la vigilance humaine pour détecter une rupture de stock imminente : le manque n'est visible qu'au moment où il bloque un poste. L'objectif de cette reconstruction est de démontrer, sur un cas simple et autoportant, comment un seuil par article rend ce risque visible avant qu'il ne devienne un arrêt.
+
+## Objectifs
+
+- Modéliser un stock de consommables avec, pour chaque article, un niveau courant et un seuil d'alerte propre.
+- Permettre l'enregistrement d'une consommation par poste et répercuter immédiatement l'effet sur le stock.
+- Rendre visible, sans ambiguïté, le passage sous le seuil d'alerte.
+- Garantir qu'un visiteur ne peut rien casser durablement : un bouton de réinitialisation restaure l'état initial à tout moment.
+
+## Mon rôle
+
+Projet personnel réalisé seul, de la modélisation des données à l'interface : structure de l'état, logique de consommation et de seuils, composants d'interface, textes bilingues FR/EN.
+
+## Démarche & méthodologie
+
+L'application repose sur un état React en mémoire, sans base de données ni authentification — un choix délibéré pour une démo publique (voir Analyse d'ingénieur) :
+
+1. **Données de départ (seed)** — cinq consommables génériques (ruban adhésif, gants, lingettes, graisse, embouts de visseuse), chacun avec un stock initial et un seuil d'alerte fixés arbitrairement mais plausibles pour un atelier.
+2. **Enregistrement d'une consommation** — un formulaire permet de choisir un poste (quatre postes génériques, A à D), un consommable et une quantité, puis de valider.
+3. **Mise à jour du stock** — la quantité saisie est retranchée du stock de l'article concerné ; si elle dépasserait le stock disponible, la soumission est bloquée avec un message d'erreur explicite plutôt que silencieusement plafonnée.
+4. **Détection du seuil** — dès que le stock d'un article atteint ou passe sous son seuil, la ligne correspondante change d'état visuellement (couleur signal, étiquette de statut), sans qu'aucune action supplémentaire ne soit nécessaire.
+5. **Historique et agrégat par poste** — chaque consommation validée s'ajoute à un journal horodaté (numéro d'événement) et à un tableau de consommation cumulée par poste, recalculés à chaque action.
+6. **Réinitialisation** — un bouton restaure en un clic le stock et l'historique à leur état de départ.
+
+## Outils & méthodes
+
+`React` `Next.js` `TypeScript` `Tailwind CSS`
+
+## Analyse d'ingénieur
+
+**Pas de base de données, un état en mémoire.** La démo doit rester consultable et manipulable par n'importe quel visiteur sans risque : pas de compte, pas de persistance partagée, pas d'état corrompu par un autre visiteur. Un `useState` React réinitialisable couvre exactement ce besoin sans la complexité (et la surface d'attaque) d'un backend avec base de données — un choix de portée volontairement restreinte, pas une simplification par manque de temps.
+
+**Le seuil comme propriété de l'article, pas un calcul global.** Chaque consommable porte son propre seuil plutôt qu'un pourcentage global de stock initial, parce que dans un atelier réel les articles n'ont ni le même volume de rotation ni le même délai de réapprovisionnement : un seuil pertinent pour des gants ne l'est pas pour de la graisse. Modéliser le seuil comme un attribut par article, plutôt qu'une règle générique, reflète cette réalité — même si, dans cette démo, les valeurs elles-mêmes sont inventées.
+
+**Bloquer plutôt que plafonner silencieusement une quantité excessive.** Quand la quantité saisie dépasse le stock disponible, l'application refuse l'enregistrement avec un message, plutôt que de consommer "tout ce qu'il reste" en silence. Ce choix privilégie la lisibilité de l'historique : chaque ligne du journal correspond exactement à ce que l'utilisateur a demandé, jamais à une valeur corrigée en coulisses.
+
+## Difficultés rencontrées
+
+- **Éviter toute ressemblance avec l'outil réel.** La contrainte la plus stricte de ce projet n'était pas technique mais de conception : choisir des noms de consommables, de postes et des valeurs de stock suffisamment génériques pour qu'aucun élément ne puisse être confondu avec une donnée, un poste ou un code interne Stellantis. J'ai tranché en n'utilisant que des consommables d'atelier très courants et des postes nommés A/B/C/D, sans aucune référence, même indirecte, à l'outil d'origine.
+- **Traduire les clés dynamiques FR/EN proprement.** Les noms de consommables et de postes doivent être bilingues, mais l'état interne (identifiants, quantités) doit rester indépendant de la langue. J'ai séparé les identifiants techniques (`tape`, `gloves`, `poste a`…) des libellés affichés, ces derniers résolus via les fichiers de traduction — ce qui a demandé une itération de plus que si j'avais codé les libellés en dur au départ.
+- **Décider quoi faire d'une quantité invalide.** Entre plafonner automatiquement la quantité au stock disponible et refuser la soumission, j'ai choisi la seconde option après avoir testé la première : plafonner silencieusement rendait l'historique trompeur (une consommation de "50" pouvait apparaître comme "12" sans que l'utilisateur comprenne pourquoi).
+
+## Solutions mises en œuvre
+
+- Une application de démonstration interactive (`/demos/consommables`) : tableau de stock avec seuils d'alerte visuels, formulaire de consommation par poste, tableau de consommation agrégée par poste, journal d'historique horodaté, et bouton de réinitialisation complète.
+- Un bandeau de transparence, affiché en permanence dans l'application, précisant qu'il s'agit d'une reconstruction personnelle à données fictives.
+
+## Résultats
+
+Cette reconstruction est un prototype de démonstration, pas un outil mesuré en production : il n'existe aucun résultat chiffré à rapporter (temps gagné, ruptures évitées), et ce n'est pas l'objet de cette version. Ce qu'elle démontre concrètement, c'est la capacité à reproduire, de façon autonome et avec un code entièrement nouveau, la mécanique fonctionnelle d'un outil métier déjà conçu une première fois en contexte professionnel.
+
+## Ce que j'en retiens
+
+Reconstruire un outil déjà conçu une fois, sans regarder son code, oblige à re-décider chaque choix depuis les mêmes contraintes plutôt que de les recopier — et certains choix, comme bloquer une quantité excessive au lieu de la plafonner, sont ressortis différents ou plus réfléchis que je ne m'y attendais. Si c'était à refaire, j'ajouterais dès le départ un type dédié pour les identifiants de poste et de consommable plutôt que des chaînes de caractères simples : cela aurait évité une passe de relecture pour vérifier qu'aucune clé de traduction n'était mal orthographiée.
