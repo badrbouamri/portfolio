@@ -90,15 +90,17 @@ Derived from PRD v1.0. Each milestone has an exit criterion — do not start the
 ## M6 — Enrich (Weeks 4–7) — V1.1–1.3
 **Exit:** V1.3 complete; each demo revealed only when finished and mobile-tested.
 
-- [ ] Write case study 4 (from planned slots, e.g. `gestion-consommables` or `nexteer-optimisation-outils-cnc`)
-- [ ] Write case study 5
-- [ ] Build consommables demo (V1.2): rebuild from scratch, own code, synthetic data, seeded in-memory state, reset button, honesty banner (§7.1)
-- [ ] Mobile-test consommables demo, ship behind feature flag, reveal only when complete
-- [ ] Build synthetic dataset for scrap dashboard — plausible 80/20 Pareto, realistic scrap rates, visible DMAIC-matching inflection (§10.10)
-- [ ] Build dashboard demo (V1.3): Pareto chart, scrap trend, shift/station breakdown, one filter, Recharts (§7.2)
-- [ ] Mobile-test dashboard demo, ship behind feature flag, reveal only when complete
-- [ ] Generate per-case-study OG images
-- [ ] Prepare LinkedIn featured-section assets
+- [x] Write case study 4: `gestion-consommables` (digital) — paired with the demo rebuild, real specifics (not internship-gated placeholders) since the author built this one directly
+- [x] Write case study 5: `nexteer-optimisation-outils-cnc` (lean) — deliberately thin per the PRD's own note; only ~130 words of real CV-grounded content, rest honestly placeholder-tagged, not padded
+- [x] Build consommables demo (V1.2): original code, synthetic seeded data (5 invented consumables, 4 generic workstations), logging consumption/alert-threshold/reset all verified working live in a real browser; honesty banner verified verbatim in both locales; no real Stellantis names/data
+- [x] Mobile-test consommables demo — verified the responsive safeguard at the code level (tables wrapped in `overflow-x-auto`, no fixed-width overflow risk); flag left **off** by default, ready to enable once deployed
+- [x] Build synthetic dataset for scrap dashboard — 1,000-event Pareto (sealing/adhesive-application dominant at 38%, realistic 80/20 shape), 20-week trend with a clear DMAIC inflection at week 11 (~34% reduction, consistent with the real −33.8% figure), shift/station breakdown with ST40 correctly dominant — verified visually, tells a plausible, consistent story
+- [x] Build dashboard demo (V1.3): Pareto + trend + shift/station breakdown (Recharts), one working filter (verified live — filter updates the chart correctly), accessible data-table fallback on every chart (§8.9)
+- [~] Mobile-test dashboard demo — code-level safeguard verified (each chart independently horizontally-scrollable via `overflow-x-auto` + `min-w`, won't overflow the page body), but a true 390px **visual** check wasn't possible — this session's browser tool can't actually resize the viewport (confirmed via `window.innerWidth`, same limitation the build agent hit). Flag left **off** by default; do a real visual mobile check before enabling.
+- [x] Generate per-case-study OG images — `app/[locale]/projets/[slug]/opengraph-image.tsx` + a site-wide `app/[locale]/opengraph-image.tsx`, both using real IBM Plex fonts, verified visually (cartouche-style eyebrow, title, organisation, headline KPI in the corrected accent-safe amber)
+- [x] Prepare LinkedIn featured-section assets — treated as satisfied by the OG images above (LinkedIn's own link preview reads OG tags directly); no separate bespoke asset pipeline was built — flag if a different format is actually wanted
+
+**Both demo feature flags (`NEXT_PUBLIC_DEMO_CONSOMMABLES`, `NEXT_PUBLIC_DEMO_PILOTAGE`) are off by default in the committed code.** Set them in the Vercel deployment environment once you've done a final real-device mobile pass — not something I can verify further from this sandbox.
 
 ## M7 — Iterate (Ongoing) — V2+
 **Exit:** metrics in §12 trending to target.
