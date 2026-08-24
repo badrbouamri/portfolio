@@ -37,6 +37,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Claude Code parallel-agent scratch worktrees (each can contain a full
+# node_modules install) -- transient, never meant to be committed.
+.claude/worktrees/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
