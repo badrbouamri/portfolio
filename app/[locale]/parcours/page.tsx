@@ -8,6 +8,8 @@ import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/Section";
 import { Rule } from "@/components/ui/Rule";
 import { Tag } from "@/components/ui/Tag";
+import { Reveal } from "@/components/ui/Reveal";
+import { findOrganisation } from "@/lib/organisations";
 
 // Biography is a reviewed human translation per locale (content/fr/biographie.md,
 // content/en/biographie.md) — read at build time and rendered as-is, never paraphrased.
@@ -115,15 +117,36 @@ export default async function ParcoursPage({
 
       <div>
         <h2 className="mb-4 text-lg text-ink">{t("experience_heading")}</h2>
-        <ul className="flex flex-col gap-6">
-          {experience.map((entry) => (
+        <Reveal stagger as="ul" className="flex flex-col gap-6">
+          {experience.map((entry) => {
+            const org = findOrganisation(entry.organisation);
+            return (
             <li
               key={`${entry.organisation}-${entry.sortKey}`}
               className="border-l-2 border-rule pl-4"
             >
-              <p className="font-data text-xs uppercase tracking-wide text-steel">
-                {entry.period}
-              </p>
+              <div className="flex items-start justify-between gap-3">
+                <p className="font-data text-xs uppercase tracking-wide text-steel">
+                  {entry.period}
+                </p>
+                {org ? (
+                  <a
+                    href={org.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${org.name} — ${t("experience_official_site")}`}
+                    className="shrink-0 grayscale opacity-70 transition-[filter,opacity] duration-200 hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:grayscale-0"
+                  >
+                    <Image
+                      src={org.logo.src}
+                      alt=""
+                      width={org.logo.width}
+                      height={org.logo.height}
+                      className="h-6 w-auto object-contain"
+                    />
+                  </a>
+                ) : null}
+              </div>
               <p className="text-base text-ink">
                 {entry.role} — {entry.organisation}
                 {entry.location ? `, ${entry.location}` : ""}
@@ -140,8 +163,9 @@ export default async function ParcoursPage({
                 </Link>
               ) : null}
             </li>
-          ))}
-        </ul>
+            );
+          })}
+        </Reveal>
 
         <div className="mt-6 border-l-2 border-rule pl-4">
           <h3 className="mb-2 font-data text-xs uppercase tracking-wide text-steel">
@@ -155,7 +179,7 @@ export default async function ParcoursPage({
 
       <div>
         <h2 className="mb-4 text-lg text-ink">{t("education_heading")}</h2>
-        <ul className="flex flex-col gap-4">
+        <Reveal stagger as="ul" className="flex flex-col gap-4">
           {EDUCATION_KEYS.map((edu) => (
             <li key={edu.label} className="border-l-2 border-rule pl-4">
               <p className="font-data text-xs uppercase tracking-wide text-steel">
@@ -165,14 +189,14 @@ export default async function ParcoursPage({
               <p className="text-sm text-graphite">{t(edu.institution)}</p>
             </li>
           ))}
-        </ul>
+        </Reveal>
       </div>
 
       <Rule className="my-8" />
 
       <div>
         <h2 className="mb-4 text-lg text-ink">{t("certifications_heading")}</h2>
-        <ul className="flex flex-col gap-4">
+        <Reveal stagger as="ul" className="flex flex-col gap-4">
           {CERTIFICATION_KEYS.map((cert) => (
             <li key={cert.label} className="border-l-2 border-rule pl-4">
               <p className="font-data text-xs uppercase tracking-wide text-steel">
@@ -182,14 +206,14 @@ export default async function ParcoursPage({
               <p className="text-sm text-graphite">{t(cert.institution)}</p>
             </li>
           ))}
-        </ul>
+        </Reveal>
       </div>
 
       <Rule className="my-8" />
 
       <div>
         <h2 className="mb-3 text-lg text-ink">{t("languages_heading")}</h2>
-        <div className="flex flex-wrap gap-2">
+        <Reveal stagger className="flex flex-wrap gap-2">
           <Tag>
             {t("lang_arabic")} — {t("lang_arabic_level")}
           </Tag>
@@ -199,7 +223,7 @@ export default async function ParcoursPage({
           <Tag>
             {t("lang_english")} — {t("lang_english_level")}
           </Tag>
-        </div>
+        </Reveal>
       </div>
 
       <Rule className="my-8" />

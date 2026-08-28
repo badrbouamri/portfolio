@@ -70,10 +70,18 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${plexSansCondensed.variable} ${plexSans.variable} ${plexMono.variable} antialiased`}
       >
+        {/* Synchronous (render-blocking) bootstrap script, not next/script: it must
+            run before first paint so scroll-reveal CSS (gated on .js-reveal) never
+            causes a flash, and so content stays fully visible with JS disabled. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js-reveal')",
+          }}
+        />
         <NextIntlClientProvider messages={messages}>
           <div className="flex min-h-screen flex-col">
             <Header />

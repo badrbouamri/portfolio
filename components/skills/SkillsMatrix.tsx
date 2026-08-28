@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { SKILL_CATEGORIES, SKILL_LEVELS, type SkillLevel } from "@/lib/skills-data";
+import { Reveal } from "@/components/ui/Reveal";
 
 const LEVEL_RANK: Record<SkillLevel, number> = {
   notions: 1,
@@ -15,7 +16,7 @@ function Pips({ level }: { level: SkillLevel }) {
         <span
           key={n}
           className={`h-2.5 w-2.5 rounded-[2px] border ${
-            n <= filled ? "border-accent bg-accent" : "border-rule bg-transparent"
+            n <= filled ? "pip-filled border-accent bg-accent" : "border-rule bg-transparent"
           }`}
         />
       ))}
@@ -46,7 +47,7 @@ export function SkillsMatrix() {
         </p>
       ) : null}
 
-      <div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
+      <Reveal stagger className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
         {SKILL_CATEGORIES.map((category) => (
           <div key={category.id}>
             <h3 className="mb-2 text-md text-ink">{t(category.labelKey)}</h3>
@@ -73,7 +74,7 @@ export function SkillsMatrix() {
             </ul>
           </div>
         ))}
-      </div>
+      </Reveal>
     </div>
   );
 }

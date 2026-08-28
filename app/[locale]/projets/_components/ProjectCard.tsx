@@ -22,7 +22,7 @@ export function ProjectCard({ caseStudy }: ProjectCardProps) {
   return (
     <Link
       href={`/projets/${caseStudy.slug}`}
-      className="flex flex-col gap-3 border border-rule bg-surface p-4 transition-colors hover:border-accent"
+      className="group flex flex-col gap-3 border border-rule bg-surface p-4 transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_4px_0_0_var(--color-rule)]"
     >
       <Tag>{t(`category_${caseStudy.category}`)}</Tag>
 
@@ -46,7 +46,7 @@ export function ProjectCard({ caseStudy }: ProjectCardProps) {
       {tools.length > 0 ? <ToolChips tools={tools} /> : null}
 
       <span className="mt-auto font-data text-xs uppercase tracking-wide text-accent">
-        {t("card_cta")} →
+        {t("card_cta")} <span className="cta-arrow">→</span>
       </span>
     </Link>
   );

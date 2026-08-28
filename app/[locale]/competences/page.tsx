@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/Section";
 import { Rule } from "@/components/ui/Rule";
 import { Tag } from "@/components/ui/Tag";
+import { Reveal } from "@/components/ui/Reveal";
 import { SkillsMatrix } from "@/components/skills/SkillsMatrix";
 
 type GroupKey =
@@ -148,7 +149,7 @@ export default async function CompetencesPage({
       <Rule />
 
       <Section eyebrow={t("evidence_eyebrow")} title={t("evidence_title")}>
-        <div className="flex flex-col gap-8">
+        <Reveal stagger className="flex flex-col gap-8">
           {groups.map((group, index) => (
             <div key={group.key}>
               {index > 0 ? <Rule className="mb-8" /> : null}
@@ -178,7 +179,7 @@ export default async function CompetencesPage({
               </ul>
             </div>
           ))}
-        </div>
+        </Reveal>
       </Section>
     </>
   );

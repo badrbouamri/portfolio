@@ -7,7 +7,7 @@ type CartoucheProps = {
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border-t border-rule px-3 py-2 first:border-t-0 sm:border-t-0 sm:border-l sm:first:border-l-0">
+    <div className="cartouche-field border-t border-rule px-3 py-2 first:border-t-0 sm:border-t-0 sm:border-l sm:first:border-l-0">
       <p className="font-data text-xs uppercase tracking-wide text-steel">{label}</p>
       <p className="font-data text-sm text-ink">{value}</p>
     </div>

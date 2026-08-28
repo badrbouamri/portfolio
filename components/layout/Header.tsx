@@ -30,7 +30,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm text-graphite transition-colors hover:text-accent"
+              className="nav-link text-sm text-graphite transition-colors hover:text-accent"
             >
               {item.label}
             </Link>
@@ -49,15 +49,17 @@ export function Header() {
             aria-label="Menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="flex h-8 w-8 items-center justify-center border border-rule text-ink"
+            className="flex h-8 w-8 items-center justify-center border border-rule text-ink transition-colors hover:border-accent"
           >
-            <span aria-hidden>{open ? "✕" : "☰"}</span>
+            <span aria-hidden className="inline-block transition-transform duration-200" style={{ transform: open ? "rotate(90deg)" : "none" }}>
+              {open ? "✕" : "☰"}
+            </span>
           </button>
         </div>
       </div>
 
       {open ? (
-        <nav className="flex flex-col border-t border-rule px-4 py-3 md:hidden">
+        <nav className="mobile-nav-panel flex flex-col border-t border-rule px-4 py-3 md:hidden">
           {navItems.map((item) => (
             <Link
               key={item.href}

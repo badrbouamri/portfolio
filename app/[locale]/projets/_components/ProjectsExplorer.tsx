@@ -71,7 +71,10 @@ export function ProjectsExplorer({ caseStudies }: { caseStudies: CaseStudy[] }) 
           </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          key={activeCategory ?? "all"}
+          className="filter-grid grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {filtered.map((cs) => (
             <ProjectCard key={cs.slug} caseStudy={cs} />
           ))}
