@@ -1,0 +1,96 @@
+---
+slug: "diagnostic-amdec-injection-plastique"
+locale: "fr"
+title: "Diagnostic AMDEC et 5S d'une zone d'injection plastique"
+subtitle: "Étude de cas CIE Automotive — fiabilité, 5S et AMDEC sur un parc de presses"
+category: "maintenance"
+organisation: "Projet académique — ENSET Mohammedia"
+organisationPublic: true
+location: "Mohammedia, Maroc"
+period:
+  start: "2025-12"
+  end: "2025-12"
+durationLabel: "Projet académique"
+role: "Étudiant ingénieur — diagnostic fiabilité, 5S et AMDEC (projet de groupe)"
+summary: "Étude de groupe sur la zone d'injection plastique de CIE Automotive : diagnostic de fiabilité (MTBF/MTTR) d'un parc de dix presses, évaluation 5S, diagramme Ishikawa et AMDEC de la presse pilote pour prioriser les actions par IPR."
+featured: false
+order: 9
+confidential: false
+tools: []
+methods: ["AMDEC", "5S", "Diagnostic de fiabilité (MTBF/MTTR)", "Ishikawa"]
+kpis: []
+hero: null
+gallery: []
+links: []
+related: ["aic-diagnostic-pliage-cintrage", "etude-thermodynamique-turbine-vapeur"]
+---
+
+## Contexte
+
+Étude de cas académique menée en équipe de quatre (avec Maryam Ahnou, Hamza Lourik et Ayoub Lahniche), demandée par le Pr. Nissabouri Salah dans le cadre de la formation Génie Mécanique des Systèmes Industriels à l'ENSET Mohammedia, en décembre 2025. Le sujet : diagnostiquer la zone d'injection plastique de CIE Automotive, équipementier automobile, sur un parc de dix presses à injecter (2 Negri Bossi, 3 Demag, 3 Engel, 2 Krauss Maffei).
+
+## Problématique
+
+La zone d'injection connaissait un ralentissement de production, sans diagnostic structuré des causes ni évaluation formalisée de l'état 5S du poste — le groupe devait construire ce diagnostic et en tirer un plan d'action priorisé.
+
+## Objectifs
+
+- Évaluer la fiabilité (MTBF) et la maintenabilité (MTTR) de chaque presse du parc, pour identifier les machines à traiter en priorité.
+- Construire un diagramme causes-effet (Ishikawa) du ralentissement de production.
+- Évaluer l'état des 5S de la zone d'injection selon une grille de cotation par pilier.
+- Appliquer une AMDEC sur la presse retenue et prioriser les actions par indice de priorité de risque (IPR).
+
+## Mon rôle
+
+Diagnostic réalisé en équipe de quatre étudiants, dans le cadre d'un exercice demandé par le Pr. Nissabouri Salah. Le contenu ci-dessous restitue le travail collectif du groupe ; la répartition exacte des tâches entre les membres n'a pas été conservée, donc rien ici n'est présenté comme une contribution individuelle isolée.
+
+## Démarche & méthodologie
+
+1. **Diagnostic de fiabilité par machine** — calcul du MTBF (temps alloué moins temps d'arrêt total, rapporté au nombre de pannes), du MTTR (temps d'arrêt total rapporté au nombre de pannes) et de la disponibilité (Do = MTBF / (MTBF + MTTR)) pour les dix presses du parc.
+2. **Synthèse décisionnelle** — les deux presses les plus dégradées (Engel 1500, Demag 420T) sont comparées sur maintenabilité, disponibilité, nature des pannes et type de problème, pour choisir la presse pilote de l'AMDEC.
+3. **Diagramme Ishikawa** — recherche des causes du ralentissement de production sur les 5M (milieu, méthode, moyen, main d'œuvre).
+4. **Évaluation 5S** — cotation de la zone d'injection sur les cinq piliers (éliminer, ranger, nettoyer, standardiser, maintenir), rapportée au nombre de critères par pilier.
+5. **AMDEC sur la presse pilote** — grilles de cotation Gravité, Fréquence et Détection élaborées avec le groupe de travail et validées par échanges avec les responsables de service et les techniciens de maintenance ; IPR = Gravité × Fréquence × Détection.
+6. **Priorisation et chiffrage** — sélection des modes de défaillance à IPR &gt; 15, estimation du gain en heures d'arrêt évitées et en gain qualité.
+
+## Outils & méthodes
+
+`AMDEC` `5S` `Diagnostic de fiabilité (MTBF/MTTR)` `Ishikawa`
+
+## Analyse d'ingénieur
+
+**Pourquoi la Demag 420T plutôt que l'Engel 1500 comme presse pilote.** Les deux presses ressortaient comme les plus dégradées sur maintenabilité (MTTR) et disponibilité, mais leurs pannes n'avaient pas la même nature. Sur l'Engel 1500 (MTTR 3,13 h, disponibilité 98,26 %), les pannes relevaient surtout de soucis de programmation et de paramétrage automatique — un problème ponctuel, déjà résolu, qui ne reflétait plus l'état mécanique réel de la machine. Sur la Demag 420T (MTTR 2,22 h, disponibilité 99,07 %), les indisponibilités relevaient de maintenance et de mécanique — un problème structurel et récurrent. C'est ce caractère persistant, pas la sévérité brute des chiffres, qui a fait retenir la Demag 420T pour l'AMDEC : une AMDEC a plus de valeur sur un mode de défaillance qui va se reproduire que sur un incident déjà réglé.
+
+**Ce que révèle l'évaluation 5S.** Sur les cinq piliers, Nettoyer ressort le mieux tenu (81 %), Éliminer et Ranger à un niveau intermédiaire (70 % chacun), tandis que Standardiser et Maintenir sont les plus faibles (50 % chacun). C'est cohérent avec un terrain où le nettoyage ponctuel est fait, mais où les règles ne sont pas formalisées ni suivies dans la durée — les deux piliers qui pèsent le plus sur la capacité à *garder* un gain 5S dans le temps, pas seulement à l'obtenir une fois.
+
+<img
+  src="/images/projets/diagnostic-amdec-injection-plastique/evaluation-5s.svg"
+  alt="Diagramme en barres de l'évaluation 5S de la zone d'injection : Éliminer 70 %, Ranger 70 %, Nettoyer 81 %, Standardiser 50 %, Maintenir 50 %"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 1 — Évaluation 5S de la zone d'injection, par pilier.*
+
+**Prioriser par IPR plutôt que par intuition.** Sur la Demag 420T, six systèmes ressortaient avec un IPR &gt; 15 (tuyauterie — fuite d'huile/vibrations ; thermorégulateur — surchauffe du moule ; canaux de refroidissement — variation de température ; roulements — usure prématurée ; surface de moulage rayée ; tuyauterie — contamination sévère de l'huile). Le seuil IPR &gt; 15 sert précisément à trancher entre des symptômes qui *semblent* graves à l'œil et ceux dont la combinaison gravité × fréquence × détection les rend réellement prioritaires — évite de traiter en premier ce qui est le plus visible plutôt que ce qui pèse le plus.
+
+## Difficultés rencontrées
+
+- **Construire des grilles de cotation crédibles, pas seulement théoriques.** Les grilles Gravité/Fréquence/Détection ont été élaborées à la suite de réunions avec le groupe de travail, puis d'échanges avec les responsables de service et les techniciens de maintenance — sans ce recoupement, l'IPR calculé n'aurait reflété qu'une estimation de bureau, pas la réalité terrain.
+- **Distinguer un problème ponctuel déjà résolu d'un problème structurel persistant.** Avant de figer le choix de la presse pilote, il a fallu comparer l'Engel 1500 et la Demag 420T non pas sur la sévérité brute de leurs indicateurs, mais sur la nature de leurs pannes — un exercice moins direct que de simplement retenir la machine au plus mauvais MTTR.
+- **Chiffrer un gain crédible sans données de production réelles.** L'estimation de réduction des arrêts après action varie par système, de conservative à ambitieuse selon le système considéré — un chiffrage construit sur hypothèses assumées, pas sur un historique de production mesuré après mise en œuvre.
+
+## Solutions mises en œuvre
+
+- Diagnostic de fiabilité (MTBF/MTTR/disponibilité) sur les dix presses du parc d'injection.
+- Diagramme Ishikawa du ralentissement de production, sur les quatre familles de causes retenues.
+- Grille de cotation 5S par pilier et sélection argumentée de la Demag 420T comme presse pilote.
+- AMDEC de la Demag 420T avec priorisation des six systèmes à IPR &gt; 15.
+- Estimation chiffrée du gain : 68,8 heures d'arrêt évitées (≈ 55 040 MAD, à 800 MAD/heure d'arrêt) et un gain qualité de 18 000 MAD, soit environ 73 040 MAD au total.
+
+## Résultats
+
+Ce diagnostic est un exercice académique : les actions proposées n'ont pas été mises en œuvre ni mesurées en production chez CIE Automotive. Le chiffrage (≈ 73 040 MAD) est une estimation construite à partir des grilles AMDEC et d'hypothèses de réduction conservatives à ambitieuses par système, sur une base de 2 000 heures de production annuelles (environ 250 jours à 8 h) — pas un résultat observé après action.
+
+## Ce que j'en retiens
+
+Ce projet m'a montré la différence entre une AMDEC posée sur une feuille de calcul et une AMDEC dont les grilles de cotation sont recoupées avec les personnes qui vivent les pannes au quotidien — sans les échanges avec les techniciens de maintenance, l'IPR calculé n'aurait été qu'une estimation de bureau. Le choix de la presse pilote m'a aussi appris à me méfier du réflexe qui consiste à traiter la machine dont les chiffres semblent les pires : celle dont le problème est déjà résolu n'est pas la priorité, même si son historique récent le suggère. Si c'était à refaire, je documenterais plus tôt la distinction entre panne ponctuelle et panne structurelle, plutôt que de la reconstruire a posteriori à partir des chiffres de maintenabilité.

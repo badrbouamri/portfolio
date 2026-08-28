@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { getAllCaseStudies } from "@/lib/content";
 import type { Locale } from "@/i18n/routing";
@@ -34,6 +35,12 @@ const EDUCATION_KEYS = [
   { label: "edu_1_label", institution: "edu_1_institution", period: "edu_1_period" },
   { label: "edu_2_label", institution: "edu_2_institution", period: "edu_2_period" },
   { label: "edu_3_label", institution: "edu_3_institution", period: "edu_3_period" },
+] as const;
+
+const CERTIFICATION_KEYS = [
+  { label: "cert_1_label", institution: "cert_1_institution", period: "cert_1_period" },
+  { label: "cert_2_label", institution: "cert_2_institution", period: "cert_2_period" },
+  { label: "cert_3_label", institution: "cert_3_institution", period: "cert_3_period" },
 ] as const;
 
 export default async function ParcoursPage({
@@ -91,13 +98,15 @@ export default async function ParcoursPage({
         </div>
 
         <div className="order-first sm:order-last">
-          {/* TODO: replace with real photo, see docs/tasks.md M1 */}
-          <div
-            role="img"
-            aria-label={t("photo_alt")}
-            className="flex aspect-[3/4] w-full max-w-[220px] items-center justify-center border border-rule bg-surface"
-          >
-            <span className="font-data text-3xl text-steel">{t("photo_initials")}</span>
+          <div className="relative aspect-[3/4] w-full max-w-[220px] overflow-hidden border border-rule bg-surface">
+            <Image
+              src="/images/profile.jpg"
+              alt={t("photo_alt")}
+              fill
+              sizes="220px"
+              className="object-cover"
+              priority
+            />
           </div>
         </div>
       </div>
@@ -162,8 +171,18 @@ export default async function ParcoursPage({
       <Rule className="my-8" />
 
       <div>
-        <h2 className="mb-2 text-lg text-ink">{t("certifications_heading")}</h2>
-        <p className="text-sm italic text-steel">{t("certifications_empty")}</p>
+        <h2 className="mb-4 text-lg text-ink">{t("certifications_heading")}</h2>
+        <ul className="flex flex-col gap-4">
+          {CERTIFICATION_KEYS.map((cert) => (
+            <li key={cert.label} className="border-l-2 border-rule pl-4">
+              <p className="font-data text-xs uppercase tracking-wide text-steel">
+                {t(cert.period)}
+              </p>
+              <p className="text-base text-ink">{t(cert.label)}</p>
+              <p className="text-sm text-graphite">{t(cert.institution)}</p>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <Rule className="my-8" />

@@ -1,23 +1,15 @@
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/Section";
-import { Tag } from "@/components/ui/Tag";
 import { Rule } from "@/components/ui/Rule";
 import { CvButton } from "@/components/layout/CvButton";
+import { ProjectCard } from "@/app/[locale]/projets/_components/ProjectCard";
 import { getAllCaseStudies } from "@/lib/content";
 import type { Locale } from "@/i18n/routing";
 import type { CaseStudy } from "@/lib/schema";
 
 const STELLANTIS_SLUG = "stellantis-maitrise-cout-transformation";
 const AIC_SLUG = "aic-diagnostic-pliage-cintrage";
-
-const categoryLabels: Record<string, Record<Locale, string>> = {
-  methodes: { fr: "Méthodes", en: "Methods" },
-  lean: { fr: "Lean", en: "Lean" },
-  maintenance: { fr: "Maintenance", en: "Maintenance" },
-  conception: { fr: "Conception", en: "Design" },
-  digital: { fr: "Digital", en: "Digital" },
-};
 
 function Stat({ value, label }: { value: string; label: string }) {
   return (
@@ -90,27 +82,66 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero — compact, custom container (not the default Section padding) so
-          the value proposition clears the fold on a 390px-wide screen. */}
-      <section className="mx-auto w-full max-w-[1200px] px-4 py-4 sm:px-6 sm:py-8">
-        <h1 className="hero-reveal text-lg text-ink sm:text-2xl">{t("hero_name")}</h1>
-        <p className="hero-reveal hero-reveal-2 mt-2 text-sm text-graphite sm:text-base">
-          {t("hero_credential")}
+      {/* Hero — a technical-drawing grid backdrop (--rule only, no new color)
+          gives this more presence than a plain text block without borrowing
+          the Cartouche's own title-block grid, which stays unique to case
+          studies per CLAUDE.md. Still a compact custom container (not the
+          default Section padding) so the value proposition clears the fold
+          on a 390px-wide screen. */}
+      <section className="hero-grid-bg border-b border-rule px-4 py-6 sm:px-6 sm:py-10">
+        <div className="mx-auto w-full max-w-[1200px]">
+          <h1 className="hero-reveal text-xl text-ink sm:text-3xl">{t("hero_name")}</h1>
+          <p className="hero-reveal hero-reveal-2 mt-2 text-sm text-graphite sm:text-base">
+            {t("hero_credential")}
+          </p>
+          <p className="hero-reveal hero-reveal-2 mt-1 font-data text-xs uppercase tracking-wide text-steel">
+            {t("hero_positioning")}
+          </p>
+          <div className="hero-reveal hero-reveal-3 mt-3 h-px w-16 bg-accent" />
+          <p className="hero-reveal hero-reveal-3 measure mt-3 text-sm text-ink sm:text-base">
+            {t("hero_value")}
+          </p>
+          <div className="hero-reveal hero-reveal-4 mt-4 flex flex-wrap items-center gap-3">
+            <Link
+              href="/projets"
+              className="inline-flex items-center justify-center gap-2 rounded-[2px] bg-accent px-4 py-2 text-sm font-medium text-surface transition-colors hover:bg-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            >
+              {t("hero_cta_projects")}
+            </Link>
+            <CvButton />
+          </div>
+        </div>
+      </section>
+
+      {/* Organisations — a credibility strip (PRD-safe: entity names only, no
+          real logos/photos). Stellantis and AIC link to their case study;
+          Nexteer and ENSET don't, matching the same rule already applied on
+          /parcours (no case study exists for Nexteer). */}
+      <section className="mx-auto w-full max-w-[1200px] px-4 py-4 sm:px-6">
+        <p className="mb-3 font-data text-xs uppercase tracking-wide text-steel">
+          {t("organisations_eyebrow")}
         </p>
-        <p className="hero-reveal hero-reveal-2 mt-1 font-data text-xs uppercase tracking-wide text-steel">
-          {t("hero_positioning")}
-        </p>
-        <p className="hero-reveal hero-reveal-3 measure mt-3 text-sm text-ink sm:text-base">
-          {t("hero_value")}
-        </p>
-        <div className="hero-reveal hero-reveal-4 mt-4 flex flex-wrap items-center gap-3">
-          <Link
-            href="/projets"
-            className="inline-flex items-center justify-center gap-2 rounded-[2px] bg-accent px-4 py-2 text-sm font-medium text-surface transition-colors hover:bg-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-          >
-            {t("hero_cta_projects")}
-          </Link>
-          <CvButton />
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          {[
+            { label: "Stellantis", slug: STELLANTIS_SLUG },
+            { label: "AIC Métallurgie", slug: AIC_SLUG },
+            { label: "Nexteer Automotive", slug: null },
+            { label: "ENSET Mohammedia", slug: null },
+          ].map((org) =>
+            org.slug ? (
+              <Link
+                key={org.label}
+                href={`/projets/${org.slug}`}
+                className="font-data text-sm uppercase tracking-wide text-steel transition-colors hover:text-accent"
+              >
+                {org.label}
+              </Link>
+            ) : (
+              <span key={org.label} className="font-data text-sm uppercase tracking-wide text-steel">
+                {org.label}
+              </span>
+            ),
+          )}
         </div>
       </section>
 
@@ -127,39 +158,23 @@ export default function HomePage() {
           <Stat value={rebutValue} label={t("preuve_rebut_label")} />
           <Stat value="3" label={t("preuve_stages_label")} />
           <p className="col-span-2 text-sm text-graphite sm:col-span-1">
-            <span className="font-data text-signal">1</span> {t("preuve_outils_app")} et{" "}
+            <span className="font-data text-signal">1</span> {t("preuve_outils_app")}{" "}
+            {t("preuve_outils_and")}{" "}
             <span className="font-data text-signal">1</span> {t("preuve_outils_dashboard")}{" "}
             {t("preuve_outils_suffix")}
           </p>
         </div>
       </section>
 
-      {/* Projets en vedette — whatever the featured set actually is (2 case
-          studies as of M2; a 3rd conception/simulation slot is a tracked
-          content gap, not a placeholder card). */}
+      {/* Projets en vedette — 3 featured cards as of M7 (Méthodes + Conception +
+          Digital, per PRD §4.4): the 3rd (conception) slot that was a tracked
+          content gap through M2–M6 is now filled. Reuses the same ProjectCard
+          as /projets (tool chips included) instead of a separate, thinner
+          inline card — one card design for the whole site. */}
       <Section title={t("projets_eyebrow")}>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((cs: CaseStudy) => (
-            <Link
-              key={cs.slug}
-              href={`/projets/${cs.slug}`}
-              className="group flex flex-col gap-3 border border-rule bg-surface p-4 transition-colors hover:border-accent"
-            >
-              <Tag>{categoryLabels[cs.category]?.[locale] ?? cs.category}</Tag>
-              <h3 className="text-md text-ink transition-colors group-hover:text-accent">
-                {cs.title}
-              </h3>
-              <p className="text-sm text-graphite">{cs.subtitle}</p>
-              <p className="font-data text-xs uppercase tracking-wide text-steel">
-                {cs.organisationPublic ? cs.organisation : t("organisation_generic")}
-              </p>
-              {cs.kpis[0] ? (
-                <p className="font-data text-sm text-signal">
-                  {cs.kpis[0].value} — {cs.kpis[0].label}
-                </p>
-              ) : null}
-              <span className="mt-auto text-sm text-accent">{t("projets_card_cta")} →</span>
-            </Link>
+            <ProjectCard key={cs.slug} caseStudy={cs} />
           ))}
         </div>
         <Link href="/projets" className="mt-4 inline-block text-sm text-graphite hover:text-accent">
@@ -228,7 +243,14 @@ export default function HomePage() {
           <a href="mailto:badrbouamri4@gmail.com" className="font-data hover:text-accent">
             badrbouamri4@gmail.com
           </a>
-          <p className="font-data">{t("contact_linkedin_label")}</p>
+          <a
+            href="https://www.linkedin.com/in/badr-eddine-elbouamri/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-data hover:text-accent"
+          >
+            {t("contact_linkedin_label")}
+          </a>
         </div>
         <Link href="/contact" className="mt-4 inline-block text-sm text-accent hover:text-ink">
           {t("contact_cta")} →

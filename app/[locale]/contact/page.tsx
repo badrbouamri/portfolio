@@ -60,11 +60,16 @@ export default async function ContactPage({
             </div>
             <div>
               <dt className="text-steel">{t("linkedin_label")}</dt>
-              {/* TODO: add real LinkedIn profile URL — the CV only gives the
-                  display name "BadrEddine Elbouamri", not a verified profile
-                  slug, so this renders as plain text rather than a guessed
-                  (and possibly wrong) link. */}
-              <dd className="text-ink">BadrEddine Elbouamri</dd>
+              <dd>
+                <a
+                  href="https://www.linkedin.com/in/badr-eddine-elbouamri/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent hover:underline"
+                >
+                  BadrEddine Elbouamri
+                </a>
+              </dd>
             </div>
             <div>
               <dt className="text-steel">{t("location_label")}</dt>

@@ -1,0 +1,95 @@
+---
+slug: "etude-thermodynamique-turbine-vapeur"
+locale: "en"
+title: "Thermomechanical design and simulation of a steam superheater"
+subtitle: "ENASUCRE case study — CATIA V5 design and ABAQUS simulation"
+category: "conception"
+organisation: "Academic project — ENSET Mohammedia"
+organisationPublic: true
+location: "Mohammedia, Morocco"
+period:
+  start: "2024-12"
+  end: "2024-12"
+durationLabel: "Academic project"
+role: "Engineering student — design & simulation (group project)"
+summary: "Group study of the energy losses in a steam turbine (real case of the ENASUCRE power plant), with CATIA V5 design of a superheater and thermomechanical validation by ABAQUS simulation of an AISI 304H duct at 650 °C."
+featured: false
+order: 8
+confidential: false
+tools: ["CATIA V5", "ABAQUS", "Part Design"]
+methods: ["Energy loss analysis", "Computer-aided design", "Finite element thermomechanical simulation"]
+kpis: []
+hero: null
+gallery: []
+links: []
+related: ["conception-mecanique-catia-v5"]
+---
+
+## Context
+
+An academic case study carried out in a team of four (with Ayoub Lahniche, Nasr-Eddine Ksiyer and Houssam Adili), supervised by Prof. Mohammed Fellah as part of the Industrial Systems Mechanical Engineering programme at ENSET Mohammedia, in December 2024. The subject covered the operation of a multi-stage back-pressure steam turbine, using the real turbine at the ENASUCRE power plant as a reference case to analyse energy losses and develop one technical solution in depth.
+
+## Problem
+
+A steam turbine suffers from several families of loss that reduce its efficiency — thermodynamic, mechanical, leakage, design-related, heat, and electrical. The team had to identify the origin of these losses, then develop one technical solution through to a validated calculation, rather than stopping at a theoretical inventory.
+
+## Objectives
+
+- Establish the thermodynamic fundamentals needed for the analysis (1st and 2nd law, Rankine cycle) and present the real ENASUCRE turbine case.
+- List the six families of energy loss in a steam turbine and their associated solutions.
+- Select and develop one technical solution to reduce thermodynamic losses.
+- Design the associated component in CATIA V5 and validate its thermomechanical behaviour by ABAQUS simulation.
+
+## My role
+
+Study carried out by a team of four students, under the supervision of Prof. Mohammed Fellah. The content below reflects the team's collective work; the exact division of tasks between members was not recorded, so nothing here is presented as an isolated individual contribution.
+
+## Approach & methodology
+
+1. **Thermodynamic fundamentals** — first and second laws applied to the turbine, ideal Rankine cycle (isentropic compression, constant-pressure heat input, isentropic expansion, constant-pressure heat rejection), isentropic efficiency.
+2. **Real case presentation** — multi-stage back-pressure turbine at the ENASUCRE plant (a two-row Curtis first stage, Rateau stages, HP/MP/LP casings), used as a concrete reference to ground the loss analysis.
+3. **Loss inventory** — thermodynamic (imperfect isentropic efficiency, partial condensation), mechanical (bearing friction, aerodynamic friction), leakage (seals, labyrinths), design-related (blading, ducting), heat, and electrical — with the origin and consequences of each.
+4. **Selecting the solution to develop** — of the six families, superheated steam was chosen to address thermodynamic losses and partial condensation: it prevents part of the steam from reaching its saturation point inside the turbine.
+5. **CATIA V5 design** — a superheater duct built as parallel loops, sized to maximise heat-exchange surface while keeping temperature distribution even and limiting pressure drop.
+6. **Material selection** — austenitic stainless steel AISI 304H, chosen for its oxidation resistance up to 650–750 °C and its creep behaviour under thermal stress.
+7. **ABAQUS simulation** — a refined volumetric mesh (coupled thermomechanical C3D8T elements, refined at curvatures), applied internal pressure and temperature loads, Von Mises stress and displacement results.
+
+## Tools & methods
+
+`CATIA V5` `ABAQUS` `Thermomechanical simulation` `Material selection`
+
+## Engineering analysis
+
+**Why superheated steam, and not another loss family.** Leakage, design and electrical losses are mostly addressed through better components (seals, coatings, generator) — incremental improvements with no real design lever of their own. Superheated steam, by contrast, acts directly on steam quality upstream of the turbine: heating it beyond its saturation point prevents the formation of droplets that erode the low-pressure blades and degrade efficiency downstream. It's the only one of the six losses that leads to a component to design rather than a mere recommendation — which is why it was chosen for development.
+
+**Why AISI 304H rather than a chrome-molybdenum steel.** Chrome-molybdenum steels (ASTM A213 T91/T92) are the standard for very-high-temperature superheater tubing, but AISI 304H — an austenitic stainless — was chosen here for its good oxidation resistance up to 650–750 °C, a range compatible with the target service temperature, with well-documented mechanical and thermal properties for the calculation (E = 193 GPa, σᵧ = 205 MPa at 25 °C, thermal conductivity increasing with temperature).
+
+**What the stress/yield-limit comparison shows.** The check the calculation relies on is not the absolute value of the simulated stress, but its position relative to the material's yield limit *at service temperature* — which drops as temperature rises. The figure below situates that threshold: the AISI 304H yield limit, close to 205 MPa at room temperature, falls to around 200 MPa at 650 °C, the temperature retained for sizing. The Von Mises stresses obtained under ABAQUS stay below this re-evaluated threshold, with no plastic deformation or buckling in the curvature zones — the duct's most highly loaded areas.
+
+<img
+  src="/images/projets/etude-thermodynamique-turbine-vapeur/limite-elasticite-304h.svg"
+  alt="Bar chart comparing the AISI 304H yield limit at 25 °C (205 MPa) and at 650 °C, service temperature (about 200 MPa)"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 1 — AISI 304H yield limit, room temperature vs. service temperature: the comparison threshold used for the ABAQUS simulation.*
+
+## Difficulties encountered
+
+- **Gathering consistent material properties for a coupled calculation.** A thermomechanical calculation needs both mechanical *and* thermal properties, at room temperature and at high temperature (conductivity, heat capacity, thermal expansion) — data scattered across several sources rather than a single datasheet.
+- **Refining the mesh without over-complicating the calculation.** The duct's curvature zones concentrate stress and needed a finer mesh than the rest of the part, without letting the computation time on the full model explode.
+- **Keeping the scope manageable for a team.** Out of six identified loss families, developing a single solution through to simulation — rather than spreading the study across several — was a deliberate choice to reach a complete validation.
+
+## Solutions implemented
+
+- CATIA V5 design of the superheater duct as parallel loops.
+- Validated ABAQUS model: mesh refined at curvatures with C3D8T elements, pressure and temperature loads, characterised AISI 304H material.
+- Optimisation recommendations identified from the results: targeted wall-thickness reduction (margin available under the maximum stress), an alternative material with better thermal conductivity, refined curvature radii, and a complementary thermal fatigue study.
+
+## Results
+
+The simulation confirms that the design supports the target pressure and temperature conditions without exceeding the material's yield limit at service temperature, with no plastic deformation or buckling observed in the critical zones. This is a numerical validation from an academic project — a step before manufacturing or physical testing, not a manufactured or physically tested component — and the team's own report frames it exactly that way.
+
+## What I took from it
+
+This project took me from thermodynamic theory (1st/2nd law, Rankine cycle) to a real component sized and verified by calculation — the kind of continuity I look for between coursework and practice. The most formative part wasn't the material choice itself, but having to justify it against an explicit criterion (oxidation resistance at service temperature) rather than by default. If I did it again, I'd document the source of every material property used in the calculation from the start — tracking them down afterward to check their consistency took longer than expected.

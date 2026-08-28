@@ -4,12 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project state
 
-This repo currently contains **no application code** — only planning docs (`docs/`) and an empty git history (no commits yet). Before writing code, check `docs/tasks.md` for the current milestone and work top-to-bottom within it; do not jump ahead to a later milestone's tasks.
+The Next.js app is scaffolded and live: M0–M6 are complete, M7 (Iterate) is in progress. Before writing code, check `docs/tasks.md` for the current milestone and work top-to-bottom within it; do not jump ahead to a later milestone's tasks.
 
 - `docs/PRD_Portfolio_Badr_Eddine_ELBOUAMRI.md` — the full product spec. It is the source of truth for design tokens, content structure, and copy rules. Read the relevant section before building the related feature rather than relying on memory of it.
 - `docs/tasks.md` — milestone checklist (M0–M7) derived from the PRD's roadmap (§13). Reflects actual progress; check items off as they're completed.
 
-Once the Next.js app is scaffolded (M2), this file should be updated with real build/lint/test commands — there are none to document yet.
+Build/lint commands: `npm run dev` (Turbopack dev server), `npm run build` (production build — also validates all MDX case study frontmatter against the Zod schema in `lib/schema.ts`, so a bad frontmatter field fails the build, not just lint), `npm run lint` (ESLint), `npm run start` (serve a production build). There is no test suite yet.
+
+As of M7, all 5 case study categories (`methodes`, `lean`, `maintenance`, `conception`, `digital`) have at least one published case study — the `conception` gap flagged throughout M2–M6 (homepage's 3rd featured slot, the Compétences page's "Conception & Simulation" and "Sciences de l'ingénieur" evidence lines) is closed. `docs/` also holds source material for case studies (PDFs, PPTX/DOCX reports, MP4s) that is not itself shipped — only the content extracted from it into `content/{fr,en}/projets/*.mdx` and `public/` is.
 
 ## What this project is
 

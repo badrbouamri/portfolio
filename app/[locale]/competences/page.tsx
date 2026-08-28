@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/Section";
 import { Rule } from "@/components/ui/Rule";
 import { Tag } from "@/components/ui/Tag";
+import { SkillsMatrix } from "@/components/skills/SkillsMatrix";
 
 type GroupKey =
   | "methodes"
@@ -77,6 +78,7 @@ export default async function CompetencesPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations("Competences");
+  const tSkills = await getTranslations("Skills");
   const lang = locale === "en" ? "en" : "fr";
 
   const groups: { key: GroupKey; heading: string; evidence: Evidence[] }[] = [
@@ -95,18 +97,27 @@ export default async function CompetencesPage({
           text: t("evidence_amelioration"),
           href: "/projets/stellantis-maitrise-cout-transformation",
         },
+        {
+          text: t("evidence_amelioration_2"),
+          href: "/projets/diagnostic-amdec-injection-plastique",
+        },
       ],
     },
     {
       key: "maintenance",
       heading: t("group_maintenance"),
-      evidence: [{ text: t("evidence_maintenance"), href: "/projets/aic-diagnostic-pliage-cintrage" }],
+      evidence: [
+        { text: t("evidence_maintenance"), href: "/projets/aic-diagnostic-pliage-cintrage" },
+        { text: t("evidence_maintenance_2"), href: "/projets/diagnostic-amdec-injection-plastique" },
+      ],
     },
     {
       key: "conception",
       heading: t("group_conception"),
-      // No case study exists for this group yet (known gap) — honest, unlinked note.
-      evidence: [{ text: t("evidence_conception_empty") }],
+      evidence: [
+        { text: t("evidence_conception_1"), href: "/projets/conception-mecanique-catia-v5" },
+        { text: t("evidence_conception_2"), href: "/projets/etude-thermodynamique-turbine-vapeur" },
+      ],
     },
     {
       key: "donnees",
@@ -122,44 +133,53 @@ export default async function CompetencesPage({
     {
       key: "sciences",
       heading: t("group_sciences"),
-      // No direct case-study evidence exists — honest, unlinked note.
-      evidence: [{ text: t("evidence_sciences_empty") }],
+      evidence: [
+        { text: t("evidence_sciences"), href: "/projets/etude-thermodynamique-turbine-vapeur" },
+      ],
     },
   ];
 
   return (
-    <Section eyebrow={t("eyebrow")} title={t("title")}>
-      <div className="flex flex-col gap-8">
-        {groups.map((group, index) => (
-          <div key={group.key}>
-            {index > 0 ? <Rule className="mb-8" /> : null}
-            <h2 className="mb-3 text-lg text-ink">{group.heading}</h2>
-            <div className="mb-3 flex flex-wrap gap-2">
-              {TAGS[group.key][lang].map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
-              ))}
-            </div>
-            <ul className="flex flex-col gap-1">
-              {group.evidence.map((item) =>
-                item.href ? (
-                  <li key={item.text}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-accent hover:underline"
-                    >
+    <>
+      <Section eyebrow={tSkills("eyebrow")} title={tSkills("title")}>
+        <SkillsMatrix />
+      </Section>
+
+      <Rule />
+
+      <Section eyebrow={t("evidence_eyebrow")} title={t("evidence_title")}>
+        <div className="flex flex-col gap-8">
+          {groups.map((group, index) => (
+            <div key={group.key}>
+              {index > 0 ? <Rule className="mb-8" /> : null}
+              <h2 className="mb-3 text-lg text-ink">{group.heading}</h2>
+              <div className="mb-3 flex flex-wrap gap-2">
+                {TAGS[group.key][lang].map((tag) => (
+                  <Tag key={tag}>{tag}</Tag>
+                ))}
+              </div>
+              <ul className="flex flex-col gap-1">
+                {group.evidence.map((item) =>
+                  item.href ? (
+                    <li key={item.text}>
+                      <Link
+                        href={item.href}
+                        className="text-sm text-accent hover:underline"
+                      >
+                        {item.text}
+                      </Link>
+                    </li>
+                  ) : (
+                    <li key={item.text} className="text-sm italic text-steel">
                       {item.text}
-                    </Link>
-                  </li>
-                ) : (
-                  <li key={item.text} className="text-sm italic text-steel">
-                    {item.text}
-                  </li>
-                ),
-              )}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </Section>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </Section>
+    </>
   );
 }

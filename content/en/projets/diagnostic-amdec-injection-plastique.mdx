@@ -1,0 +1,96 @@
+---
+slug: "diagnostic-amdec-injection-plastique"
+locale: "en"
+title: "FMEA and 5S diagnostic of a plastic injection area"
+subtitle: "CIE Automotive case study — reliability, 5S and FMEA on a press fleet"
+category: "maintenance"
+organisation: "Academic project — ENSET Mohammedia"
+organisationPublic: true
+location: "Mohammedia, Morocco"
+period:
+  start: "2025-12"
+  end: "2025-12"
+durationLabel: "Academic project"
+role: "Engineering student — reliability, 5S and FMEA diagnostic (group project)"
+summary: "Group study of CIE Automotive's plastic injection area: a reliability diagnostic (MTBF/MTTR) across a ten-press fleet, a 5S assessment, an Ishikawa diagram, and an FMEA of the pilot press to prioritise actions by RPN."
+featured: false
+order: 9
+confidential: false
+tools: []
+methods: ["FMEA", "5S", "Reliability diagnostic (MTBF/MTTR)", "Ishikawa"]
+kpis: []
+hero: null
+gallery: []
+links: []
+related: ["aic-diagnostic-pliage-cintrage", "etude-thermodynamique-turbine-vapeur"]
+---
+
+## Context
+
+An academic case study carried out in a team of four (with Maryam Ahnou, Hamza Lourik and Ayoub Lahniche), assigned by Prof. Nissabouri Salah as part of the Industrial Systems Mechanical Engineering programme at ENSET Mohammedia, in December 2025. The subject: diagnose the plastic injection area at CIE Automotive, an automotive supplier, across a fleet of ten injection presses (2 Negri Bossi, 3 Demag, 3 Engel, 2 Krauss Maffei).
+
+## Problem
+
+The injection area was experiencing a production slowdown, with no structured diagnostic of the causes and no formalised 5S assessment of the workstation — the team had to build this diagnostic and turn it into a prioritised action plan.
+
+## Objectives
+
+- Assess the reliability (MTBF) and maintainability (MTTR) of each press in the fleet, to identify which machines to address first.
+- Build a cause-and-effect (Ishikawa) diagram of the production slowdown.
+- Assess the 5S state of the injection area against a per-pillar scoring grid.
+- Apply an FMEA to the selected press and prioritise actions by risk priority number (RPN).
+
+## My role
+
+Diagnostic carried out by a team of four students, as part of an exercise assigned by Prof. Nissabouri Salah. The content below reflects the team's collective work; the exact division of tasks between members was not recorded, so nothing here is presented as an isolated individual contribution.
+
+## Approach & methodology
+
+1. **Per-machine reliability diagnostic** — MTBF (allotted time minus total downtime, divided by number of failures), MTTR (total downtime divided by number of failures) and availability (Do = MTBF / (MTBF + MTTR)) calculated for the ten presses in the fleet.
+2. **Decision synthesis** — the two most degraded presses (Engel 1500, Demag 420T) are compared on maintainability, availability, failure nature and problem type, to select the pilot press for the FMEA.
+3. **Ishikawa diagram** — root-cause search for the production slowdown across the 5Ms (environment, method, machine, workforce).
+4. **5S assessment** — scoring the injection area across the five pillars (eliminate, organise, clean, standardise, sustain), weighted against the number of criteria per pillar.
+5. **FMEA on the pilot press** — Severity, Occurrence and Detection scoring grids built with the working group and validated through discussions with department managers and maintenance technicians; RPN = Severity × Occurrence × Detection.
+6. **Prioritisation and costing** — selecting failure modes with RPN &gt; 15, estimating the gain in avoided downtime hours and quality gain.
+
+## Tools & methods
+
+`FMEA` `5S` `Reliability diagnostic (MTBF/MTTR)` `Ishikawa`
+
+## Engineering analysis
+
+**Why the Demag 420T over the Engel 1500 as pilot press.** Both presses stood out as the most degraded on maintainability (MTTR) and availability, but their failures weren't the same in nature. On the Engel 1500 (MTTR 3.13 h, availability 98.26%), the failures were mostly programming and automatic-parameter issues — a one-off problem, already resolved, that no longer reflected the machine's actual mechanical condition. On the Demag 420T (MTTR 2.22 h, availability 99.07%), the downtime stemmed from maintenance and mechanical causes — a structural, recurring problem. It was this persistence, not the raw severity of the numbers, that made the Demag 420T the right choice for the FMEA: an FMEA has more value on a failure mode that will recur than on an incident already fixed.
+
+**What the 5S assessment shows.** Across the five pillars, Clean scored best (81%), Eliminate and Organise sat at an intermediate level (70% each), while Standardise and Sustain were the weakest (50% each). That's consistent with a site where one-off cleaning gets done, but where rules aren't formalised or followed over time — the two pillars that matter most for *keeping* a 5S gain over time, not just achieving it once.
+
+<img
+  src="/images/projets/diagnostic-amdec-injection-plastique/evaluation-5s.svg"
+  alt="Bar chart of the 5S assessment of the injection area: Eliminate 70%, Organise 70%, Clean 81%, Standardise 50%, Sustain 50%"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 1 — 5S assessment of the injection area, by pillar.*
+
+**Prioritising by RPN rather than by intuition.** On the Demag 420T, six systems came out with an RPN &gt; 15 (piping — oil leak/vibration; mould temperature controller — overheating; cooling channels — temperature variation; bearings — premature wear; scratched moulding surface; piping — severe oil contamination). The RPN &gt; 15 threshold is precisely what separates symptoms that *look* serious at a glance from those whose combined severity × occurrence × detection makes them genuinely a priority — avoiding treating the most visible issue first instead of the one that matters most.
+
+## Difficulties encountered
+
+- **Building credible scoring grids, not just theoretical ones.** The Severity/Occurrence/Detection grids were built following meetings with the working group, then discussions with department managers and maintenance technicians — without that cross-check, the calculated RPN would only have reflected a desk estimate, not the shop-floor reality.
+- **Distinguishing a resolved one-off problem from a persistent structural one.** Before settling on the pilot press, the Engel 1500 and Demag 420T had to be compared not on the raw severity of their indicators, but on the nature of their failures — a less direct exercise than simply picking the machine with the worst MTTR.
+- **Costing a credible gain without real production data.** The estimated downtime reduction after action varies per system, from conservative to ambitious depending on the system — a costing built on stated assumptions, not on a production history measured after implementation.
+
+## Solutions implemented
+
+- Reliability diagnostic (MTBF/MTTR/availability) across the ten presses in the injection fleet.
+- Ishikawa diagram of the production slowdown, across the four retained cause families.
+- Per-pillar 5S scoring grid and a reasoned selection of the Demag 420T as pilot press.
+- FMEA of the Demag 420T with prioritisation of the six systems at RPN &gt; 15.
+- Costed gain estimate: 68.8 hours of avoided downtime (≈ 55,040 MAD, at 800 MAD/hour of downtime) plus an 18,000 MAD quality gain, for a total of about 73,040 MAD.
+
+## Results
+
+This diagnostic is an academic exercise: the proposed actions were not implemented or measured in production at CIE Automotive. The costing (≈ 73,040 MAD) is an estimate built from the FMEA grids and per-system reduction assumptions ranging from conservative to ambitious, on a base of 2,000 annual production hours (roughly 250 days at 8 h) — not a result observed after implementation.
+
+## What I took from it
+
+This project showed me the difference between an FMEA built on a spreadsheet and one whose scoring grids are cross-checked with the people who live with the failures day to day — without the discussions with maintenance technicians, the calculated RPN would have been nothing more than a desk estimate. Choosing the pilot press also taught me to be wary of the reflex to treat the machine whose numbers look worst: the one whose problem is already solved isn't the priority, even if its recent history suggests otherwise. If I did it again, I'd document the distinction between a one-off and a structural failure earlier, rather than reconstructing it after the fact from maintainability figures.

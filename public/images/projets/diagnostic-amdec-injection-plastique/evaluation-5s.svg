@@ -1,0 +1,56 @@
+<svg viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title5s desc5s">
+  <title id="title5s">Évaluation 5S de la zone d'injection, par pilier (%)</title>
+  <desc id="desc5s">Diagramme en barres : Éliminer 70 %, Ranger 70 %, Nettoyer 81 %, Standardiser 50 %, Maintenir 50 %.</desc>
+  <rect width="1200" height="700" fill="#ffffff" />
+
+  <!-- axis -->
+  <line x1="180" y1="80" x2="180" y2="560" stroke="#dce0e3" stroke-width="2" />
+  <line x1="180" y1="560" x2="1120" y2="560" stroke="#dce0e3" stroke-width="2" />
+
+  <!-- gridlines + y labels (0,20,40,60,80,100) -->
+  <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="16" fill="#626d77">
+    <line x1="180" y1="560" x2="1120" y2="560" stroke="#dce0e3" stroke-width="1" />
+    <text x="160" y="565" text-anchor="end">0</text>
+    <line x1="180" y1="464" x2="1120" y2="464" stroke="#dce0e3" stroke-width="1" />
+    <text x="160" y="469" text-anchor="end">20</text>
+    <line x1="180" y1="368" x2="1120" y2="368" stroke="#dce0e3" stroke-width="1" />
+    <text x="160" y="373" text-anchor="end">40</text>
+    <line x1="180" y1="272" x2="1120" y2="272" stroke="#dce0e3" stroke-width="1" />
+    <text x="160" y="277" text-anchor="end">60</text>
+    <line x1="180" y1="176" x2="1120" y2="176" stroke="#dce0e3" stroke-width="1" />
+    <text x="160" y="181" text-anchor="end">80</text>
+    <line x1="180" y1="80" x2="1120" y2="80" stroke="#dce0e3" stroke-width="1" />
+    <text x="160" y="85" text-anchor="end">100</text>
+  </g>
+
+  <!-- bars: baseline y=560, scale 4.8px per % -->
+  <g>
+    <!-- Éliminer 70% -->
+    <rect x="230" y="224" width="120" height="336" fill="#0b5563" />
+    <text x="290" y="204" text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="20" fill="#14181b">70 %</text>
+    <text x="290" y="590" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#14181b">Éliminer</text>
+
+    <!-- Ranger 70% -->
+    <rect x="410" y="224" width="120" height="336" fill="#0b5563" />
+    <text x="470" y="204" text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="20" fill="#14181b">70 %</text>
+    <text x="470" y="590" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#14181b">Ranger</text>
+
+    <!-- Nettoyer 81% -->
+    <rect x="590" y="171.2" width="120" height="388.8" fill="#0b5563" />
+    <text x="650" y="151" text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="20" fill="#14181b">81 %</text>
+    <text x="650" y="590" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#14181b">Nettoyer</text>
+
+    <!-- Standardiser 50% -->
+    <rect x="770" y="320" width="120" height="240" fill="#9c5e00" />
+    <text x="830" y="300" text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="20" fill="#14181b">50 %</text>
+    <text x="830" y="590" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#14181b">Standardiser</text>
+
+    <!-- Maintenir 50% -->
+    <rect x="950" y="320" width="120" height="240" fill="#9c5e00" />
+    <text x="1010" y="300" text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="20" fill="#14181b">50 %</text>
+    <text x="1010" y="590" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#14181b">Maintenir</text>
+  </g>
+
+  <text x="180" y="40" font-family="IBM Plex Sans, sans-serif" font-size="22" font-weight="600" fill="#14181b">Évaluation 5S de la zone d'injection, par pilier (%)</text>
+  <text x="180" y="650" font-family="IBM Plex Sans, sans-serif" font-size="15" fill="#626d77">Notation sur grille interne (nombre de critères variable par pilier) — redessiné, données indexées.</text>
+</svg>

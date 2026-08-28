@@ -1,0 +1,95 @@
+---
+slug: "etude-thermodynamique-turbine-vapeur"
+locale: "fr"
+title: "Conception et simulation thermomécanique d'un surchauffeur de vapeur"
+subtitle: "Étude de cas ENASUCRE — conception CATIA V5 et simulation ABAQUS"
+category: "conception"
+organisation: "Projet académique — ENSET Mohammedia"
+organisationPublic: true
+location: "Mohammedia, Maroc"
+period:
+  start: "2024-12"
+  end: "2024-12"
+durationLabel: "Projet académique"
+role: "Étudiant ingénieur — conception & simulation (projet de groupe)"
+summary: "Étude de groupe sur les pertes énergétiques d'une turbine à vapeur (cas réel de la centrale ENASUCRE), avec conception CATIA V5 d'un surchauffeur et validation thermomécanique par simulation ABAQUS d'une conduite en AISI 304H à 650 °C."
+featured: false
+order: 8
+confidential: false
+tools: ["CATIA V5", "ABAQUS", "Part Design"]
+methods: ["Analyse des pertes énergétiques", "Conception assistée par ordinateur", "Simulation thermomécanique par éléments finis"]
+kpis: []
+hero: null
+gallery: []
+links: []
+related: ["conception-mecanique-catia-v5"]
+---
+
+## Contexte
+
+Étude de cas académique menée en équipe de quatre (avec Ayoub Lahniche, Nasr-Eddine Ksiyer et Houssam Adili), encadrée par le Pr. Mohammed Fellah dans le cadre de la formation Génie Mécanique des Systèmes Industriels à l'ENSET Mohammedia, en décembre 2024. Le sujet portait sur le fonctionnement d'une turbine à vapeur multi-étagée à contre-pression, en s'appuyant sur le cas réel de la turbine de la centrale ENASUCRE pour analyser les pertes énergétiques et en approfondir une solution technique.
+
+## Problématique
+
+Une turbine à vapeur subit plusieurs familles de pertes qui réduisent son rendement — thermodynamiques, mécaniques, par fuite, dues à la conception, de chaleur et électriques. Le groupe devait identifier l'origine de ces pertes, puis approfondir une solution technique jusqu'à sa validation par le calcul, plutôt que de rester au niveau d'un inventaire théorique.
+
+## Objectifs
+
+- Établir les fondements thermodynamiques nécessaires à l'analyse (1er et 2e principe, cycle de Rankine) et présenter le cas réel de la turbine ENASUCRE.
+- Recenser les six familles de pertes énergétiques d'une turbine à vapeur et leurs solutions associées.
+- Retenir et approfondir une solution technique de réduction des pertes thermodynamiques.
+- Concevoir sous CATIA V5 le composant associé et valider sa tenue thermomécanique par simulation ABAQUS.
+
+## Mon rôle
+
+Étude réalisée en équipe de quatre étudiants, sous la direction du Pr. Mohammed Fellah. Le contenu ci-dessous restitue le travail collectif du groupe ; la répartition exacte des tâches entre les membres n'a pas été conservée, donc rien ici n'est présenté comme une contribution individuelle isolée.
+
+## Démarche & méthodologie
+
+1. **Fondements thermodynamiques** — premier et deuxième principes appliqués à la turbine, cycle de Rankine idéal (compression isentropique, apport de chaleur à pression constante, détente isentropique, évacuation de chaleur), rendement isentropique.
+2. **Présentation du cas réel** — turbine multi-étagée à contre-pression de la centrale ENASUCRE (premier étage Curtis à deux rangées d'ailettes, étages Râteau, corps HP/MP/BP), retenue comme référence concrète pour ancrer l'analyse des pertes.
+3. **Recensement des pertes** — thermodynamiques (rendement isentropique imparfait, condensation partielle), mécaniques (frottement des roulements, frottement aérodynamique), par fuite (joints, labyrinthes), de conception (aubages, conduites), de chaleur et électriques — avec, pour chacune, l'origine et les conséquences.
+4. **Choix de la solution approfondie** — parmi les six familles, la vapeur surchauffée a été retenue pour traiter les pertes thermodynamiques et la condensation partielle : elle évite qu'une partie de la vapeur atteigne son point de saturation dans la turbine.
+5. **Conception CATIA V5** — conduite de surchauffeur en boucles parallèles, dimensionnée pour maximiser la surface d'échange thermique tout en homogénéisant la distribution de température et en limitant les pertes de charge.
+6. **Choix matériau** — acier inoxydable austénitique AISI 304H, retenu pour sa résistance à l'oxydation jusqu'à 650–750 °C et sa tenue au fluage sous contrainte thermique.
+7. **Simulation ABAQUS** — maillage volumique raffiné (éléments couplés thermomécaniques C3D8T, affinés dans les zones de courbure), application des charges de pression interne et de température, calcul des contraintes de Von Mises et des déplacements.
+
+## Outils & méthodes
+
+`CATIA V5` `ABAQUS` `Simulation thermomécanique` `Choix des matériaux`
+
+## Analyse d'ingénieur
+
+**Pourquoi la vapeur surchauffée, et pas une autre famille de pertes.** Les pertes par fuite, de conception ou électriques se traitent surtout par de meilleurs composants (joints, revêtements, générateur) — des améliorations incrémentales sans levier de conception propre. La vapeur surchauffée, elle, agit directement sur la qualité de la vapeur en amont de la turbine : en la chauffant au-delà de son point de saturation, elle évite la formation de gouttelettes qui érodent les aubes en sortie basse pression et dégradent le rendement. C'est la seule des six pertes qui débouche sur un composant à concevoir plutôt que sur une simple recommandation — d'où le choix de l'approfondir.
+
+**Pourquoi l'AISI 304H plutôt qu'un acier au chrome-molybdène.** Les aciers au chrome-molybdène (ASTM A213 T91/T92) sont la référence pour les tubes de surchauffeur à très haute température, mais l'AISI 304H — inoxydable austénitique — a été retenu ici pour sa bonne résistance à l'oxydation jusqu'à 650–750 °C, une plage compatible avec la température de service visée, avec des propriétés mécaniques et thermiques bien documentées pour le calcul (E = 193 GPa, σᵧ = 205 MPa à 25 °C, conductivité thermique croissante avec la température).
+
+**Ce que montre la comparaison contrainte/limite d'élasticité.** Le point de vérification du calcul n'est pas la valeur absolue de la contrainte simulée, mais sa position par rapport à la limite d'élasticité du matériau *à la température de service* — qui chute avec la température. La figure ci-dessous situe ce seuil : la limite d'élasticité de l'AISI 304H, proche de 205 MPa à température ambiante, redescend autour de 200 MPa à 650 °C, la température retenue pour le dimensionnement. Les contraintes de Von Mises obtenues sous ABAQUS restent en dessous de ce seuil réévalué, sans déformation plastique ni flambement dans les zones de courbure — les points les plus sollicités de la conduite.
+
+<img
+  src="/images/projets/etude-thermodynamique-turbine-vapeur/limite-elasticite-304h.svg"
+  alt="Diagramme en barres comparant la limite d'élasticité de l'AISI 304H à 25 °C (205 MPa) et à 650 °C, température de service (environ 200 MPa)"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 1 — Limite d'élasticité de l'AISI 304H, ambiante vs température de service : le seuil de comparaison retenu pour la simulation ABAQUS.*
+
+## Difficultés rencontrées
+
+- **Réunir des propriétés matériau cohérentes pour un calcul couplé.** Un calcul thermomécanique demande des propriétés mécaniques *et* thermiques, à température ambiante et à haute température (conductivité, capacité thermique, dilatation) — des données dispersées entre plusieurs sources plutôt que réunies sur une seule fiche technique.
+- **Raffiner le maillage sans complexifier excessivement le calcul.** Les zones de courbure de la conduite concentrent les contraintes et demandaient un maillage plus fin que le reste de la pièce, sans faire exploser le temps de calcul sur l'ensemble du modèle.
+- **Garder un périmètre traitable en groupe.** Sur six familles de pertes recensées, approfondir une seule solution jusqu'à la simulation — plutôt que de disperser l'étude sur plusieurs — a été un choix délibéré pour aller jusqu'à une validation complète.
+
+## Solutions mises en œuvre
+
+- Conception CATIA V5 de la conduite de surchauffeur en boucles parallèles.
+- Modèle ABAQUS validé : maillage C3D8T raffiné aux courbures, charges de pression et de température, matériau AISI 304H caractérisé.
+- Recommandations d'optimisation identifiées à l'issue du calcul : réduction ciblée de l'épaisseur de paroi (marge disponible sous la contrainte maximale), matériau alternatif à meilleure conductivité thermique, affinement des rayons de courbure, étude de fatigue thermique complémentaire.
+
+## Résultats
+
+La simulation confirme que la conception retenue supporte les conditions de pression et de température visées sans dépasser la limite d'élasticité du matériau à la température de service, sans déformation plastique ni flambement observés dans les zones critiques. Il s'agit d'une validation numérique de projet académique — une étape avant fabrication ou tests expérimentaux, pas un composant fabriqué ni testé physiquement, et le rapport du groupe le formule lui-même ainsi.
+
+## Ce que j'en retiens
+
+Ce projet m'a fait passer de la théorie thermodynamique (premier/deuxième principe, cycle de Rankine) à un composant réel dimensionné et vérifié par le calcul — le genre de continuité que je recherche entre les cours et la pratique. La partie la plus formatrice n'a pas été le choix du matériau en soi, mais la nécessité de le justifier par un critère explicite (résistance à l'oxydation à la température de service) plutôt que par défaut. Si c'était à refaire, je documenterais dès le départ la source de chaque propriété matériau utilisée dans le calcul — les retrouver après coup, pour vérifier leur cohérence, a pris plus de temps que prévu.

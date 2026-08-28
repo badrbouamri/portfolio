@@ -1,0 +1,116 @@
+---
+slug: "conception-mecanique-catia-v5"
+locale: "fr"
+title: "Modélisation et simulation mécanique sous CATIA V5 — trois études"
+subtitle: "Cinématique, surfaçage Classe-A et assemblage moteur, projets personnels"
+category: "conception"
+organisation: "Projet personnel"
+organisationPublic: true
+location: "Kénitra, Maroc"
+period:
+  start: "À préciser" # ⚠️ À COMPLÉTER — dates réelles inconnues, ne pas deviner
+  end: "À préciser" # ⚠️ À COMPLÉTER — dates réelles inconnues, ne pas deviner
+durationLabel: "À préciser" # ⚠️ À COMPLÉTER
+role: "Concepteur mécanique (projets personnels)"
+summary: "Trois exercices personnels de conception mécanique sous CATIA V5 : cinématique d'un bras de pelleteuse (DMU Kinematics), surfaçage Classe-A d'une carrosserie de Lamborghini Gallardo et assemblage animé d'un moteur 4 cylindres."
+featured: true
+order: 7
+confidential: false
+tools: ["CATIA V5", "Part Design", "Assembly Design", "DMU Kinematics", "Generative Shape Design", "Sketcher"]
+methods: ["Modélisation cinématique", "Surfaçage Classe-A", "Conception d'assemblage paramétrique"]
+kpis: []
+hero: null
+gallery: []
+links: []
+related: ["etude-thermodynamique-turbine-vapeur"]
+---
+
+## Contexte
+
+Trois exercices personnels de conception mécanique sous CATIA V5, menés en dehors de tout cadre académique ou professionnel, pour construire une pratique solide sur trois familles d'outils distinctes : la simulation cinématique de mécanisme (DMU Kinematics), le surfaçage Classe-A (Generative Shape Design) et l'assemblage paramétrique (Assembly Design).
+
+## Problématique
+
+Ces trois domaines mobilisent des logiques de modélisation très différentes — contraintes cinématiques, continuité de surface, paramétrage d'assemblage — qu'un seul projet ne suffit pas à couvrir. L'objectif était de pratiquer chacune sur un cas concret, jusqu'à la vérification du résultat plutôt que la simple modélisation statique.
+
+## Objectifs
+
+- Modéliser un mécanisme complet (bras de pelleteuse) et vérifier sa cinématique sur toute sa course.
+- Reproduire une carrosserie automobile en surfaçage Classe-A, avec continuité de courbure maîtrisée entre panneaux.
+- Assembler un moteur 4 cylindres avec des pièces réutilisables (paramétrées et instanciées) et vérifier sa cohérence sur un tour de vilebrequin complet.
+- Produire, pour chaque projet, une vérification du résultat plutôt qu'un simple rendu statique.
+
+## Mon rôle
+
+Trois projets personnels réalisés seul, de la modélisation à la vérification du résultat (cinématique, continuité de surface ou cohérence d'assemblage selon le projet).
+
+## Démarche & méthodologie
+
+### 1. Bras de pelleteuse — simulation cinématique
+
+L'ensemble avant d'une pelleteuse — flèche, balancier, godet, biellette de godet et trois vérins hydrauliques double effet — a été modélisé pièce par pièce en Part Design, puis assemblé sous contraintes en Assembly Design.
+
+L'assemblage a ensuite été converti en mécanisme cinématique sous DMU Kinematics : liaisons pivot à chaque axe d'articulation, liaisons cylindriques pour les tiges de vérin, et trois commandes prismatiques pilotant la course des vérins. Avec ces trois commandes, le mécanisme dispose de trois degrés de liberté, ce qui permet de positionner le godet n'importe où dans son enveloppe de travail.
+
+La simulation a servi à vérifier le mécanisme avant tout le reste : balayage de chaque vérin sur toute sa course pour tracer l'enveloppe de portée et de fouille, puis parcours complet de la biellette de godet pour confirmer l'absence d'interférence entre la biellette de puissance, la biellette en H et la flèche, aux extrémités de course.
+
+### 2. Lamborghini Gallardo — étude de surfaçage
+
+Une reproduction stylistique de la carrosserie de la Gallardo, construite comme exercice de surfaçage automotive plutôt que comme conception originale. L'ensemble de la carrosserie est modélisé en surfaces : un squelette filaire de courbes de section a d'abord été construit, puis habillé de surfaces multi-sections et de raccords sous Generative Shape Design.
+
+Le point important de ce projet n'est pas la forme, mais la qualité des transitions. Les panneaux de carrosserie ont été raccordés avec continuité tangente et continuité de courbure, pour que les lignes de réflexion restent propres sur l'épaule et l'arche arrière, tout en conservant volontairement les lignes de caractère marquées de la Gallardo comme des ruptures maîtrisées plutôt que des accidents de raccord. L'avant et l'arrière ont été construits sur une moitié puis symétrisés par rapport au plan médian, pour garder un modèle symétrique et modifiable.
+
+Les entrées d'air, les ouvertures de passage de roue et le vitrage ont été découpés par opérations de split/trim sur la surface maîtresse, et les roues ont été modélisées séparément comme motif solide instancié dans l'assemblage.
+
+<video controls preload="metadata" playsInline className="my-6 w-full border border-rule bg-surface">
+  <source src="/videos/projets/conception-mecanique-catia-v5/lamborghini-gallardo-surfacage.mp4" type="video/mp4" />
+</video>
+
+*Vidéo — parcours du modèle surfacé de la Gallardo sous CATIA V5.*
+
+### 3. Moteur 4 cylindres — assemblage et cinématique bielle-manivelle
+
+Le bas-moteur d'un moteur à combustion interne modélisé et assemblé sous CATIA V5. Le vilebrequin a été construit à partir de ses tourillons, manetons et masses d'équilibrage, avec les quatre manetons décalés autour de l'axe ; la bielle et le piston ont été modélisés une seule fois chacun puis instanciés quatre fois, de sorte qu'une modification du piston se répercute sur l'ensemble du moteur.
+
+Les contraintes d'Assembly Design positionnent chaque pièce par rapport au bloc-moteur : coïncidence sur l'axe du vilebrequin, bielles articulées sur les manetons, pistons maintenus concentriques à leur alésage. Le résultat est un assemblage qui reste cohérent quand le vilebrequin tourne, plutôt qu'un montage qui ne tient qu'à l'image de départ.
+
+La chaîne bielle-manivelle a ensuite été entraînée sur un tour complet pour vérifier la géométrie : passage de chaque piston par ses points morts haut et bas dans le bon ordre, dégagement des bielles par rapport aux masses d'équilibrage et aux parois de cylindre sur tout le cycle, cohérence entre course et longueur de bielle par rapport à l'alésage.
+
+<video controls preload="metadata" playsInline className="my-6 w-full border border-rule bg-surface">
+  <source src="/videos/projets/conception-mecanique-catia-v5/moteur-4-cylindres.mp4" type="video/mp4" />
+</video>
+
+*Vidéo — rotation du vilebrequin sur l'assemblage moteur 4 cylindres sous CATIA V5.*
+
+## Outils & méthodes
+
+`CATIA V5` `Part Design` `Assembly Design` `DMU Kinematics` `Generative Shape Design` `Sketcher`
+
+## Analyse d'ingénieur
+
+**Vérifier le mécanisme avant de le montrer.** Sur le bras de pelleteuse, la simulation cinématique n'a pas servi à produire une belle animation en premier lieu : elle a servi à vérifier, sur toute la course des trois vérins, qu'il n'existe aucune interférence entre la biellette de puissance, la biellette en H et la flèche. Une géométrie qui a l'air correcte à l'arrêt peut très bien entrer en collision en cours de mouvement — seul un balayage complet du degré de liberté le révèle.
+
+**La continuité de surface comme choix, pas comme réglage par défaut.** Sur la Gallardo, les panneaux ont été raccordés en tangence ou en courbure selon la zone, jamais par défaut : une continuité de courbure partout aurait aussi lissé les lignes de caractère volontairement marquées de la voiture (arêtes vives sur les épaules), qui doivent au contraire rester des ruptures nettes. Le choix du niveau de continuité (G0/G1/G2) est donc fait panneau par panneau, en fonction de ce que la forme réelle impose.
+
+**Instancier plutôt que dupliquer.** Sur le moteur, la bielle et le piston sont modélisés une seule fois et instanciés quatre fois, paramétrés plutôt que dupliqués indépendamment. Ce choix a un coût (il faut anticiper les paramètres communs dès la conception de la pièce de référence), mais il garantit qu'une correction ultérieure sur un cylindre se propage aux trois autres sans ressaisie manuelle — utile dès qu'on modifie une cote après avoir découvert une interférence en simulation.
+
+## Difficultés rencontrées
+
+- **Interférence de la biellette de godet en fin de course.** Une première version du linkage de godet interférait avec la flèche en position de fouille maximale ; la géométrie de la biellette en H a dû être réajustée après ce premier balayage cinématique, avant de revalider l'ensemble de la course.
+- **Continuité de courbure sans effacer les lignes de caractère.** Obtenir une continuité G2 propre sur l'épaule et l'arche arrière de la Gallardo, sans lisser les arêtes de caractère qui doivent au contraire rester des ruptures nettes, a demandé plusieurs itérations de reconstruction des surfaces de raccord.
+- **Anticiper le paramétrage avant d'instancier.** Sur le moteur, décider quelles cotes du piston et de la bielle devaient être communes aux quatre instances (pour rester modifiables globalement) plutôt que figées localement a dû être tranché avant l'assemblage, pas après — revenir dessus après coup aurait annulé l'intérêt de l'instanciation.
+
+## Solutions mises en œuvre
+
+- Mécanisme cinématique complet du bras de pelleteuse (DMU Kinematics), avec vérification d'interférence sur toute la course et enveloppe de portée/fouille tracée.
+- Modèle surfacé Classe-A de la carrosserie Gallardo, panneaux raccordés en continuité tangente/courbure maîtrisée, moitié symétrisée.
+- Assemblage paramétrique du bas-moteur 4 cylindres, bielle et piston instanciés, vérifié sur un tour de vilebrequin complet.
+- Deux vidéos d'animation (surfaçage Gallardo, rotation moteur) illustrant les résultats.
+
+## Résultats
+
+Ces trois projets sont des exercices de pratique personnelle, pas des livrables mesurés en production : il n'existe aucun résultat chiffré à rapporter, et ce n'est pas leur objet. Ce qu'ils démontrent concrètement : un mécanisme à trois degrés de liberté vérifié sans interférence sur toute sa course, une surface Classe-A avec continuité de courbure maîtrisée entre panneaux, et un assemblage moteur paramétré qui reste géométriquement cohérent sur un cycle complet de rotation.
+
+## Ce que j'en retiens
+
+Ces trois projets se sont déroulés en parallèle de ma formation *Catia V5 Beginner to Advanced — Automotive and Industrial* (Udemy, mai 2025) et de *SOLIDWORKS 2024 Essential Training* (LinkedIn Learning, octobre 2025) : plutôt que de m'arrêter aux exercices guidés, je voulais vérifier que je pouvais mener un mécanisme, une surface Classe-A et un assemblage jusqu'à un résultat vérifié, sur des cas que je choisissais moi-même. Si c'était à refaire, je paramétrerais les cotes communes du moteur dès le premier brouillon de pièce plutôt qu'après coup — repartir d'une pièce déjà modélisée pour l'ouvrir au paramétrage a demandé une passe de reprise qu'une meilleure anticipation aurait évitée.

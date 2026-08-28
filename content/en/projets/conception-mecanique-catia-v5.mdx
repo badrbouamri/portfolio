@@ -1,0 +1,116 @@
+---
+slug: "conception-mecanique-catia-v5"
+locale: "en"
+title: "Mechanical modelling and simulation in CATIA V5 — three studies"
+subtitle: "Kinematics, Class-A surfacing and engine assembly, personal projects"
+category: "conception"
+organisation: "Personal project"
+organisationPublic: true
+location: "Kénitra, Morocco"
+period:
+  start: "To be confirmed" # ⚠️ TO COMPLETE — exact dates unknown, do not guess
+  end: "To be confirmed" # ⚠️ TO COMPLETE — exact dates unknown, do not guess
+durationLabel: "To be confirmed" # ⚠️ TO COMPLETE
+role: "Mechanical designer (personal projects)"
+summary: "Three personal mechanical design exercises in CATIA V5: kinematic simulation of an excavator arm (DMU Kinematics), Class-A surfacing of a Lamborghini Gallardo body, and an animated four-cylinder engine assembly."
+featured: true
+order: 7
+confidential: false
+tools: ["CATIA V5", "Part Design", "Assembly Design", "DMU Kinematics", "Generative Shape Design", "Sketcher"]
+methods: ["Kinematic modelling", "Class-A surfacing", "Parametric assembly design"]
+kpis: []
+hero: null
+gallery: []
+links: []
+related: ["etude-thermodynamique-turbine-vapeur"]
+---
+
+## Context
+
+Three personal mechanical design exercises in CATIA V5, done outside any academic or professional setting, to build solid practice across three distinct modelling disciplines: kinematic mechanism simulation (DMU Kinematics), Class-A surfacing (Generative Shape Design), and parametric assembly design (Assembly Design).
+
+## Problem
+
+These three areas rely on very different modelling logic — kinematic constraints, surface continuity, assembly parametrisation — that no single project could cover. The goal was to practise each on a concrete case, through to a verified result rather than a static model alone.
+
+## Objectives
+
+- Model a complete mechanism (excavator arm) and verify its kinematics across its full range of motion.
+- Reproduce a car body in Class-A surfacing, with controlled curvature continuity between panels.
+- Assemble a four-cylinder engine with reusable (parametrised and instanced) parts, and verify its consistency through a full crankshaft revolution.
+- Produce, for each project, a verification of the result rather than a static render alone.
+
+## My role
+
+Three personal projects carried out alone, from modelling through to verification (kinematics, surface continuity, or assembly consistency depending on the project).
+
+## Approach & methodology
+
+### 1. Excavator arm — kinematic simulation
+
+The front assembly of an excavator — boom, stick, bucket, bucket linkage, and three double-acting hydraulic cylinders — was modelled part by part in Part Design, then assembled with constraints in Assembly Design.
+
+The assembly was then converted into a kinematic mechanism in DMU Kinematics: revolute joints at every pin connection, cylindrical joints for the piston rods, and three prismatic commands driving the cylinder extensions. With these three commands, the mechanism has three degrees of freedom, letting the bucket be positioned anywhere in its working envelope.
+
+The simulation was used to check the mechanism before anything else: sweeping each cylinder through its full stroke to trace the reach and dig envelope, then running the bucket linkage through its full range to confirm no interference between the power link, the H-link and the boom at the extremes of travel.
+
+### 2. Lamborghini Gallardo — surfacing study
+
+A styling reproduction of the Gallardo body, built as an exercise in automotive surfacing rather than as an original design. The whole exterior is surface-based: a wireframe skeleton of section curves was built first, then skinned with multi-section and blend surfaces in Generative Shape Design.
+
+The interesting part of this project is not the shape, it's the quality of the transitions. Body panels were joined with tangent or curvature continuity depending on the zone — never by default — so the reflection lines stay clean over the shoulder and the rear haunch, while deliberately keeping the Gallardo's sharp character lines as controlled breaks rather than blend accidents. The front and rear ends were built on one half and mirrored about the centre plane, keeping the model symmetric and editable.
+
+Air intakes, wheel arch openings and glazing were cut with split and trim operations on the master surface, and the wheels were modelled separately as a solid pattern and instanced into the assembly.
+
+<video controls preload="metadata" playsInline className="my-6 w-full border border-rule bg-surface">
+  <source src="/videos/projets/conception-mecanique-catia-v5/lamborghini-gallardo-surfacage.mp4" type="video/mp4" />
+</video>
+
+*Video — walkthrough of the surfaced Gallardo model in CATIA V5.*
+
+### 3. Four-cylinder engine — assembly and crank-slider motion
+
+The bottom end of an internal combustion engine, modelled and assembled in CATIA V5. The crankshaft was built from its journals, webs and counterweights, with the four crankpins offset around the axis; the connecting rod and piston were each modelled once and instanced four times, so a change to the piston propagates across the whole engine.
+
+Assembly Design constraints locate every component relative to the block: coincidence on the crankshaft axis, rods pinned to the crankpins, pistons kept concentric with their bores. The result is an assembly that stays consistent when the crank turns, rather than one that only holds together in a static view.
+
+The crank-slider chain was then driven through a full revolution to verify the geometry: each piston reaching top and bottom dead centre in the right order, rods clearing the counterweights and cylinder walls throughout the cycle, and stroke/rod length staying consistent with the bore.
+
+<video controls preload="metadata" playsInline className="my-6 w-full border border-rule bg-surface">
+  <source src="/videos/projets/conception-mecanique-catia-v5/moteur-4-cylindres.mp4" type="video/mp4" />
+</video>
+
+*Video — crankshaft rotation on the four-cylinder engine assembly in CATIA V5.*
+
+## Tools & methods
+
+`CATIA V5` `Part Design` `Assembly Design` `DMU Kinematics` `Generative Shape Design` `Sketcher`
+
+## Engineering analysis
+
+**Verify the mechanism before showing it off.** On the excavator arm, the kinematic simulation wasn't built to produce a nice animation first — it was built to check, across the full stroke of the three cylinders, that no interference exists between the power link, the H-link and the boom. Geometry that looks fine at rest can still collide in motion; only a full sweep of the degree of freedom reveals that.
+
+**Surface continuity as a choice, not a default setting.** On the Gallardo, panels were joined in tangent or curvature continuity depending on the zone, never by default: curvature continuity everywhere would have also smoothed out the car's deliberately sharp character lines on the shoulders, which need to stay as clean breaks instead. The continuity level (G0/G1/G2) is therefore decided panel by panel, based on what the actual shape requires.
+
+**Instancing rather than duplicating.** On the engine, the connecting rod and piston are modelled once and instanced four times, parametrised rather than duplicated independently. That choice has a cost — the common parameters have to be anticipated when designing the reference part — but it guarantees that a later fix on one cylinder propagates to the other three without manual rework, which matters as soon as a dimension changes after an interference is found in simulation.
+
+## Difficulties encountered
+
+- **Bucket linkage interference at the end of travel.** An early version of the bucket linkage interfered with the boom at maximum dig position; the H-link geometry had to be readjusted after this first kinematic sweep, before revalidating the full stroke.
+- **Curvature continuity without erasing the character lines.** Getting clean G2 continuity on the Gallardo's shoulder and rear haunch, without smoothing out the character edges that needed to stay as sharp breaks, took several iterations of rebuilding the blend surfaces.
+- **Planning the parametrisation before instancing.** On the engine, deciding which piston and rod dimensions had to be shared across the four instances (to stay globally editable) rather than fixed locally had to be settled before assembly, not after — revisiting it afterward would have defeated the purpose of instancing.
+
+## Solutions implemented
+
+- Complete kinematic mechanism of the excavator arm (DMU Kinematics), with interference checking across the full stroke and a traced reach/dig envelope.
+- Class-A surfaced model of the Gallardo body, panels joined with controlled tangent/curvature continuity, mirrored half.
+- Parametric assembly of the four-cylinder bottom end, connecting rod and piston instanced, verified through a full crankshaft revolution.
+- Two animation videos (Gallardo surfacing, engine rotation) illustrating the results.
+
+## Results
+
+These three projects are personal practice exercises, not deliverables measured in production: there is no numeric result to report, and that isn't their purpose. What they concretely demonstrate: a three-degree-of-freedom mechanism verified free of interference across its full stroke, a Class-A surface with controlled curvature continuity between panels, and a parametrised engine assembly that stays geometrically consistent through a full rotation cycle.
+
+## What I took from it
+
+These three projects ran alongside my *Catia V5 Beginner to Advanced — Automotive and Industrial* training (Udemy, May 2025) and *SOLIDWORKS 2024 Essential Training* (LinkedIn Learning, October 2025): rather than stopping at guided exercises, I wanted to confirm I could carry a mechanism, a Class-A surface and an assembly through to a verified result, on cases I chose myself. If I did it again, I'd parametrise the engine's shared dimensions from the first part draft rather than after the fact — reopening an already-modelled part for parametrisation took a rework pass that better planning would have avoided.
