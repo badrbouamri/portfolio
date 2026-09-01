@@ -1,33 +1,93 @@
 @import "tailwindcss";
 
+/* Redesign (BRIEF-REFONTE-PORTFOLIO.md, 2026-09-02) — Phase 1. Same 8 token
+   names/roles as before (see DESIGN.md → Colors for the pre-redesign values,
+   kept there for history), reskinned to the brief's blue-night/brass palette
+   with a light counterpart designed to match (the brief itself is dark-only;
+   keeping the light/dark toggle was an explicit owner call — see DESIGN.md →
+   "Redesign in progress"). `accent`/`signal` also change ROLE, not just hex:
+   `accent` (brass) now carries data emphasis — KPI figures, links, active
+   state — taking over what `signal` (amber) used to do; `signal` (blue) is
+   reserved for focus rings and the backdrop halo only, per the brief's own
+   "jamais du texte" rule. `--surface-hover` is new (brief's `ink-400`).
+   Contrast computed directly (WCAG relative luminance), not eyeballed:
+   light ink/paper 16.5:1, graphite/paper 9.4:1, steel/paper 4.9:1, accent/paper
+   5.8:1; dark accent/paper 11.4:1, graphite/paper 7.7:1, signal/paper 5.1:1
+   (light signal/paper also 5.1:1) — all clear 4.5:1. */
 :root {
-  --paper: #f4f5f6;
+  --paper: #f2f5fc;
   --surface: #ffffff;
-  --ink: #14181b;
-  --graphite: #3a4249;
-  /* Darkened from the original PRD §8.2 value (#78838c) after M4's Lighthouse/axe
-     pass found it failed WCAG AA (4.5:1) at the 12px sizes actually used sitewide
-     for eyebrows/captions/dates — this shade holds 4.5:1+ against both --paper and
-     --surface while keeping the same steel-gray hue. */
-  --steel: #626d77;
-  --rule: #dce0e3;
-  --accent: #0b5563;
-  /* Darkened from the original PRD §8.2 value (#b26b00), which measured 4.2:1 (not
-     the required 4.5:1) against --surface for the 14px KPI figures — same amber hue. */
-  --signal: #9c5e00;
-  /* DESIGN.md → Motion: natural deceleration, used on every authored reveal/state
-     transition sitewide instead of a plain ease-out — confident arrivals, never bounce. */
+  --surface-hover: #e7ecfa;
+  --ink: #0a1533;
+  --graphite: #33415e;
+  --steel: #5b6b8c;
+  --rule: rgba(10, 21, 51, 0.1);
+  --rule-active: rgba(122, 90, 24, 0.45);
+  --accent: #7a5a18;
+  --on-accent: #f7f9ff;
+  --signal: #2f5fd9;
+  --halo-tint: rgba(47, 95, 217, 0.1);
+  --grain-opacity: 0;
+  /* DESIGN.md → Motion: natural deceleration, used on scroll reveals/state
+     transitions sitewide — confident arrivals, never bounce. Matches the
+     brief's `ease.soft`. `--ease-interact` is the brief's `ease.out`, for
+     hover/press feedback specifically — introduced here, not yet rewired
+     into every existing hover transition (Phase 7 does that pass). */
   --ease-plot: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-interact: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Two selectors carry identical dark values on purpose: the plain
+   `[data-theme]` attribute is what the inline bootstrap script (layout.tsx)
+   sets once the reader picks a mode explicitly (localStorage-backed, wins
+   over system); the media-query form covers everyone else, following the OS
+   setting with no JS and no flash. `:not([data-theme="light"])` keeps an
+   explicit light choice from being re-overridden by the media query. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #050a1c;
+    --surface: #0d1836;
+    --surface-hover: #122048;
+    --ink: #eaf0ff;
+    --graphite: #8fa3c8;
+    --steel: #6e80a6;
+    --rule: rgba(234, 240, 255, 0.08);
+    --rule-active: rgba(228, 192, 122, 0.45);
+    --accent: #e4c07a;
+    --on-accent: #050a1c;
+    --signal: #3e7bff;
+    --halo-tint: rgba(62, 123, 255, 0.18);
+    --grain-opacity: 0.035;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #050a1c;
+  --surface: #0d1836;
+  --surface-hover: #122048;
+  --ink: #eaf0ff;
+  --graphite: #8fa3c8;
+  --steel: #6e80a6;
+  --rule: rgba(234, 240, 255, 0.08);
+  --rule-active: rgba(228, 192, 122, 0.45);
+  --accent: #e4c07a;
+  --on-accent: #050a1c;
+  --signal: #3e7bff;
+  --halo-tint: rgba(62, 123, 255, 0.18);
+  --grain-opacity: 0.035;
 }
 
 @theme inline {
   --color-paper: var(--paper);
   --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
   --color-ink: var(--ink);
   --color-graphite: var(--graphite);
   --color-steel: var(--steel);
   --color-rule: var(--rule);
+  --color-rule-active: var(--rule-active);
   --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
   --color-signal: var(--signal);
 
   --text-xs: 12px;
@@ -39,6 +99,29 @@
   --text-2xl: 39px;
   --text-3xl: 49px;
 
+  /* Redesign type scale (BRIEF-REFONTE-PORTFOLIO.md §2.2). Named by role
+     rather than size, since the brief's numbers aren't a clean ratio off the
+     scale above. Fluid between the brief's mobile/desktop pair via clamp()
+     instead of a hand-wired breakpoint per component. Not yet applied to any
+     component — Phase 2 (Primitives) wires these into Button/Card/Stat/
+     SectionLabel; the scale above stays live for anything not migrated yet. */
+  --text-hero: clamp(40px, 6vw + 20px, 76px);
+  --text-hero--line-height: 1.02;
+  --text-hero--letter-spacing: -0.015em;
+  --text-h2: clamp(30px, 3vw + 20px, 44px);
+  --text-h2--line-height: 1.1;
+  --text-h3: clamp(19px, 1vw + 16px, 22px);
+  --text-h3--line-height: 1.25;
+  --text-lead: clamp(18px, 0.5vw + 16px, 20px);
+  --text-lead--line-height: 1.6;
+  --text-label: 11px;
+  --text-label--line-height: 1;
+  --text-label--letter-spacing: 0.22em;
+  --text-data-lg: clamp(36px, 4vw + 20px, 56px);
+  --text-data-lg--line-height: 1;
+  --text-caption: 13px;
+  --text-caption--line-height: 1.5;
+
   --spacing-1: 8px;
   --spacing-2: 16px;
   --spacing-3: 24px;
@@ -48,6 +131,11 @@
 
   --radius-none: 0px;
   --radius-hairline: 2px;
+  /* One-off exception, not part of the token system: every other radius in the
+     site is --radius-hairline (2px) or square. Scoped to SkillsToolbox's filter
+     tabs/pills only (the "pastilles" look explicitly requested for that
+     component) — do not reuse elsewhere. Logged in .impeccable/config.json. */
+  --radius-pill: 999px;
 
   --breakpoint-xs: 390px;
   --breakpoint-sm: 768px;
@@ -78,6 +166,39 @@ body {
   body {
     font-size: 17px;
   }
+}
+
+/* Redesign (BRIEF-REFONTE-PORTFOLIO.md §2.3): vertical rhythm defined once
+   here, consumed by Section.tsx. No child component may re-add vertical
+   section padding — that's the classic specificity fight the brief calls
+   out explicitly. 768px matches the project's existing --breakpoint-sm
+   (already overridden from Tailwind's default 640px), same breakpoint the
+   body font-size switch above already uses. */
+.section {
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-top: 168px;
+    padding-bottom: 168px;
+  }
+}
+
+/* <Backdrop /> (components/layout/Backdrop.tsx), BRIEF §2.4. Base paint is
+   `body`'s own background above; these are the two layers on top of it.
+   Grain opacity is 0 in light mode (--grain-opacity token) — the brief
+   designed the turbulence overlay for a dark ground only, so light mode
+   gets the halo without the grain rather than an untested inversion. */
+.backdrop-halo {
+  background: radial-gradient(ellipse 60% 60% at 50% -10%, var(--halo-tint), transparent 70%);
+}
+
+.backdrop-grain {
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
 h1,
@@ -359,9 +480,9 @@ h3 {
   transition-delay: 400ms;
 }
 
-/* Skills matrix "pips" (components/skills/SkillsMatrix.tsx) — filled squares
+/* Skills level "pips" (components/skills/SkillsToolbox.tsx) — filled dots
    snap in like calibration marks being stamped, left to right, once the
-   matrix scrolls into view. Unfilled pips never animate; they're already the
+   legend scrolls into view. Unfilled pips never animate; they're already the
    "at rest" state. */
 .js-reveal .reveal-stagger.is-visible .pip-filled,
 .js-reveal .reveal.is-visible .pip-filled {
@@ -386,6 +507,26 @@ h3 {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* SkillsToolbox pill grid — a sober appear-in-place on mount and on every
+   filter change (not scroll-triggered like Reveal, since the grid is already
+   in view when a filter tab is clicked). Delay is set inline per pill in
+   SkillsToolbox.tsx. Respects prefers-reduced-motion via the sitewide
+   animation-duration override above, no extra gating needed here. */
+.skill-pill {
+  animation: skill-pill-in 220ms var(--ease-plot) both;
+}
+
+@keyframes skill-pill-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -545,6 +686,28 @@ a:hover > .cta-arrow-down {
 
 .text-editorial-accent {
   color: #b5342c;
+}
+
+/* Dark mode (2026-09-02): the fixed editorial red above fails 4.5:1 against
+   the dark paper/surface (2.99:1) — brightened here only, same hue family. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .text-editorial-accent {
+    color: #e2685d;
+  }
+}
+:root[data-theme="dark"] .text-editorial-accent {
+  color: #e2685d;
+}
+
+/* Homepage "Ce que je sais faire" skills grid (HomeSkillsGrid.tsx) — a very
+   subtle radial glow behind the center portrait on desktop, built from the
+   existing --color-accent token (no new color) rather than a flat shape. */
+.skills-photo-halo {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent) 22%, transparent) 0%,
+    transparent 70%
+  );
 }
 
 /* Print stylesheet — scoped mainly at case studies (PRD M7), but hiding site
