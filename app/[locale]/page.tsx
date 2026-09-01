@@ -123,15 +123,19 @@ export default function HomePage() {
       {/* About — first-person background blurb, replaces the Proof Points stat
           bar (2026-09-01). Two paragraph groups split by a rule: who I am /
           what I'm looking for, then the internships / Stellantis contribution /
-          tools I've built. */}
-      <Section title={t("about_title")}>
+          tools I've built. Eyebrow + short title and inline <b> emphasis on
+          key facts (roles, organisations, headline figures) reuse the
+          sitewide Section eyebrow convention and the prose-article `strong`
+          weight (500 — IBM Plex Sans ships no 700 file) instead of a one-off
+          font, so the scan-friendly layout doesn't cost the token system. */}
+      <Section eyebrow={t("about_eyebrow")} title={t("about_title")}>
         <Reveal stagger className="measure flex flex-col gap-4 text-sm text-graphite">
-          <p>{t("about_p1")}</p>
-          <p>{t("about_p2")}</p>
+          <p>{t.rich("about_p1", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}</p>
+          <p>{t.rich("about_p2", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}</p>
           <Rule className="my-2" />
-          <p>{t("about_p3")}</p>
-          <p>{t("about_p4")}</p>
-          <p>{t("about_p5")}</p>
+          <p>{t.rich("about_p3", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}</p>
+          <p>{t.rich("about_p4", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}</p>
+          <p>{t.rich("about_p5", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}</p>
         </Reveal>
       </Section>
 
