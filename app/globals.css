@@ -533,6 +533,38 @@ a:hover > .cta-arrow-down {
   transform: translateY(2px);
 }
 
+/* Engineering Projects rows (ProjectRow.tsx / ProjectsHeroBand.tsx) — a
+   deliberate one-off departure from the site's ink/graphite/accent token
+   system, requested explicitly to clone a reference template's look for
+   this one section (homepage + /projets). Scoped to these classes only so
+   it never leaks into the rest of the site's typography or color system;
+   see CLAUDE.md. */
+.font-editorial {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.text-editorial-accent {
+  color: #b5342c;
+}
+
+/* Dark hero band standing in for the reference screenshot's stock photo —
+   built from the same grid-line motif as .hero-grid-bg (just inverted for a
+   dark ground) instead of sourcing an unlicensed stock image. */
+.projects-hero-dark {
+  position: relative;
+  background: linear-gradient(180deg, #14181b 0%, #23292e 100%);
+}
+
+.projects-hero-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
 /* Print stylesheet — scoped mainly at case studies (PRD M7), but hiding site
    chrome on paper is universally correct so it's not gated to that route. */
 @media print {

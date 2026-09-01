@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
-import { ProjectCard } from "./ProjectCard";
+import { ProjectRow } from "@/components/case/ProjectRow";
 import type { CaseStudy } from "@/lib/schema";
 
 const CATEGORIES = ["methodes", "lean", "maintenance", "conception", "digital"] as const;
@@ -71,12 +71,9 @@ export function ProjectsExplorer({ caseStudies }: { caseStudies: CaseStudy[] }) 
           </Button>
         </div>
       ) : (
-        <div
-          key={activeCategory ?? "all"}
-          className="filter-grid grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {filtered.map((cs) => (
-            <ProjectCard key={cs.slug} caseStudy={cs} />
+        <div key={activeCategory ?? "all"} className="filter-grid flex flex-col gap-8">
+          {filtered.map((cs, i) => (
+            <ProjectRow key={cs.slug} caseStudy={cs} ctaLabel={t("card_cta")} reverse={i % 2 === 1} />
           ))}
         </div>
       )}

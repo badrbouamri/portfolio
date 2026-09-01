@@ -172,13 +172,22 @@ Near-square corners throughout — 2px border-radius is the system maximum (`--r
 - **Style:** transparent background, 1px `--rule` border, 2px radius, `--graphite` text, set in `--font-data` at 12px.
 - **State:** static display only in the current implementation (category badges, tool tags) — no selected/unselected toggle state exists yet outside the Projets category filter, which is a separate control, not a chip variant.
 
-### Cards (ProjectCard)
+### Engineering Projects rows (ProjectRow) — one-off exception
+**2026-09-01 reversal.** The bordered `ProjectCard` grid tile (below, kept for reference) was replaced on the homepage and `/projets` by `ProjectRow`, an editorial image+text row: photo on one side (alternating), title/subtitle/summary on the other. This is a **deliberate, explicit exception** to the token system, not a system update — the user asked twice, after being shown the conflict (this reference site's dark/serif/red look was already evaluated and rejected once before, see `docs/tasks.md` M7 §"Homepage redesign... scoped down after flagging the conflict"), to clone it anyway for this one section. It introduces two literal values outside the palette/type scale, both recorded as explicit `ignore-value` entries in `.impeccable/config.json` rather than added to the token system:
+- `.font-editorial` — `Georgia, "Times New Roman", serif`, used only for the row/section title and subtitle.
+- `.text-editorial-accent` — `#b5342c` (red), used only for the row subtitle.
+- The `/projets` page header (`ProjectsHeroBand`) reuses `.hero-grid-bg`'s grid-line motif inverted on a dark ground (`.projects-hero-dark`) rather than sourcing a stock photo, to approximate the reference's dark hero band without fabricating imagery.
+
+Do not extend `.font-editorial` / `.text-editorial-accent` to any other component — treat this as scoped to Engineering Projects rows only, not a precedent for future reference-site cloning.
+
+### Cards (ProjectCard) — superseded, kept for history
 - **Corner Style:** 0px radius.
 - **Background:** `--surface` on `--paper`.
 - **Border:** 1px `--rule` at rest, swaps to `--accent` on hover/focus.
 - **Shadow Strategy:** none at rest; on hover, a flat 4px `--rule` step-shadow plus a 2px upward translate (see Elevation).
 - **Internal Padding:** 16px (`--spacing-2`).
 - **Content pattern:** category tag → title (display face, `--text-md`) → mono metadata line (organisation · period) → summary (`--graphite`, 3-line clamp) → headline KPI in `--signal` mono → tool chips → mono CTA in `--accent` with a directional arrow that nudges 3px on hover.
+- No longer rendered anywhere as of 2026-09-01 (component file deleted); described here only so the Elevation/card-hover-step references elsewhere in this doc still resolve to something.
 
 ### Navigation
 - **Style:** mono, uppercase-tracked labels; underline is a ruler-tick sweep (`scaleX` from 0 to 1, accent-colored, 200ms ease-out) on hover/focus rather than a static or fading underline — the template gesture for every other sweep-fill on the site (buttons, headings) per the Motion → Plotter Rule.

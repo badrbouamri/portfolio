@@ -5,7 +5,7 @@ import { Rule } from "@/components/ui/Rule";
 import { Reveal } from "@/components/ui/Reveal";
 import { CoverBanner } from "@/components/layout/CoverBanner";
 import { OrgLogo } from "@/components/ui/OrgLogo";
-import { ProjectCard } from "@/app/[locale]/projets/_components/ProjectCard";
+import { ProjectRow } from "@/components/case/ProjectRow";
 import { getAllCaseStudies } from "@/lib/content";
 import { ORGANISATIONS } from "@/lib/organisations";
 import type { Locale } from "@/i18n/routing";
@@ -16,6 +16,7 @@ const AIC_SLUG = "aic-diagnostic-pliage-cintrage";
 
 export default function HomePage() {
   const t = useTranslations("Home");
+  const tProjets = useTranslations("Projets");
   const locale = useLocale() as Locale;
 
   const caseStudies = getAllCaseStudies(locale);
@@ -139,15 +140,17 @@ export default function HomePage() {
         </Reveal>
       </Section>
 
-      {/* Projets en vedette — 3 featured cards as of M7 (Méthodes + Conception +
+      {/* Engineering Projects — 3 featured rows as of M7 (Méthodes + Conception +
           Digital, per PRD §4.4): the 3rd (conception) slot that was a tracked
-          content gap through M2–M6 is now filled. Reuses the same ProjectCard
-          as /projets (tool chips included) instead of a separate, thinner
-          inline card — one card design for the whole site. */}
-      <Section title={t("projets_eyebrow")}>
-        <Reveal stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((cs: CaseStudy) => (
-            <ProjectCard key={cs.slug} caseStudy={cs} />
+          content gap through M2–M6 is now filled. Restyled 2026-09-01 from the
+          ProjectCard grid to editorial image+text rows (ProjectRow, shared
+          with /projets) per an explicit reference-screenshot request — see
+          CLAUDE.md. */}
+      <Section>
+        <h2 className="font-editorial text-3xl text-ink sm:text-4xl">{t("projets_eyebrow")}</h2>
+        <Reveal stagger className="mt-6 flex flex-col gap-8">
+          {featured.map((cs: CaseStudy, i: number) => (
+            <ProjectRow key={cs.slug} caseStudy={cs} ctaLabel={tProjets("card_cta")} reverse={i % 2 === 1} />
           ))}
         </Reveal>
         <Link
