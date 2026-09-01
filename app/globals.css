@@ -547,24 +547,6 @@ a:hover > .cta-arrow-down {
   color: #b5342c;
 }
 
-/* Dark hero band standing in for the reference screenshot's stock photo —
-   built from the same grid-line motif as .hero-grid-bg (just inverted for a
-   dark ground) instead of sourcing an unlicensed stock image. */
-.projects-hero-dark {
-  position: relative;
-  background: linear-gradient(180deg, #14181b 0%, #23292e 100%);
-}
-
-.projects-hero-dark::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-
 /* Print stylesheet — scoped mainly at case studies (PRD M7), but hiding site
    chrome on paper is universally correct so it's not gated to that route. */
 @media print {
