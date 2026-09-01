@@ -8,7 +8,7 @@ export function CvButton({ className = "" }: { className?: string }) {
     <Link
       href="/cv"
       prefetch={false}
-      className={`inline-flex items-center gap-1 rounded-[2px] bg-accent px-3 py-1.5 text-sm font-medium text-surface transition-colors hover:bg-ink ${className}`}
+      className={`sweep-fill inline-flex items-center gap-1 rounded-[2px] bg-accent px-3 py-1.5 text-sm font-medium text-surface ${className}`}
     >
       {t("cv_download")} <span className="cta-arrow-down">↓</span>
     </Link>

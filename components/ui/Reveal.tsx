@@ -6,17 +6,27 @@ type RevealProps = {
   children: ReactNode;
   /** Animate children one-by-one (nth-child stagger) instead of as a single block. */
   stagger?: boolean;
+  /** A single line (eyebrow, heading) reveals via a left-to-right clip-path
+   *  sweep instead of a fade/rise — the ruler-tick gesture, not a stagger. */
+  sweep?: boolean;
   className?: string;
   as?: "div" | "ul" | "ol";
   "data-print-avoid-break"?: boolean;
 };
 
-// Scroll-triggered fade/rise, the same motion as the hero-reveal keyframe in
-// globals.css but fired by IntersectionObserver instead of on mount, for
+// Scroll-triggered reveal, the same motion family as the hero-reveal keyframe
+// in globals.css but fired by IntersectionObserver instead of on mount, for
 // content below the fold. Gated behind the `.js-reveal` class the inline
 // bootstrap script in layout.tsx adds to <html> — without it (no JS) the
 // underlying CSS never hides anything, so content is always visible.
-export function Reveal({ children, stagger = false, className = "", as = "div", ...rest }: RevealProps) {
+export function Reveal({
+  children,
+  stagger = false,
+  sweep = false,
+  className = "",
+  as = "div",
+  ...rest
+}: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -42,13 +52,10 @@ export function Reveal({ children, stagger = false, className = "", as = "div", 
     return () => observer.disconnect();
   }, []);
 
+  const variant = sweep ? "reveal-sweep" : stagger ? "reveal-stagger" : "reveal";
   const Tag = as as "div";
   return (
-    <Tag
-      ref={ref}
-      className={`${stagger ? "reveal-stagger" : "reveal"} ${visible ? "is-visible" : ""} ${className}`}
-      {...rest}
-    >
+    <Tag ref={ref} className={`${variant} ${visible ? "is-visible" : ""} ${className}`} {...rest}>
       {children}
     </Tag>
   );

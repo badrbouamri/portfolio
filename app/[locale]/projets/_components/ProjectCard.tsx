@@ -22,7 +22,7 @@ export function ProjectCard({ caseStudy }: ProjectCardProps) {
   return (
     <Link
       href={`/projets/${caseStudy.slug}`}
-      className="group flex flex-col gap-3 border border-rule bg-surface p-4 transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_4px_0_0_var(--color-rule)]"
+      className="group flex flex-col gap-3 border border-rule bg-surface p-4 transition-[border-color,transform,box-shadow] duration-200 ease-[var(--ease-plot)] hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_4px_0_0_var(--color-rule)]"
     >
       <Tag>{t(`category_${caseStudy.category}`)}</Tag>
 

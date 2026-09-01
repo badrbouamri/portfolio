@@ -1,4 +1,5 @@
 import { type ReactNode } from "react";
+import { Reveal } from "@/components/ui/Reveal";
 
 type SectionProps = {
   eyebrow?: string;
@@ -11,9 +12,15 @@ export function Section({ eyebrow, title, children, className = "" }: SectionPro
   return (
     <section className={`mx-auto w-full max-w-[1200px] px-4 py-8 sm:px-6 ${className}`}>
       {eyebrow ? (
-        <p className="mb-2 font-data text-xs uppercase tracking-wide text-steel">{eyebrow}</p>
+        <Reveal sweep>
+          <p className="mb-2 font-data text-xs uppercase tracking-wide text-steel">{eyebrow}</p>
+        </Reveal>
       ) : null}
-      {title ? <h2 className="mb-4 text-xl text-ink">{title}</h2> : null}
+      {title ? (
+        <Reveal sweep>
+          <h2 className="mb-4 text-xl text-ink">{title}</h2>
+        </Reveal>
+      ) : null}
       {children}
     </section>
   );

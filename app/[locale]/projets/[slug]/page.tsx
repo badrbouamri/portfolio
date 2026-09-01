@@ -34,10 +34,8 @@ export default async function CaseStudyPage({
 function CaseStudyBody({ caseStudy }: { caseStudy: NonNullable<ReturnType<typeof getCaseStudy>> }) {
   return (
     <Section>
-      <p className="mb-2 font-data text-xs uppercase tracking-wide text-steel">
-        {caseStudy.subtitle}
-      </p>
-      <h1 className="mb-6 text-2xl text-ink">{caseStudy.title}</h1>
+      <h1 className="text-balance text-xl text-ink sm:text-2xl">{caseStudy.title}</h1>
+      <p className="measure mb-6 mt-2 text-sm text-graphite sm:text-base">{caseStudy.subtitle}</p>
 
       <Cartouche frontmatter={caseStudy} />
 

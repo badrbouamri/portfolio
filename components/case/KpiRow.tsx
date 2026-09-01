@@ -12,7 +12,7 @@ export function KpiRow({ kpis }: { kpis: CaseStudyFrontmatter["kpis"] }) {
     >
       {kpis.map((kpi) => (
         <div key={kpi.label}>
-          <p className="font-data text-2xl text-signal">{kpi.value}</p>
+          <p className="kpi-snap font-data text-2xl text-signal">{kpi.value}</p>
           <p className="text-xs text-steel">
             {kpi.label}
             {kpi.note ? ` — ${kpi.note}` : ""}

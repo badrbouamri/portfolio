@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "app/globals.css"
+        ],
+        "createdAt": "2026-08-28T23:45:17.660Z",
+        "reason": "hero-grid-bg is the site's intentional blueprint/technical-drawing motif (PRD §8.1/§8.6, echoed by the Cartouche); built from the single --rule token, no new color, predates this session"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "17px",
+        "createdAt": "2026-08-29T01:55:00.329Z",
+        "reason": "pre-existing, matches DESIGN.md prose spec 'Body: 16px mobile / 17px desktop' — not part of this edit"
+      }
+    ]
+  }
+}

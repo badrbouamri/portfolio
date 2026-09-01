@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-29T00:00:00Z",
+  "title": "Design System: Badr Eddine ELBOUAMRI — Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Cool Paper", "canonical": "#f4f5f6", "tonalRamp": ["#14181b", "#2a2f33", "#3a4249", "#626d77", "#a4abb0", "#c9ced1", "#dce0e3", "#f4f5f6"] },
+      "surface": { "role": "neutral", "displayName": "Surface White", "canonical": "#ffffff", "tonalRamp": ["#14181b", "#3a4249", "#626d77", "#a4abb0", "#dce0e3", "#eef0f1", "#f7f8f8", "#ffffff"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#14181b", "tonalRamp": ["#0a0c0e", "#14181b", "#22282c", "#3a4249", "#626d77", "#8f9599", "#c9ced1", "#f4f5f6"] },
+      "graphite": { "role": "neutral", "displayName": "Graphite", "canonical": "#3a4249", "tonalRamp": ["#14181b", "#22282c", "#3a4249", "#525b62", "#78838c", "#a4abb0", "#c9ced1", "#f4f5f6"] },
+      "steel": { "role": "neutral", "displayName": "Steel", "canonical": "#626d77", "tonalRamp": ["#14181b", "#3a4249", "#4c555d", "#626d77", "#8f9599", "#b3b9bd", "#d3d7d9", "#f4f5f6"] },
+      "rule": { "role": "neutral", "displayName": "Rule", "canonical": "#dce0e3", "tonalRamp": ["#3a4249", "#626d77", "#a4abb0", "#c4c9cc", "#dce0e3", "#eaedee", "#f4f5f6", "#ffffff"] },
+      "accent": { "role": "primary", "displayName": "Petrol", "canonical": "#0b5563", "tonalRamp": ["#04191d", "#07313a", "#0b5563", "#12717f", "#2c96a3", "#6ebfc9", "#a9dce2", "#e0f3f5"] },
+      "signal": { "role": "secondary", "displayName": "Industrial Amber", "canonical": "#9c5e00", "tonalRamp": ["#2b1900", "#4d2d00", "#734400", "#9c5e00", "#c47c1a", "#e2a353", "#f0c890", "#fbe9d1"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "H1–H3, section labels. IBM Plex Sans Condensed 600." },
+      "body": { "displayName": "Body", "purpose": "All prose and UI copy. IBM Plex Sans 400/500." },
+      "data": { "displayName": "Data", "purpose": "Every number, date, KPI, tool tag, figure caption, and Cartouche field — unconditionally." }
+    },
+    "shadows": [
+      { "name": "card-hover-step", "value": "0 4px 0 0 var(--color-rule)", "purpose": "ProjectCard hover state — a flat drafting-ruler step, not ambient elevation. The system's only shadow." }
+    ],
+    "motion": [
+      { "name": "hero-reveal", "value": "opacity 0→1, translateY 8px→0, 400ms ease-out", "purpose": "One orchestrated page-load reveal for hero content, staggered by ~80ms per element." },
+      { "name": "cartouche-field-reveal", "value": "opacity 0→1, translateY 8px→0, 350ms ease-out, per-field stagger 0/50/100/150/200/250ms", "purpose": "Cartouche fields stamping in left-to-right/top-to-bottom on case-study load." },
+      { "name": "nav-underline-sweep", "value": "transform: scaleX(0→1), 200ms ease-out, transform-origin left", "purpose": "Nav link hover/focus underline — a ruler-tick sweep, not a fade." },
+      { "name": "reduced-motion-override", "value": "animation-duration/transition-duration: 0.01ms !important under prefers-reduced-motion: reduce", "purpose": "Disables all motion sitewide when requested." }
+    ],
+    "breakpoints": [
+      { "name": "xs", "value": "390px" },
+      { "name": "sm", "value": "768px" },
+      { "name": "md", "value": "1024px" },
+      { "name": "lg", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Default call-to-action button (e.g. 'Voir les projets').",
+      "html": "<button class=\"ds-btn-primary\">Voir les projets</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 16px; font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; color: #ffffff; background: #0b5563; border: none; border-radius: 2px; transition: background-color 150ms ease; } .ds-btn-primary:hover { background: #14181b; } .ds-btn-primary:focus-visible { outline: 2px solid #0b5563; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary action button (e.g. 'Télécharger le CV').",
+      "html": "<button class=\"ds-btn-secondary\">Télécharger le CV</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 16px; font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; color: #14181b; background: transparent; border: 1px solid #dce0e3; border-radius: 2px; transition: border-color 150ms ease, color 150ms ease; } .ds-btn-secondary:hover { border-color: #0b5563; color: #0b5563; } .ds-btn-secondary:focus-visible { outline: 2px solid #0b5563; outline-offset: 2px; }"
+    },
+    {
+      "name": "Tag / Tool Chip",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Category badge and tool-tag chip used on project cards and case studies.",
+      "html": "<span class=\"ds-tag\">Méthodes</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; padding: 2px 8px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #3a4249; background: transparent; border: 1px solid #dce0e3; border-radius: 2px; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "card-project",
+      "description": "Case-study index/homepage card: category tag, title, org/period, summary, headline KPI, tool chips, CTA.",
+      "html": "<a class=\"ds-card-project\" href=\"#\"><span class=\"ds-tag\">Méthodes</span><h3 class=\"ds-card-title\">Maîtrise du coût de transformation</h3><p class=\"ds-card-meta\">Stellantis Kénitra · 2025 → 2026</p><p class=\"ds-card-summary\">Déploiement DMAIC pour réduire le coût de rebut sur une ligne d'assemblage.</p><p class=\"ds-card-kpi\">−33,8 % <span class=\"ds-card-kpi-label\">coût de rebut</span></p><span class=\"ds-card-cta\">Lire l'étude de cas →</span></a>",
+      "css": ".ds-card-project { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #ffffff; border: 1px solid #dce0e3; text-decoration: none; transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease; } .ds-card-project:hover { border-color: #0b5563; transform: translateY(-2px); box-shadow: 0 4px 0 0 #dce0e3; } .ds-card-title { font-family: 'IBM Plex Sans Condensed', ui-sans-serif, system-ui, sans-serif; font-weight: 600; font-size: 20px; color: #14181b; margin: 0; } .ds-card-meta { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #626d77; margin: 0; } .ds-card-summary { font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; color: #3a4249; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; } .ds-card-kpi { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 25px; color: #9c5e00; margin: 0; } .ds-card-kpi-label { margin-left: 8px; font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 12px; font-weight: 400; color: #626d77; } .ds-card-cta { margin-top: auto; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #0b5563; }"
+    },
+    {
+      "name": "Cartouche Field",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "One labelled field of the signature Cartouche title block (technical-drawing style).",
+      "html": "<div class=\"ds-cartouche-field\"><p class=\"ds-cartouche-label\">Organisation</p><p class=\"ds-cartouche-value\">Stellantis Kénitra</p></div>",
+      "css": ".ds-cartouche-field { border-top: 1px solid #dce0e3; padding: 8px 12px; } .ds-cartouche-label { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #626d77; margin: 0; } .ds-cartouche-value { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 14px; color: #14181b; margin: 0; }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Header navigation link with ruler-tick underline sweep on hover/focus.",
+      "html": "<a class=\"ds-nav-link\" href=\"#\">Projets</a>",
+      "css": ".ds-nav-link { position: relative; font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; color: #14181b; text-decoration: none; padding-bottom: 2px; } .ds-nav-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: #0b5563; transform: scaleX(0); transform-origin: left; transition: transform 200ms ease-out; } .ds-nav-link:hover::after, .ds-nav-link:focus-visible::after { transform: scaleX(1); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Cartouche",
+    "overview": "This is not a personal-brand site borrowing engineering motifs for flavor; it is styled as if the site itself were a piece of technical documentation — a drawing sheet, a routing card, a process standard. Every recurring device (the bordered field grid of the Cartouche, monospaced numeric data, hairline rules as the primary separator, small-caps mono eyebrows) is drawn from the actual vernacular of mechanical engineering paperwork, not from a generic 'clean minimal' aesthetic. Precision is the aesthetic: near-square corners, no shadows beyond a functional 1px hairline, no gradients, no decorative motion.\n\nThe palette reads as industrial instrumentation — petrol accent, graphite ink, amber for data emphasis only — deliberately avoiding both the generic 'engineering blue' of enterprise software and the warm cream/terracotta or near-black/acid palettes that now read as AI-generated template defaults. The typographic system is one superfamily (IBM Plex) used in three registers — condensed display for structure, regular sans for prose, mono for every number — which is what makes the numeric data (KPIs, dates, tool tags) visually legible as data rather than incidental text.",
+    "keyCharacteristics": [
+      "Flat, bordered surfaces — hairline rules do the separating work cards-with-shadows would do elsewhere.",
+      "Near-square corners (2px max radius) everywhere; nothing rounds enough to feel soft.",
+      "Amber (--signal) is rationed to data emphasis only — KPI figures, chart highlights, active filters — never decoration.",
+      "All numeric content is monospaced, unconditionally, sitewide.",
+      "One signature structural device (the Cartouche) carries the site's entire visual personality; everything else stays quiet by comparison.",
+      "Motion is a single orchestrated on-load reveal per view — never scroll-jacking, never a hover transform beyond an instant color shift or a 2–3px nudge."
+    ],
+    "rules": [
+      { "name": "The Hairline Rule", "body": "Separation between regions is drawn with a 1px --rule border, never a box-shadow. The one sanctioned exception is the project card's hover state, which uses a flat 4px offset step-shadow, not ambient elevation.", "section": "colors" },
+      { "name": "The Amber Rationing Rule", "body": "If amber appears more than twice in a single viewport, remove one instance; it is a data-emphasis color, never a decorative one.", "section": "colors" },
+      { "name": "The All-Numbers-Are-Mono Rule", "body": "Every number on the site sets in --font-data, no exceptions. French number formatting applies in FR (comma decimal, non-breaking space before %).", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "No box-shadow softens or blurs. Where a shadow exists at all, it is a hard-edged flat offset used as a state cue, never as ambient depth.", "section": "elevation" },
+      { "name": "The One-Signature Rule", "body": "The Cartouche's field-grid layout is exclusive to case studies. No other section may reuse its bordered-field-grid composition.", "section": "components" }
+    ],
+    "dos": [
+      "Do set every number, date, and tag in --font-data (IBM Plex Mono) — no exceptions, sitewide.",
+      "Do use hairline (1px --rule) borders as the default separator between regions instead of shadows or card elevation.",
+      "Do keep border-radius at 2px or 0px — nothing rounder exists in this system.",
+      "Do ration --signal (amber) strictly to data emphasis: KPI figures, chart highlights, active filter state.",
+      "Do use structural numbering (01/02/03) only where the underlying content is genuinely sequential (DMAIC, 8D, process steps).",
+      "Do respect prefers-reduced-motion: reduce, which zeroes out every animation/transition duration sitewide."
+    ],
+    "donts": [
+      "Don't add gradients, glassmorphism, drop shadows beyond the one functional step-shadow, or particle/decorative effects.",
+      "Don't introduce a second bordered-field-grid layout outside the Cartouche.",
+      "Don't use amber, or any color, as pure decoration — every color in this system carries a semantic role.",
+      "Don't render skill/competency levels as percentage bars — use evidence links instead.",
+      "Don't introduce a second accent hue or a warmer/cooler neutral ramp without updating DESIGN.md first."
+    ]
+  }
+}

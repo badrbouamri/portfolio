@@ -1,10 +1,8 @@
-import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/Section";
 import { Rule } from "@/components/ui/Rule";
 import { Reveal } from "@/components/ui/Reveal";
-import { CvButton } from "@/components/layout/CvButton";
 import { CoverBanner } from "@/components/layout/CoverBanner";
 import { OrgLogo } from "@/components/ui/OrgLogo";
 import { ProjectCard } from "@/app/[locale]/projets/_components/ProjectCard";
@@ -19,7 +17,7 @@ const AIC_SLUG = "aic-diagnostic-pliage-cintrage";
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <div>
-      <p className="font-data text-2xl text-signal sm:text-3xl">{value}</p>
+      <p className="kpi-snap font-data text-2xl text-signal sm:text-3xl">{value}</p>
       <p className="mt-1 text-xs text-graphite sm:text-sm">{label}</p>
     </div>
   );
@@ -87,54 +85,23 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Cover — a production-line schematic drawn in the site's own blueprint
-          language (grid + line-draw animation) instead of stock photography;
-          see docs/redesign-brief.md and the 2026-08-28 cover discussion. */}
+      {/* Cover — a desk photo treated as an accent-color duotone so it reads
+          as part of the site's monochrome blueprint system rather than a
+          full-color stock photo; see docs/redesign-brief.md and the
+          2026-08-28/2026-08-29 cover discussions. */}
       <CoverBanner />
 
-      {/* Hero — a technical-drawing grid backdrop (--rule only, no new color)
-          gives this more presence than a plain text block without borrowing
-          the Cartouche's own title-block grid, which stays unique to case
-          studies per CLAUDE.md. Still a compact custom container (not the
-          default Section padding) so the value proposition clears the fold
-          on a 390px-wide screen. Portrait sits above the text on mobile,
-          right of it on desktop — same grid pattern as /parcours. */}
-      <section className="hero-grid-bg border-b border-rule px-4 py-6 sm:px-6 sm:py-10">
-        <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 gap-6 sm:grid-cols-[1fr_180px] sm:items-center">
-          <div>
-            <h1 className="hero-reveal text-xl text-ink sm:text-3xl">{t("hero_name")}</h1>
-            <p className="hero-reveal hero-reveal-2 mt-2 text-sm text-graphite sm:text-base">
-              {t("hero_credential")}
-            </p>
-            <p className="hero-reveal hero-reveal-2 mt-1 font-data text-xs uppercase tracking-wide text-steel">
-              {t("hero_positioning")}
-            </p>
-            <div className="hero-reveal hero-reveal-3 mt-3 h-px w-16 bg-accent" />
-            <p className="hero-reveal hero-reveal-3 measure mt-3 text-sm text-ink sm:text-base">
-              {t("hero_value")}
-            </p>
-            <div className="hero-reveal hero-reveal-4 mt-4 flex flex-wrap items-center gap-3">
-              <Link
-                href="/projets"
-                className="inline-flex items-center justify-center gap-2 rounded-[2px] bg-accent px-4 py-2 text-sm font-medium text-surface transition-colors hover:bg-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                {t("hero_cta_projects")}
-              </Link>
-              <CvButton />
-            </div>
-          </div>
-
-          <div className="hero-reveal order-first sm:order-last">
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-[180px] overflow-hidden border border-rule bg-surface sm:mx-0">
-              <Image
-                src="/images/profile.jpg"
-                alt={t("hero_photo_alt")}
-                fill
-                sizes="180px"
-                className="object-cover"
-                priority
-              />
-            </div>
+      {/* Hero continuation — the name/credential/portrait/positioning tag now
+          live inside CoverBanner above (2026-08-29 merge, extended same day
+          by a live-mode steer that moved the positioning tag up too). This
+          section is now just a short accent divider on a bare surface: the
+          graph-paper grid, the wash that briefly replaced it, the value
+          sentence, and the CTA row were all removed in the same 2026-08-29
+          live-mode pass. */}
+      <section className="relative overflow-hidden border-b border-rule px-4 py-6 sm:px-6 sm:py-10">
+        <div className="relative z-10 mx-auto flex w-full max-w-[640px] flex-col items-center gap-4 text-center">
+          <div className="mx-auto flex max-w-[520px] flex-col items-center gap-[4px]">
+            <div className="hero-reveal hero-reveal-2 h-px w-10 bg-accent" />
           </div>
         </div>
       </section>
@@ -149,7 +116,8 @@ export default function HomePage() {
         <p className="mb-3 font-data text-xs uppercase tracking-wide text-steel">
           {t("organisations_eyebrow")}
         </p>
-        <Reveal stagger className="flex flex-wrap items-center gap-3">
+
+        <Reveal stagger className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
           {ORGANISATIONS.map((org) => (
             <OrgLogo
               key={org.name}
@@ -158,6 +126,7 @@ export default function HomePage() {
             />
           ))}
         </Reveal>
+
       </section>
 
       <Rule />

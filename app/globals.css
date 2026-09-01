@@ -15,6 +15,9 @@
   /* Darkened from the original PRD §8.2 value (#b26b00), which measured 4.2:1 (not
      the required 4.5:1) against --surface for the 14px KPI figures — same amber hue. */
   --signal: #9c5e00;
+  /* DESIGN.md → Motion: natural deceleration, used on every authored reveal/state
+     transition sitewide instead of a plain ease-out — confident arrivals, never bounce. */
+  --ease-plot: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
@@ -93,6 +96,101 @@ h3 {
   max-width: 68ch;
 }
 
+/* Case-study article body (components/ui/Prose.tsx). MDX renders plain
+   h2/h3/p/ul/ol/blockquote/code with no component mapping, so every role
+   the content actually uses (confirmed against the case-study MDX files)
+   gets a rule here, the same way every other multi-rule element in this
+   file gets a dedicated class rather than a chain of Tailwind arbitrary
+   variants. */
+.prose-article > h2 {
+  margin: 32px 0 12px;
+  font-size: var(--text-lg);
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.prose-article > h3 {
+  margin: 24px 0 8px;
+  font-size: var(--text-md);
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.prose-article > p {
+  margin-bottom: 16px;
+}
+
+.prose-article > ul,
+.prose-article > ol {
+  margin-bottom: 16px;
+  padding-left: 20px;
+}
+
+.prose-article > ul {
+  list-style: disc;
+}
+
+.prose-article > ol {
+  list-style: decimal;
+}
+
+.prose-article li {
+  margin-bottom: 6px;
+}
+
+.prose-article li:last-child {
+  margin-bottom: 0;
+}
+
+/* "**Define** — Cadrage…" lead-ins: the sitewide weight for an emphasized
+   body-copy word is 500 (see MethodSteps, form labels, buttons) — the body
+   face has no 700 file, so plain font-weight: bold here would synthesize a
+   faux-bold instead of reusing the weight that's actually loaded. */
+.prose-article strong {
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+/* IBM Plex Sans ships no italic style (see app/fonts.ts), so font-style:
+   italic here would synthesize a faux-slant. Read as a quieter aside
+   instead, reusing --steel — the same "secondary" role it already carries
+   on captions and metadata. */
+.prose-article em {
+  font-style: normal;
+  color: var(--color-steel);
+}
+
+.prose-article code {
+  font-family: var(--font-data), ui-monospace, monospace;
+  font-size: 0.9em;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: 1px solid var(--color-rule);
+  border-radius: 2px;
+  padding: 1px 5px;
+}
+
+.prose-article a {
+  color: var(--color-accent);
+  text-underline-offset: 2px;
+  transition: color 150ms ease;
+}
+
+.prose-article a:hover {
+  color: var(--color-ink);
+}
+
+.prose-article blockquote {
+  margin: 16px 0;
+  padding-left: 16px;
+  border-left: 2px solid var(--color-signal);
+  color: var(--color-steel);
+}
+
+.prose-article blockquote p {
+  margin: 0;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
@@ -112,53 +210,33 @@ h3 {
   }
 }
 
+/* Delay shifted so hero content starts stamping in only once the cover's
+   corner marks (below) have drawn themselves — structure resolves, then
+   content stamps in, per DESIGN.md → Motion → The Plotter Rule. */
 .hero-reveal {
-  animation: hero-reveal 400ms ease-out both;
+  animation: hero-reveal 400ms var(--ease-plot) both;
+  animation-delay: 250ms;
 }
 
 .hero-reveal-2 {
-  animation-delay: 80ms;
+  animation-delay: 330ms;
 }
 
 .hero-reveal-3 {
-  animation-delay: 160ms;
+  animation-delay: 410ms;
 }
 
 .hero-reveal-4 {
-  animation-delay: 240ms;
+  animation-delay: 490ms;
 }
 
-/* Technical-drawing grid backdrop for the hero — a graph-paper cue borrowed
-   from the same "technical documentation" reference as the Cartouche (PRD
-   §8.1/§8.6), built from --rule only so it never introduces a new color. */
-.hero-grid-bg {
-  background-image:
-    linear-gradient(to right, var(--color-rule) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-rule) 1px, transparent 1px);
-  background-size: 32px 32px;
-  background-position: -1px -1px;
-}
-
-/* Homepage cover banner (CoverBanner.tsx) — a schematic line "drawing itself"
-   in, pen-plotter style, plus each workstation node popping in behind it.
-   Overestimating stroke-dasharray past the path's real length is the standard
-   SVG line-draw trick and avoids measuring getTotalLength() on the client. */
-@keyframes cover-line-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.cover-line {
-  stroke-dasharray: 1600;
-  stroke-dashoffset: 1600;
-  animation: cover-line-draw 1200ms ease-out 150ms forwards;
-}
-
-@keyframes cover-node-pop {
+/* Cover corner marks (CoverBanner.tsx) — each L-shaped bracket grows outward
+   from its own corner, like a drafting-instrument registration mark being
+   ruled onto the sheet, before the name/portrait stamp in on top of it. */
+@keyframes corner-mark-draw {
   from {
     opacity: 0;
-    transform: scale(0.4);
+    transform: scale(0.2);
   }
   to {
     opacity: 1;
@@ -166,11 +244,47 @@ h3 {
   }
 }
 
-.cover-node {
-  transform-box: fill-box;
-  transform-origin: 50% 50%;
-  opacity: 0;
-  animation: cover-node-pop 300ms ease-out both;
+.corner-mark-draw {
+  animation: corner-mark-draw 220ms var(--ease-plot) both;
+}
+
+/* Technical-drawing grid backdrop for the hero — a graph-paper cue borrowed
+   from the same "technical documentation" reference as the Cartouche (PRD
+   §8.1/§8.6). Lines are --rule mixed with a little --ink (both already
+   site tokens, no new color) so the graph-paper cue actually reads instead
+   of disappearing into --paper. */
+.hero-grid-bg {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-rule) 80%, var(--color-ink) 20%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-rule) 80%, var(--color-ink) 20%) 1px,
+      transparent 1px
+    );
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+}
+
+/* Homepage cover banner (CoverBanner.tsx) — the accent-duotone photo fades
+   and settles in from a slight zoom on load, echoing the same reveal timing
+   as .hero-reveal without competing with it (this one runs first). */
+@keyframes cover-photo-in {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cover-photo {
+  animation: cover-photo-in 700ms var(--ease-plot) both;
 }
 
 /* Scroll-triggered reveal (components/ui/Reveal.tsx). Gated behind .js-reveal
@@ -182,14 +296,44 @@ h3 {
   opacity: 0;
   transform: translateY(12px);
   transition:
-    opacity 500ms ease-out,
-    transform 500ms ease-out;
+    opacity 500ms var(--ease-plot),
+    transform 500ms var(--ease-plot);
 }
 
 .js-reveal .reveal.is-visible,
 .js-reveal .reveal-stagger.is-visible > * {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Sweep variant (Reveal.tsx `sweep` prop) — an eyebrow or heading reveals via
+   a left-to-right clip-path pass instead of a fade, the same ruler-tick
+   gesture the nav underline uses. One line at a time, never a stagger list. */
+.js-reveal .reveal-sweep {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 450ms var(--ease-plot);
+}
+
+.js-reveal .reveal-sweep.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* KPI/stat figures (KpiRow.tsx, homepage Stat) — a value settling into focus
+   like a measurement being read off an instrument, not appearing pre-formed. */
+@keyframes kpi-snap {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.js-reveal .reveal-stagger.is-visible .kpi-snap,
+.js-reveal .reveal.is-visible .kpi-snap {
+  animation: kpi-snap 320ms var(--ease-plot) both;
 }
 
 .js-reveal .reveal-stagger > *:nth-child(1) {
@@ -220,7 +364,7 @@ h3 {
    "at rest" state. */
 .js-reveal .reveal-stagger.is-visible .pip-filled,
 .js-reveal .reveal.is-visible .pip-filled {
-  animation: pip-fill 260ms ease-out both;
+  animation: pip-fill 260ms var(--ease-plot) both;
 }
 
 .pip-filled:nth-of-type(1) {
@@ -249,7 +393,7 @@ h3 {
    hero, each field stamping in left-to-right/top-to-bottom rather than
    waiting on a scroll trigger. */
 .cartouche-field {
-  animation: hero-reveal 350ms ease-out both;
+  animation: hero-reveal 350ms var(--ease-plot) both;
 }
 .cartouche-field:nth-child(1) {
   animation-delay: 0ms;
@@ -286,7 +430,32 @@ h3 {
   background: var(--color-accent);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 200ms ease-out;
+  transition: transform 200ms var(--ease-plot);
+}
+
+/* Sweep-fill (Button.tsx primary variant, CvButton.tsx) — the same
+   left-to-right ruler-tick gesture as .nav-link, scaled up to a full fill:
+   a flat ink plane sweeps in from the left on hover/focus instead of the
+   background swapping instantly. isolation + a negative-z-index pseudo keeps
+   the fill behind the button's own text without needing to wrap it in a span. */
+.sweep-fill {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.sweep-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 250ms var(--ease-plot);
+}
+.sweep-fill:hover::before,
+.sweep-fill:focus-visible::before {
+  transform: scaleX(1);
 }
 .nav-link:hover::after,
 .nav-link:focus-visible::after {
@@ -307,10 +476,10 @@ h3 {
   }
 }
 .mobile-nav-panel {
-  animation: mobile-nav-open 200ms ease-out both;
+  animation: mobile-nav-open 200ms var(--ease-plot) both;
 }
 .mobile-nav-panel > * {
-  animation: hero-reveal 250ms ease-out both;
+  animation: hero-reveal 250ms var(--ease-plot) both;
 }
 .mobile-nav-panel > *:nth-child(1) {
   animation-delay: 20ms;
@@ -346,7 +515,7 @@ h3 {
   }
 }
 .filter-grid > * {
-  animation: card-fade-in 320ms ease-out both;
+  animation: card-fade-in 320ms var(--ease-plot) both;
 }
 .filter-grid > *:nth-child(1) {
   animation-delay: 0ms;
@@ -375,7 +544,7 @@ h3 {
    generic scale/lift effect. */
 .cta-arrow {
   display: inline-block;
-  transition: transform 200ms ease-out;
+  transition: transform 200ms var(--ease-plot);
 }
 .group:hover .cta-arrow,
 a:hover > .cta-arrow {
@@ -383,7 +552,7 @@ a:hover > .cta-arrow {
 }
 .cta-arrow-down {
   display: inline-block;
-  transition: transform 200ms ease-out;
+  transition: transform 200ms var(--ease-plot);
 }
 a:hover > .cta-arrow-down {
   transform: translateY(2px);

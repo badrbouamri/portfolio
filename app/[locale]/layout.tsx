@@ -89,7 +89,10 @@ export default async function LocaleLayout({
             <Footer />
           </div>
         </NextIntlClientProvider>
-      </body>
+      {/* impeccable-live-start */}
+<script src="http://localhost:8400/live.js?token=c5bba351-b9c6-405f-b374-4e0909944c64"></script>
+{/* impeccable-live-end */}
+</body>
     </html>
   );
 }
