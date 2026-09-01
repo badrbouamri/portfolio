@@ -109,6 +109,9 @@ A four-neutral, two-accent system — restrained on purpose; a wider palette wou
 ### Named Rules
 **The Hairline Rule.** Separation between regions is drawn with a 1px `--rule` border, never a `box-shadow`. The one sanctioned exception is the project card's hover state, which uses a flat 4px offset step-shadow (`0 4px 0 0 var(--color-rule)`) — a drafting-ruler nudge, not ambient elevation.
 
+### Dark mode (2026-09-02)
+Same 8 tokens, same roles — paper/surface darken, ink/graphite/steel lighten, `accent`/`signal` brighten (not just invert) so they still clear 4.5:1 as text against the new dark backgrounds. Values live in `app/globals.css` under a `:root[data-theme="dark"]` block (explicit choice, `ThemeToggle.tsx`) and a matching `@media (prefers-color-scheme: dark)` block (OS default, no JS). Components that use `--ink`/`--paper` as a swappable text/background pair (not a literal color) invert correctly for free — e.g. HomeSkillsGrid's dark cards become light cards on the dark page, which still reads as a valid "accent card" treatment. The one component that can't safely invert is `OrgLogo`: partner-brand raster logos are drawn for a white background, so its card keeps a **fixed** light plate regardless of theme (literal `#ffffff`/`#dce0e3`/`#626d77`, not tokens) — the only place in the system where a color is deliberately theme-inert.
+
 ## Typography
 
 **Display Font:** IBM Plex Sans Condensed, 600 (with ui-sans-serif, system-ui, sans-serif fallback)
@@ -180,6 +183,9 @@ Near-square corners throughout — 2px border-radius is the system maximum (`--r
 
 Do not extend `.font-editorial` / `.text-editorial-accent` to any other component — treat this as scoped to Engineering Projects rows only, not a precedent for future reference-site cloning.
 
+### "Ce que je sais faire" skills cards (HomeSkillsGrid) — layout-only borrow
+**2026-09-02.** Unlike the Engineering Projects rows above, this restyle kept the token system: dark cards use `bg-ink`/`border-graphite` (→ `border-steel` on hover/focus) — existing tokens, just used as a card surface for the first time — `--paper`/`--rule` for on-dark text, and the sitewide `--radius-hairline` (2px), not a new rounded-card radius, even though the reference layout had rounder corners (explicit user call when asked). The one fully-round element, the small circular arrow control, reuses `rounded-pill` (999px) — the existing `SkillsToolbox` exception, not a new one. Only the *layout* (3-column grid with a center portrait on desktop, 01–04 corner numbering, circular arrow) is borrowed from a reference screenshot. The portrait (`public/images/profile-cutout.png`) is a user-supplied transparent PNG; a subtle `--color-accent` radial glow sits behind it (`.skills-photo-halo`, no new color).
+
 ### Cards (ProjectCard) — superseded, kept for history
 - **Corner Style:** 0px radius.
 - **Background:** `--surface` on `--paper`.
@@ -216,3 +222,48 @@ The site's one memorable, load-bearing visual device: a bordered grid of labelle
 - **Don't** use amber, or any color, as pure decoration — every color in this system carries a semantic role.
 - **Don't** render skill/competency levels as percentage bars — PRD explicitly calls these "unfalsifiable and juvenile"; use evidence links instead.
 - **Don't** introduce a second accent hue or a warmer/cooler neutral ramp without updating this file first — the four-neutral/two-accent palette is a deliberate constraint, not an incomplete one.
+
+---
+
+## Redesign in progress (2026-09-02) — `BRIEF-REFONTE-PORTFOLIO.md`, Phase 0
+
+**Status: everything below is a Phase-0/checkpoint-1 proposal, not yet implemented.** No component, token, or dependency has changed. This section records the audit, the conflicts found against the system above, and how each was resolved after checking in with the owner — before any code is touched in Phase 1.
+
+### What the brief asks for, and the scope decision made
+
+The brief (a "Simon Sparks"-style Dribbble reference — deep blue night, editorial serif, brass accent, offset frames — reinterpreted for an industrial-methods engineer's audience, not a 3D artist's) was written as a **dark-only** redesign: one palette, no light mode. That directly conflicted with dark mode + light-as-default, which shipped the day before this brief arrived (see "Dark mode (2026-09-02)" above). Asked to choose, the owner chose to **keep both themes** — bigger scope than the brief itself specifies, since it means designing a light-mode counterpart to a palette that was written dark-only. The mapping below is that counterpart; it hasn't been through the same live-review pass the rest of this system has, so treat the light-side values as provisional until Phase 8's Lighthouse/contrast pass confirms them, the same rigor already applied to every other token in this file.
+
+**Fonts:** the brief specifies `next/font/google` for Bodoni Moda + Inter Tight. Kept as a deliberate substitution, not asked about separately: this project self-hosts fonts via `next/font/local` specifically for reliability in Morocco (documented above, under Typography) — that reasoning doesn't change because the reference changed. **Decision: self-host the same three families the brief names** (Bodoni Moda, Inter Tight, IBM Plex Mono) via local `.woff2` files instead of a Google Fonts request. Visual outcome is identical; only the loading mechanism differs.
+
+### Retained tokens — same 8 names, reskinned per theme
+
+The existing token *names* and *roles* (`paper`, `surface`, `ink`, `graphite`, `steel`, `rule`, `accent`, `signal`) are kept rather than adopting the brief's `ink-900…ink-400` naming — renaming eight tokens sitewide across every component that already consumes them (`Button`, `Card`, `Section`, `Rule`, `Tag`, …) would be pure churn for no visual difference. Only the values change, per theme:
+
+| Token | Light (new) | Dark (new) | Role |
+|---|---|---|---|
+| `--paper` | `#F2F5FC` | `#050A1C` (brief `ink-900`) | page background |
+| `--surface` | `#FFFFFF` | `#0D1836` (brief `ink-500`) | card/raised surfaces |
+| `--surface-hover` *(new)* | `#E7ECFA` | `#122048` (brief `ink-400`) | surface hover state |
+| `--ink` | `#0A1533` (brief `ink-700`, reused as light-mode text) | `#EAF0FF` (brief `paper`) | primary text |
+| `--graphite` | `#33415E` | `#8FA3C8` (brief `paper-dim`) | secondary text |
+| `--steel` | `#5B6B8C` | `#6E80A6` | tertiary text/captions |
+| `--rule` | `rgba(10,21,51,.10)` | `rgba(234,240,255,.08)` (brief exact) | hairline borders |
+| `--accent` (brass, replaces petrol) | `#7A5A18` | `#E4C07A` (brief exact) | links, buttons, borders, data emphasis |
+| `--signal` | `#2F5FD9` | `#3E7BFF` (brief exact) | focus ring + halo glow **only** — see role change below |
+
+Contrast, computed directly (WCAG relative-luminance formula, not eyeballed):
+- Light ink/paper 16.5:1, graphite/paper 9.4:1, steel/paper 4.9:1, brass/paper 5.8:1 — all pass 4.5:1 text minimum.
+- Dark brass/paper 11.4:1, dark graphite("paper-dim")/paper 7.7:1, dark signal/paper 5.1:1, light signal/paper 5.1:1 — all pass.
+
+**Role change, flagged explicitly:** today, `--signal` is amber and *is* used as text (KPI headline figures). The brief's `signal` is blue and is "halo/focus only, never text" — the brief's `brass` takes over what `--signal` currently does (data emphasis). This is a **semantic swap**, not just a new hex: every current `text-signal` KPI-figure usage becomes `text-accent` (brass) in the new system, and `--signal` stops being used as a text color anywhere. Worth a second look before Phase 1 lands it, since it touches every `<Stat>`/KPI in the codebase.
+
+**Unchanged, because already compliant:** border-radius stays capped at 2px (`--radius-hairline`) — the brief's "2px max, découpé, pas arrondi" rule already matches this system; no token change needed. The `--radius-pill` exception (`SkillsToolbox`) stays as-is unless a later phase says otherwise.
+
+**Explicitly deferred to their own phase, not decided today:**
+- **Motion architecture** (Phase 7, not Phase 1): whether to add `framer-motion` per the brief and replace `Reveal.tsx`, or extend the existing CSS/`IntersectionObserver` `Reveal` + the "Plotter Rule" vocabulary to cover the brief's hero orchestration, parallax, and counters. The brief's own §5.3 rule ("only 5 elements reveal on scroll, not every section") is stricter than today's usage and will need a pass regardless of which engine wins.
+- **Case-study hero meta line** (Phase 6): the brief's `/projets/[slug]` plan reintroduces a période/entreprise/rôle line that `CaseHero` deliberately dropped on 2026-09-01. Needs a decision before Phase 6, not before Phase 1.
+- **Confidential imagery** (Phase 4/10): the brief's asset list requests a Power BI capture for the Stellantis block — allowed only blurred/anonymized per the existing confidentiality rules above, and still needs the convention-de-stage check CLAUDE.md flags for Stellantis content.
+- **`/cv`** is currently a `route.ts` (direct file serve), not a page — the brief's "page de téléchargement" assumes a page. Reconcile in Phase 6.
+- **Demos** (`/demos/consommables`, `/demos/pilotage`) aren't mentioned in the brief. Left out of the redesign scope unless asked for.
+
+No reference screenshot was attached to the brief in this session — the above is built from the brief's written description only.
