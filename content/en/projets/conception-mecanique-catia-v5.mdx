@@ -19,7 +19,9 @@ confidential: false
 tools: ["CATIA V5", "Part Design", "Assembly Design", "DMU Kinematics", "Generative Shape Design", "Sketcher"]
 methods: ["Kinematic modelling", "Class-A surfacing", "Parametric assembly design"]
 kpis: []
-hero: null
+hero:
+  src: "/images/projets/conception-mecanique-catia-v5/lamborghini-gallardo-surfacage.png"
+  alt: "Surfaced render of the Lamborghini Gallardo body in CATIA V5, front three-quarter view"
 gallery: []
 links: []
 related: ["etude-thermodynamique-turbine-vapeur"]
@@ -54,6 +56,14 @@ The assembly was then converted into a kinematic mechanism in DMU Kinematics: re
 
 The simulation was used to check the mechanism before anything else: sweeping each cylinder through its full stroke to trace the reach and dig envelope, then running the bucket linkage through its full range to confirm no interference between the power link, the H-link and the boom at the extremes of travel.
 
+<img
+  src="/images/projets/conception-mecanique-catia-v5/bras-pelleteuse-cinematique.png"
+  alt="CATIA V5 assembly of an excavator's front arm — boom, stick, bucket, bucket linkage and hydraulic cylinders, with DMU Kinematics joint markers visible"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 1 — Excavator arm mechanism in DMU Kinematics, with the revolute and cylindrical joints of each cylinder.*
+
 ### 2. Lamborghini Gallardo — surfacing study
 
 A styling reproduction of the Gallardo body, built as an exercise in automotive surfacing rather than as an original design. The whole exterior is surface-based: a wireframe skeleton of section curves was built first, then skinned with multi-section and blend surfaces in Generative Shape Design.
@@ -61,6 +71,14 @@ A styling reproduction of the Gallardo body, built as an exercise in automotive 
 The interesting part of this project is not the shape, it's the quality of the transitions. Body panels were joined with tangent or curvature continuity depending on the zone — never by default — so the reflection lines stay clean over the shoulder and the rear haunch, while deliberately keeping the Gallardo's sharp character lines as controlled breaks rather than blend accidents. The front and rear ends were built on one half and mirrored about the centre plane, keeping the model symmetric and editable.
 
 Air intakes, wheel arch openings and glazing were cut with split and trim operations on the master surface, and the wheels were modelled separately as a solid pattern and instanced into the assembly.
+
+<img
+  src="/images/projets/conception-mecanique-catia-v5/lamborghini-gallardo-surfacage.png"
+  alt="Surfaced render of the Lamborghini Gallardo body in CATIA V5, front three-quarter view"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 2 — Class-A surfaced model of the Gallardo, front three-quarter view.*
 
 <video controls preload="metadata" playsInline className="my-6 w-full border border-rule bg-surface">
   <source src="/videos/projets/conception-mecanique-catia-v5/lamborghini-gallardo-surfacage.mp4" type="video/mp4" />
@@ -75,6 +93,14 @@ The bottom end of an internal combustion engine, modelled and assembled in CATIA
 Assembly Design constraints locate every component relative to the block: coincidence on the crankshaft axis, rods pinned to the crankpins, pistons kept concentric with their bores. The result is an assembly that stays consistent when the crank turns, rather than one that only holds together in a static view.
 
 The crank-slider chain was then driven through a full revolution to verify the geometry: each piston reaching top and bottom dead centre in the right order, rods clearing the counterweights and cylinder walls throughout the cycle, and stroke/rod length staying consistent with the bore.
+
+<img
+  src="/images/projets/conception-mecanique-catia-v5/moteur-4-cylindres-assemblage.png"
+  alt="CATIA V5 specification tree of the four-cylinder engine assembly, showing the crankshaft and the connecting rod/piston instanced four times (Part3.1 to Part3.4)"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 3 — Four-cylinder engine bottom-end assembly, connecting rod and piston instanced four times in the specification tree.*
 
 <video controls preload="metadata" playsInline className="my-6 w-full border border-rule bg-surface">
   <source src="/videos/projets/conception-mecanique-catia-v5/moteur-4-cylindres.mp4" type="video/mp4" />

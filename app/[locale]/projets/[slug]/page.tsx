@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllCaseStudies, getCaseStudy } from "@/lib/content";
 import type { Locale } from "@/i18n/routing";
-import { Cartouche } from "@/components/case/Cartouche";
+import { CaseHero } from "@/components/case/CaseHero";
 import { KpiRow } from "@/components/case/KpiRow";
 import { ConfidentialNotice } from "@/components/case/ConfidentialNotice";
 import { Prose } from "@/components/ui/Prose";
@@ -37,7 +37,7 @@ function CaseStudyBody({ caseStudy }: { caseStudy: NonNullable<ReturnType<typeof
       <h1 className="text-balance text-xl text-ink sm:text-2xl">{caseStudy.title}</h1>
       <p className="measure mb-6 mt-2 text-sm text-graphite sm:text-base">{caseStudy.subtitle}</p>
 
-      <Cartouche frontmatter={caseStudy} />
+      <CaseHero hero={caseStudy.hero} />
 
       <div className="my-6">
         <ConfidentialNotice confidential={caseStudy.confidential} />

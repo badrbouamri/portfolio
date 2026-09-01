@@ -19,10 +19,12 @@ confidential: false
 tools: ["CATIA V5", "Part Design", "Assembly Design", "DMU Kinematics", "Generative Shape Design", "Sketcher"]
 methods: ["Modélisation cinématique", "Surfaçage Classe-A", "Conception d'assemblage paramétrique"]
 kpis: []
-hero: null
+hero:
+  src: "/images/projets/conception-mecanique-catia-v5/lamborghini-gallardo-surfacage.png"
+  alt: "Rendu surfacé de la carrosserie Lamborghini Gallardo sous CATIA V5, vue trois-quarts avant"
 gallery: []
 links: []
-related: ["etude-thermodynamique-turbine-vapeur"]
+related: ["etude-thermodynamique-turbine-vapeur", "shifter-kart-conception-fabrication"]
 ---
 
 ## Contexte
@@ -54,6 +56,14 @@ L'assemblage a ensuite été converti en mécanisme cinématique sous DMU Kinema
 
 La simulation a servi à vérifier le mécanisme avant tout le reste : balayage de chaque vérin sur toute sa course pour tracer l'enveloppe de portée et de fouille, puis parcours complet de la biellette de godet pour confirmer l'absence d'interférence entre la biellette de puissance, la biellette en H et la flèche, aux extrémités de course.
 
+<img
+  src="/images/projets/conception-mecanique-catia-v5/bras-pelleteuse-cinematique.png"
+  alt="Assemblage sous CATIA V5 du bras avant d'une pelleteuse — flèche, balancier, godet, biellette de godet et vérins hydrauliques, avec les repères de liaisons DMU Kinematics visibles"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 1 — Mécanisme du bras de pelleteuse sous DMU Kinematics, avec les liaisons pivot et cylindriques de chaque vérin.*
+
 ### 2. Lamborghini Gallardo — étude de surfaçage
 
 Une reproduction stylistique de la carrosserie de la Gallardo, construite comme exercice de surfaçage automotive plutôt que comme conception originale. L'ensemble de la carrosserie est modélisé en surfaces : un squelette filaire de courbes de section a d'abord été construit, puis habillé de surfaces multi-sections et de raccords sous Generative Shape Design.
@@ -61,6 +71,14 @@ Une reproduction stylistique de la carrosserie de la Gallardo, construite comme 
 Le point important de ce projet n'est pas la forme, mais la qualité des transitions. Les panneaux de carrosserie ont été raccordés avec continuité tangente et continuité de courbure, pour que les lignes de réflexion restent propres sur l'épaule et l'arche arrière, tout en conservant volontairement les lignes de caractère marquées de la Gallardo comme des ruptures maîtrisées plutôt que des accidents de raccord. L'avant et l'arrière ont été construits sur une moitié puis symétrisés par rapport au plan médian, pour garder un modèle symétrique et modifiable.
 
 Les entrées d'air, les ouvertures de passage de roue et le vitrage ont été découpés par opérations de split/trim sur la surface maîtresse, et les roues ont été modélisées séparément comme motif solide instancié dans l'assemblage.
+
+<img
+  src="/images/projets/conception-mecanique-catia-v5/lamborghini-gallardo-surfacage.png"
+  alt="Rendu surfacé de la carrosserie Lamborghini Gallardo sous CATIA V5, vue trois-quarts avant"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 2 — Modèle surfacé Classe-A de la Gallardo, vue trois-quarts avant.*
 
 <video controls preload="metadata" playsInline className="my-6 w-full border border-rule bg-surface">
   <source src="/videos/projets/conception-mecanique-catia-v5/lamborghini-gallardo-surfacage.mp4" type="video/mp4" />
@@ -75,6 +93,14 @@ Le bas-moteur d'un moteur à combustion interne modélisé et assemblé sous CAT
 Les contraintes d'Assembly Design positionnent chaque pièce par rapport au bloc-moteur : coïncidence sur l'axe du vilebrequin, bielles articulées sur les manetons, pistons maintenus concentriques à leur alésage. Le résultat est un assemblage qui reste cohérent quand le vilebrequin tourne, plutôt qu'un montage qui ne tient qu'à l'image de départ.
 
 La chaîne bielle-manivelle a ensuite été entraînée sur un tour complet pour vérifier la géométrie : passage de chaque piston par ses points morts haut et bas dans le bon ordre, dégagement des bielles par rapport aux masses d'équilibrage et aux parois de cylindre sur tout le cycle, cohérence entre course et longueur de bielle par rapport à l'alésage.
+
+<img
+  src="/images/projets/conception-mecanique-catia-v5/moteur-4-cylindres-assemblage.png"
+  alt="Arbre de spécifications CATIA V5 de l'assemblage moteur 4 cylindres, montrant le vilebrequin, les bielles et pistons instanciés quatre fois (Part3.1 à Part3.4)"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 3 — Assemblage du bas-moteur 4 cylindres, bielle et piston instanciés quatre fois dans l'arbre de spécifications.*
 
 <video controls preload="metadata" playsInline className="my-6 w-full border border-rule bg-surface">
   <source src="/videos/projets/conception-mecanique-catia-v5/moteur-4-cylindres.mp4" type="video/mp4" />

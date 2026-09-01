@@ -217,12 +217,6 @@
     "empty_cta": "Voir tous les projets"
   },
   "CaseStudy": {
-    "cartouche_projet": "PROJET",
-    "cartouche_organisation": "ORGANISATION",
-    "cartouche_periode": "PÉRIODE",
-    "cartouche_role": "RÔLE",
-    "cartouche_methodes": "MÉTHODES",
-    "cartouche_confidentialite": "INDICE DE CONFIDENTIALITÉ",
     "confidentiality_notice": "Données volontairement indexées ou anonymisées par respect de la confidentialité industrielle.",
     "organisation_generic": "Équipementier automobile",
     "section_contexte": "Contexte",

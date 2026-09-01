@@ -248,9 +248,10 @@ h3 {
   animation: corner-mark-draw 220ms var(--ease-plot) both;
 }
 
-/* Technical-drawing grid backdrop for the hero — a graph-paper cue borrowed
-   from the same "technical documentation" reference as the Cartouche (PRD
-   §8.1/§8.6). Lines are --rule mixed with a little --ink (both already
+/* Technical-drawing grid backdrop — a graph-paper cue from the site's
+   "technical documentation" reference (PRD §8.1), reused on the homepage
+   hero and as the case-study CaseHero's placeholder for projects with no
+   real photo. Lines are --rule mixed with a little --ink (both already
    site tokens, no new color) so the graph-paper cue actually reads instead
    of disappearing into --paper. */
 .hero-grid-bg {
@@ -388,35 +389,9 @@ h3 {
   }
 }
 
-/* Case-study Cartouche (components/case/Cartouche.tsx) — always the first
-   thing in the viewport on a case-study page, so it plays on load like the
-   hero, each field stamping in left-to-right/top-to-bottom rather than
-   waiting on a scroll trigger. */
-.cartouche-field {
-  animation: hero-reveal 350ms var(--ease-plot) both;
-}
-.cartouche-field:nth-child(1) {
-  animation-delay: 0ms;
-}
-.cartouche-field:nth-child(2) {
-  animation-delay: 50ms;
-}
-.cartouche-field:nth-child(3) {
-  animation-delay: 100ms;
-}
-.cartouche-field:nth-child(4) {
-  animation-delay: 150ms;
-}
-.cartouche-field:nth-child(5) {
-  animation-delay: 200ms;
-}
-.cartouche-field:nth-child(6) {
-  animation-delay: 250ms;
-}
-
 /* Nav link underline (Header.tsx) — a ruler-tick sweep instead of a plain
    color swap, drawn from the same "measuring instrument" vocabulary as the
-   Cartouche/pips rather than a generic underline. */
+   site's other technical-drawing cues rather than a generic underline. */
 .nav-link {
   position: relative;
 }
@@ -577,9 +552,10 @@ a:hover > .cta-arrow-down {
     text-decoration: underline;
   }
 
-  /* Cartouche/KPI figures rely on background + border color to read correctly
-     (the amber KPI figures, the cartouche's hairline grid) — browsers strip
-     background colors from print by default unless told otherwise. */
+  /* KPI figures and the case-study hero rely on background + border color to
+     read correctly (the amber KPI figures, the hero's hairline corner marks)
+     — browsers strip background colors from print by default unless told
+     otherwise. */
   [data-print-avoid-break] {
     break-inside: avoid;
     -webkit-print-color-adjust: exact;

@@ -217,12 +217,6 @@
     "empty_cta": "View all projects"
   },
   "CaseStudy": {
-    "cartouche_projet": "PROJECT",
-    "cartouche_organisation": "ORGANISATION",
-    "cartouche_periode": "PERIOD",
-    "cartouche_role": "ROLE",
-    "cartouche_methodes": "METHODS",
-    "cartouche_confidentialite": "CONFIDENTIALITY INDEX",
     "confidentiality_notice": "Data has been deliberately indexed or anonymised out of respect for industrial confidentiality.",
     "organisation_generic": "Automotive equipment supplier",
     "section_contexte": "Context",
