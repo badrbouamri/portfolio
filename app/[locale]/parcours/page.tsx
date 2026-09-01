@@ -56,11 +56,20 @@ export default async function ParcoursPage({
   const bioParagraphs = readBiographyParagraphs(locale);
 
   // Experience is sourced from the case study frontmatter in the current locale.
-  // "Projet personnel"/"Personal project" entries (the IoT irrigation project) are
-  // not work experience and are excluded here; they live on the Projets index /
-  // Compétences evidence links instead.
-  const caseStudyEntries: ExperienceEntry[] = getAllCaseStudies(locale as Locale)
-    .filter((cs) => cs.organisation !== "Projet personnel" && cs.organisation !== "Personal project")
+  // "Projet personnel"/"Personal project" entries (the IoT irrigation project) and
+  // "Projet académique"/"Academic project" entries (ENSET group coursework) are not
+  // work experience and are excluded here; they live on the Projets index /
+  // Compétences evidence links instead. Nexteer Automotive (Juin 2024) is excluded
+  // too — no case study for it, and not shown as a standalone Experience entry.
+  const NON_EXPERIENCE_ORGANISATIONS = [
+    "Projet personnel",
+    "Personal project",
+    "Projet académique — ENSET Mohammedia",
+    "Academic project — ENSET Mohammedia",
+  ];
+
+  const experience: ExperienceEntry[] = getAllCaseStudies(locale as Locale)
+    .filter((cs) => !NON_EXPERIENCE_ORGANISATIONS.includes(cs.organisation))
     .map((cs) => ({
       role: cs.role,
       organisation: cs.organisation,
@@ -69,21 +78,8 @@ export default async function ParcoursPage({
       sortKey: cs.period.start,
       description: cs.summary,
       href: `/projets/${cs.slug}`,
-    }));
-
-  // Nexteer Automotive (Juin 2024) has no case study yet — plain entry, no link,
-  // per docs/tasks.md / CV. Do not invent a case study for it.
-  const nexteerEntry: ExperienceEntry = {
-    role: t("nexteer_role"),
-    organisation: "Nexteer Automotive",
-    period: "2024-06",
-    sortKey: "2024-06",
-    description: t("nexteer_description"),
-  };
-
-  const experience = [...caseStudyEntries, nexteerEntry].sort((a, b) =>
-    b.sortKey.localeCompare(a.sortKey),
-  );
+    }))
+    .sort((a, b) => b.sortKey.localeCompare(a.sortKey));
 
   return (
     <Section eyebrow={t("eyebrow")} title={t("title")}>
