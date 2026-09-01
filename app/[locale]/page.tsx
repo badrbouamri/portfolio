@@ -14,15 +14,6 @@ import type { CaseStudy } from "@/lib/schema";
 const STELLANTIS_SLUG = "stellantis-maitrise-cout-transformation";
 const AIC_SLUG = "aic-diagnostic-pliage-cintrage";
 
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div>
-      <p className="kpi-snap font-data text-2xl text-signal sm:text-3xl">{value}</p>
-      <p className="mt-1 text-xs text-graphite sm:text-sm">{label}</p>
-    </div>
-  );
-}
-
 export default function HomePage() {
   const t = useTranslations("Home");
   const locale = useLocale() as Locale;
@@ -31,8 +22,6 @@ export default function HomePage() {
   const featured = caseStudies.filter((cs) => cs.featured).slice(0, 3);
   const stellantis = caseStudies.find((cs) => cs.slug === STELLANTIS_SLUG);
   const aic = caseStudies.find((cs) => cs.slug === AIC_SLUG);
-
-  const rebutValue = stellantis?.kpis[0]?.value ?? (locale === "fr" ? "−33,8 %" : "−33.8%");
 
   const competences = [
     {
@@ -110,8 +99,8 @@ export default function HomePage() {
           2026-08-28, supersedes the earlier no-raster-logo scoping in
           docs/tasks.md), grayscale at rest / colour on hover, each linking out
           to the organisation's own site. The case-study link for Stellantis/AIC
-          already lives in Parcours and Preuves, so this strip stays focused on
-          "who I worked with", not "read more". */}
+          already lives in Parcours, so this strip stays focused on "who I
+          worked with", not "read more". */}
       <section className="mx-auto w-full max-w-[1200px] px-4 py-4 sm:px-6">
         <p className="mb-3 font-data text-xs uppercase tracking-wide text-steel">
           {t("organisations_eyebrow")}
@@ -131,24 +120,20 @@ export default function HomePage() {
 
       <Rule />
 
-      {/* Preuves — three facts, deliberately not a slogan bar. Two columns on
-          mobile so the whole block stays within the first viewport; the
-          third fact (a sentence, not a bare stat) spans the full width. */}
-      <section className="mx-auto w-full max-w-[1200px] px-4 py-4 sm:px-6 sm:py-8">
-        <p className="mb-3 font-data text-xs uppercase tracking-wide text-steel">
-          {t("preuves_eyebrow")}
-        </p>
-        <Reveal stagger className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6">
-          <Stat value={rebutValue} label={t("preuve_rebut_label")} />
-          <Stat value="3" label={t("preuve_stages_label")} />
-          <p className="col-span-2 text-sm text-graphite sm:col-span-1">
-            <span className="font-data text-signal">1</span> {t("preuve_outils_app")}{" "}
-            {t("preuve_outils_and")}{" "}
-            <span className="font-data text-signal">1</span> {t("preuve_outils_dashboard")}{" "}
-            {t("preuve_outils_suffix")}
-          </p>
+      {/* About — first-person background blurb, replaces the Proof Points stat
+          bar (2026-09-01). Two paragraph groups split by a rule: who I am /
+          what I'm looking for, then the internships / Stellantis contribution /
+          tools I've built. */}
+      <Section title={t("about_title")}>
+        <Reveal stagger className="measure flex flex-col gap-4 text-sm text-graphite">
+          <p>{t("about_p1")}</p>
+          <p>{t("about_p2")}</p>
+          <Rule className="my-2" />
+          <p>{t("about_p3")}</p>
+          <p>{t("about_p4")}</p>
+          <p>{t("about_p5")}</p>
         </Reveal>
-      </section>
+      </Section>
 
       {/* Projets en vedette — 3 featured cards as of M7 (Méthodes + Conception +
           Digital, per PRD §4.4): the 3rd (conception) slot that was a tracked
