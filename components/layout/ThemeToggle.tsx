@@ -38,7 +38,7 @@ export function ThemeToggle() {
         type="button"
         aria-current={theme === "light"}
         onClick={() => choose("light")}
-        className={`uppercase transition-colors hover:text-accent ${
+        className={`uppercase transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
           theme === "light" ? "text-ink" : "text-steel"
         }`}
       >
@@ -49,7 +49,7 @@ export function ThemeToggle() {
         type="button"
         aria-current={theme === "dark"}
         onClick={() => choose("dark")}
-        className={`uppercase transition-colors hover:text-accent ${
+        className={`uppercase transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
           theme === "dark" ? "text-ink" : "text-steel"
         }`}
       >

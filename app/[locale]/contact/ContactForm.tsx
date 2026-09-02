@@ -14,7 +14,7 @@ import { contactFormInitialState } from "@/lib/contact-form-state";
 // `:placeholder-shown` only matches an actually-empty field, and on the
 // label following the control in DOM order (peer-* is a sibling selector).
 const fieldClass =
-  "peer w-full border-0 border-b border-rule bg-transparent px-0 pb-2 pt-5 text-ink outline-none transition-colors focus:border-accent";
+  "peer w-full border-0 border-b border-rule bg-transparent px-0 pb-2 pt-5 text-ink outline-none transition-colors focus:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 const labelClass =
   "pointer-events-none absolute left-0 top-5 text-steel transition-all duration-200 peer-focus:top-0 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs";
 

@@ -23,6 +23,7 @@ export function OrgLogo({
   organisation,
   officialSiteLabel,
   compact = false,
+  inert = false,
 }: {
   organisation: OrganisationInfo;
   officialSiteLabel: string;
@@ -30,6 +31,12 @@ export function OrgLogo({
   // hides the caption visually (kept for screen readers via sr-only) so all
   // four logos fit one nowrap row on narrow viewports. Default is unchanged.
   compact?: boolean;
+  // LogoRail's visual-only duplicate track (BRIEF §7: aria-hidden on marquee
+  // duplicates) sits inside an aria-hidden wrapper, but aria-hidden alone
+  // doesn't stop Tab from reaching descendants — an aria-hidden container
+  // must have no focusable content, or keyboard users land on an
+  // invisible-to-AT link. tabIndex={-1} pulls this copy out of tab order.
+  inert?: boolean;
 }) {
   return (
     <a
@@ -37,6 +44,7 @@ export function OrgLogo({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${organisation.name} — ${officialSiteLabel}`}
+      tabIndex={inert ? -1 : undefined}
       // Fixed light "brand plate" (2026-09-02, dark mode): these are raster
       // logos with dark artwork meant for a white background, grayscale-
       // filtered on top — on the dark-mode card they'd go illegible, and we

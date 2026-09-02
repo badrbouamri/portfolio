@@ -32,7 +32,7 @@ function LogoRailTrack({
         <div key={org.name} className="flex items-center">
           {i > 0 ? <span aria-hidden className="mx-6 h-6 w-px bg-rule" /> : null}
           <div className="logo-rail-item">
-            <OrgLogo organisation={org} officialSiteLabel={officialSiteLabel} />
+            <OrgLogo organisation={org} officialSiteLabel={officialSiteLabel} inert={ariaHidden} />
           </div>
         </div>
       ))}
