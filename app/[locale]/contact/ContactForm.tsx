@@ -16,7 +16,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" disabled={pending} aria-busy={pending}>
+    <Button type="submit" variant="solid" disabled={pending} aria-busy={pending}>
       {pending ? t("form_submitting") : t("form_submit")}
     </Button>
   );

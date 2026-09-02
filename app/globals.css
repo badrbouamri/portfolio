@@ -28,6 +28,9 @@
   --signal: #2f5fd9;
   --halo-tint: rgba(47, 95, 217, 0.1);
   --grain-opacity: 0;
+  /* Card hover halo (BRIEF §2.3 Ombres): the one shadow in the system, a
+     soft signal-tinted glow standing in for ambient elevation. */
+  --shadow-halo: 0 0 60px -20px rgba(47, 95, 217, 0.28);
   /* DESIGN.md → Motion: natural deceleration, used on scroll reveals/state
      transitions sitewide — confident arrivals, never bounce. Matches the
      brief's `ease.soft`. `--ease-interact` is the brief's `ease.out`, for
@@ -58,6 +61,7 @@
     --signal: #3e7bff;
     --halo-tint: rgba(62, 123, 255, 0.18);
     --grain-opacity: 0.035;
+    --shadow-halo: 0 0 80px -20px rgba(62, 123, 255, 0.35);
   }
 }
 
@@ -75,6 +79,7 @@
   --signal: #3e7bff;
   --halo-tint: rgba(62, 123, 255, 0.18);
   --grain-opacity: 0.035;
+  --shadow-halo: 0 0 80px -20px rgba(62, 123, 255, 0.35);
 }
 
 @theme inline {
@@ -312,9 +317,12 @@ h3 {
   margin: 0;
 }
 
+/* BRIEF §5.5/§7: focus uses --signal (blue), not --accent — the redesign's
+   role split reserves signal for focus/halo only, accent for data/actions.
+   Offset widened to 3px to match. */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
 }
 
 /* One orchestrated page-load reveal, hero only (PRD §8.7). Disabled by the
@@ -549,11 +557,14 @@ h3 {
   transition: transform 200ms var(--ease-plot);
 }
 
-/* Sweep-fill (Button.tsx primary variant, CvButton.tsx) — the same
+/* Sweep-fill (Button.tsx solid variant, CvButton.tsx) — the same
    left-to-right ruler-tick gesture as .nav-link, scaled up to a full fill:
-   a flat ink plane sweeps in from the left on hover/focus instead of the
+   a flat plane sweeps in from the left on hover/focus instead of the
    background swapping instantly. isolation + a negative-z-index pseudo keeps
-   the fill behind the button's own text without needing to wrap it in a span. */
+   the fill behind the button's own text without needing to wrap it in a span.
+   Fill color is a variable (default --color-ink, the solid-button darken-on-
+   hover) so .btn-ghost below can point it at --color-accent instead without
+   a second copy of the mechanism. Timing matches BRIEF §5.5 (320ms, ease-out). */
 .sweep-fill {
   position: relative;
   isolation: isolate;
@@ -564,14 +575,49 @@ h3 {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--color-ink);
+  background: var(--sweep-fill-color, var(--color-ink));
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 250ms var(--ease-plot);
+  transition: transform 320ms var(--ease-interact);
 }
 .sweep-fill:hover::before,
 .sweep-fill:focus-visible::before {
   transform: scaleX(1);
+}
+
+/* Button.tsx ghost variant — fill sweeps to brass (not ink), and the label
+   swaps to --on-accent so it stays legible once the fill lands underneath,
+   per BRIEF §3 <Button />. */
+.btn-ghost {
+  --sweep-fill-color: var(--color-accent);
+  transition: color 320ms var(--ease-interact);
+}
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  color: var(--color-on-accent);
+}
+.btn-ghost:hover .cta-arrow,
+.btn-ghost:focus-visible .cta-arrow {
+  transform: translateX(4px);
+}
+
+/* Card.tsx hover (BRIEF §3 <Card />) — gated to real hover-capable pointers
+   only, per the brief's explicit requirement, so a tap on mobile never
+   leaves the card stuck in its hover state. */
+@media (hover: hover) {
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-rule-active);
+    box-shadow: var(--shadow-halo);
+  }
+}
+
+/* :active → scale(.98) on every button (BRIEF §3/§5.5). */
+.btn-tap {
+  transition: transform 150ms var(--ease-interact);
+}
+.btn-tap:active {
+  transform: scale(0.98);
 }
 .nav-link:hover::after,
 .nav-link:focus-visible::after {

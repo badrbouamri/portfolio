@@ -44,7 +44,7 @@ export function ProjectsExplorer({ caseStudies }: { caseStudies: CaseStudy[] }) 
       <div role="group" aria-label={t("filter_label")} className="mb-6 flex flex-wrap gap-2">
         <Button
           type="button"
-          variant={activeCategory === null ? "primary" : "secondary"}
+          variant={activeCategory === null ? "solid" : "ghost"}
           aria-pressed={activeCategory === null}
           onClick={() => selectCategory(null)}
         >
@@ -54,7 +54,7 @@ export function ProjectsExplorer({ caseStudies }: { caseStudies: CaseStudy[] }) 
           <Button
             key={cat}
             type="button"
-            variant={activeCategory === cat ? "primary" : "secondary"}
+            variant={activeCategory === cat ? "solid" : "ghost"}
             aria-pressed={activeCategory === cat}
             onClick={() => selectCategory(cat)}
           >
@@ -66,7 +66,7 @@ export function ProjectsExplorer({ caseStudies }: { caseStudies: CaseStudy[] }) 
       {filtered.length === 0 ? (
         <div className="border border-rule bg-surface p-6 text-center">
           <p className="mb-4 text-sm text-graphite">{t("empty_message")}</p>
-          <Button type="button" variant="secondary" onClick={() => selectCategory(null)}>
+          <Button type="button" variant="ghost" onClick={() => selectCategory(null)}>
             {t("empty_cta")} →
           </Button>
         </div>

@@ -1,19 +1,50 @@
-import { type ComponentPropsWithoutRef } from "react";
+import { type ComponentPropsWithoutRef, type ReactNode } from "react";
 
-type ButtonVariant = "primary" | "secondary";
+type ButtonVariant = "ghost" | "solid";
 
-type ButtonProps = ComponentPropsWithoutRef<"button"> & {
+type CommonProps = {
   variant?: ButtonVariant;
+  className?: string;
+  children: ReactNode;
 };
+
+type ButtonAsButton = CommonProps &
+  Omit<ComponentPropsWithoutRef<"button">, keyof CommonProps> & { href?: undefined };
+
+type ButtonAsAnchor = CommonProps &
+  Omit<ComponentPropsWithoutRef<"a">, keyof CommonProps> & { href: string };
+
+type ButtonProps = ButtonAsButton | ButtonAsAnchor;
 
 const base =
-  "inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-[2px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 disabled:cursor-not-allowed";
+  "btn-tap inline-flex items-center justify-center gap-2 rounded-hairline px-[26px] py-[14px] text-label uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-50";
 
+// BRIEF §3 <Button /> and §5.5. `ghost` (default) is a transparent/outlined
+// button whose fill sweeps in from the left on hover/focus (reusing the
+// sitewide .sweep-fill mechanism, parameterized to brass instead of ink via
+// --sweep-fill-color); `solid` is filled at rest and darkens to --ink on
+// hover, same mechanism as the pre-redesign primary button. Renders <a> when
+// `href` is given, <button> otherwise — never a clickable div.
 const variants: Record<ButtonVariant, string> = {
-  primary: "sweep-fill bg-accent text-surface",
-  secondary: "border border-rule text-ink hover:border-accent hover:text-accent",
+  ghost: "btn-ghost sweep-fill border border-accent text-ink",
+  solid: "sweep-fill bg-accent text-on-accent",
 };
 
-export function Button({ variant = "primary", className = "", ...props }: ButtonProps) {
-  return <button className={`${base} ${variants[variant]} ${className}`} {...props} />;
+export function Button({ variant = "ghost", className = "", children, ...props }: ButtonProps) {
+  const classes = `${base} ${variants[variant]} ${className}`;
+
+  if ("href" in props && props.href !== undefined) {
+    const { href, ...anchorProps } = props;
+    return (
+      <a href={href} className={classes} {...anchorProps}>
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <button className={classes} {...(props as ComponentPropsWithoutRef<"button">)}>
+      {children}
+    </button>
+  );
 }

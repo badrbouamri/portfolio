@@ -1,10 +1,16 @@
 import { Rule } from "@/components/ui/Rule";
+import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { FramedImage } from "@/components/ui/FramedImage";
+import { Stat } from "@/components/ui/Stat";
 
-// Redesign (BRIEF-REFONTE-PORTFOLIO.md §11, Phase 1). Internal reference only —
-// not linked from anywhere, noindex'd below, and deleted at Phase 8 per the
-// brief's own checklist. Renders real tokens from globals.css (not a mockup),
-// so this is what the live app actually resolves — including through
-// <Backdrop /> and the Header/Footer chrome from the root layout.
+// Redesign (BRIEF-REFONTE-PORTFOLIO.md §11, Phase 1-2). Internal reference
+// only — not linked from anywhere, noindex'd below, and deleted at Phase 8
+// per the brief's own checklist. Renders real tokens/components from
+// globals.css and components/ui/ (not a mockup), so this is what the live
+// app actually resolves — including through <Backdrop /> and the
+// Header/Footer chrome from the root layout.
 export const metadata = {
   robots: { index: false, follow: false },
 };
@@ -112,6 +118,86 @@ export default function StyleguidePage() {
               text-label — IBM Plex Mono, tracked caps, --color-accent
             </p>
             <p className="font-data text-label uppercase text-accent">▸ Étude de cas 02 · Méthodes</p>
+          </div>
+        </div>
+      </section>
+
+      <Rule className="mb-16" />
+
+      <section className="mb-16">
+        <h2 className="text-h3 mb-6 text-ink">Composants</h2>
+
+        <div className="mb-10">
+          <p className="font-data mb-3 text-xs uppercase tracking-wide text-steel">SectionLabel</p>
+          <SectionLabel>Ingénierie industrielle</SectionLabel>
+        </div>
+
+        <div className="mb-10">
+          <p className="font-data mb-3 text-xs uppercase tracking-wide text-steel">
+            Button — ghost (défaut) / solid, avec état focus et arrow nudge
+          </p>
+          <div className="flex flex-wrap items-center gap-4">
+            <Button>
+              Lire l&apos;étude <span className="cta-arrow">→</span>
+            </Button>
+            <Button variant="solid">Écrire un message</Button>
+            <Button href="#" variant="ghost">
+              Rendu en &lt;a&gt;
+            </Button>
+            <Button disabled>Désactivé</Button>
+          </div>
+        </div>
+
+        <div className="mb-10">
+          <p className="font-data mb-3 text-xs uppercase tracking-wide text-steel">
+            Card — default / feature / flat (survol desktop seulement)
+          </p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <Card>
+              <p className="font-data text-xs uppercase tracking-wide text-accent">Étude de cas</p>
+              <h3 className="text-h3 mt-2 text-ink">Défaut</h3>
+              <p className="mt-2 text-sm text-graphite">Survole-moi (desktop).</p>
+            </Card>
+            <Card variant="feature">
+              <p className="font-data text-xs uppercase tracking-wide text-accent">Étude de cas</p>
+              <h3 className="text-h3 mt-2 text-ink">Feature</h3>
+              <p className="mt-2 text-sm text-graphite">Plus haute — image en haut en usage réel.</p>
+            </Card>
+            <Card variant="flat">
+              <p className="font-data text-xs uppercase tracking-wide text-accent">Étude de cas</p>
+              <h3 className="text-h3 mt-2 text-ink">Flat</h3>
+              <p className="mt-2 text-sm text-graphite">Jamais de survol.</p>
+            </Card>
+          </div>
+        </div>
+
+        <div className="mb-10">
+          <p className="font-data mb-3 text-xs uppercase tracking-wide text-steel">FramedImage</p>
+          <div className="max-w-sm">
+            <FramedImage
+              src="/images/cover.jpg"
+              alt="Poste de travail, exemple de rendu FramedImage"
+              caption="Fig. — cadre 1px décalé, légende alignée à gauche."
+              ratio="4/3"
+            />
+          </div>
+        </div>
+
+        <div className="mb-10">
+          <p className="font-data mb-3 text-xs uppercase tracking-wide text-steel">Stat</p>
+          <div className="flex flex-wrap gap-10">
+            <Stat value={-33.8} suffix="%" label="Coût de rebut · L2" />
+            <Stat value={40} label="Poste ST40" />
+          </div>
+        </div>
+
+        <div>
+          <p className="font-data mb-3 text-xs uppercase tracking-wide text-steel">
+            Divider — accent (BRIEF §3) vs. Rule simple
+          </p>
+          <div className="flex flex-col gap-4">
+            <Rule accent />
+            <Rule />
           </div>
         </div>
       </section>

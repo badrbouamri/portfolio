@@ -29,6 +29,27 @@
         "value": "#b5342c",
         "createdAt": "2026-09-01T19:37:03.621Z",
         "reason": "user confirmed: explicit request to clone reference screenshot's red accent for Engineering Projects section only (scoped via .text-editorial-accent)"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "999px",
+        "files": [
+          "app/globals.css"
+        ],
+        "createdAt": "2026-09-01T20:15:00.000Z",
+        "reason": "user confirmed: explicit request for a rounded 'pill' toolbox/filter look inspired by a reference portfolio, scoped to SkillsToolbox only via --radius-pill (every other radius sitewide is --radius-hairline/2px or square)"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#e2685d",
+        "createdAt": "2026-09-01T22:13:03.189Z",
+        "reason": "dark-mode contrast fix for the already-flagged .text-editorial-accent one-off (light value #b5342c fails 4.5:1 on dark paper/surface; verified 5.46/4.97 with this brightened value)"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "6px",
+        "createdAt": "2026-09-01T23:52:57.231Z",
+        "reason": "BRIEF-REFONTE-PORTFOLIO.md §3 SectionLabel spec: decorative chevron glyph is explicitly 6px, not a type-scale step"
       }
     ]
   }
