@@ -1,0 +1,132 @@
+---
+slug: "shifter-kart-conception-fabrication"
+locale: "en"
+title: "Shifter kart design and build"
+subtitle: "Mechanical design, fabrication, and a study toward a hybrid architecture"
+category: "conception"
+organisation: "Personal project"
+organisationPublic: true
+location: "Kénitra, Morocco"
+period:
+  start: "To be confirmed" # ⚠️ TO COMPLETE — exact date unknown, do not guess
+  end: "August 2026"
+durationLabel: "17 weeks"
+role: "Designer and builder (personal project)"
+summary: "CAD design in SOLIDWORKS, fabrication and commissioning of a shifter kart (welded tubular frame, 110cc motorcycle engine, hydraulic braking) for MAD 5,710, complemented by a costed feasibility study for a hybrid front-wheel motor."
+featured: false
+order: 10
+confidential: false
+tools: ["SOLIDWORKS", "Arc welding (shielded metal arc)", "Standard workshop tooling"]
+methods: ["Horned-beast & octopus diagrams", "SADT", "FAST", "FMEA", "Gantt chart & critical path", "Electromechanical sizing"]
+kpis:
+  - label: "Build budget"
+    value: "MAD 5,710"
+    note: "target ceiling: MAD 6,000"
+  - label: "Top speed"
+    value: "> 30 km/h"
+  - label: "Project duration"
+    value: "17 weeks"
+    note: "critical path A→B→E→F→G→H→I"
+hero:
+  src: "/images/projets/shifter-kart-conception-fabrication/kart-assemblage.jpg"
+  alt: "Assembled shifter kart, rear three-quarter view — welded tubular frame, 110cc motorcycle engine, steering wheel and column, hydraulic braking on the rear axle"
+gallery: []
+links: []
+related: ["conception-mecanique-catia-v5"]
+---
+
+<img
+  src="/images/projets/shifter-kart-conception-fabrication/kart-assemblage.jpg"
+  alt="Assembled shifter kart, rear three-quarter view — welded tubular frame, 110cc motorcycle engine, steering wheel and column, hydraulic braking on the rear axle"
+  className="my-6 w-full border border-rule bg-surface p-2"
+/>
+
+*Fig. 1 — Assembled shifter kart: welded tubular frame, 110cc powertrain in the central-rear position, hydraulic steering and braking.*
+
+## Context
+
+A personal mechanical design-and-build project, carried out in a workshop outside any academic or professional setting: design a complete shifter kart in SOLIDWORKS — a single-seat vehicle with a 110cc motorcycle engine, a hand-operated clutch and a 4-speed gearbox — then build it from welded steel tube and reclaimed components. The project covers the full product cycle: requirements definition, CAD design, workshop fabrication, commissioning, a maintenance guide, and a costed feasibility study for evolving toward a hybrid architecture with a front-wheel electric motor.
+
+## Problem
+
+Karting remains expensive and hard to access: renting costs around MAD 90 for five minutes on track, and a commercial kids' kart (around MAD 6,000) tops out at 25 km/h, with no clutch or gearbox. No existing offering combines performance, customisation and controlled cost for this use case — hence the choice to design and build the vehicle rather than buy or rent one.
+
+## Objectives
+
+- Design a frame, rear axle, steering and pedal assembly in SOLIDWORKS, validated for clearance and kinematics before fabrication.
+- Build and assemble a kart with a hand-operated clutch and 4-speed gearbox, capable of exceeding 30 km/h, for a total budget ≤ MAD 6,000.
+- Make the vehicle safe with hydraulic disc braking on the rear axle and a kill switch the driver can reach without letting go of the wheel.
+- Cost out the technical and economic feasibility of a hybrid evolution with a front-wheel electric motor.
+
+## My role
+
+A personal project carried out alone, from requirements definition to commissioning: functional analysis, CAD design in SOLIDWORKS, cutting and welding the frame, assembling the powertrain and the braking/steering components, writing the user guide and maintenance plan, then a sizing study for the hybrid evolution.
+
+## Approach & methodology
+
+### 1. Requirements scoping and specification
+
+The need was formalised with a horned-beast diagram, an octopus diagram (one main function, five constraint functions) and a level A-0 SADT diagram, then translated into nine quantified requirements — speed ≥ 30 km/h, mass/power ratio ≈ 15 kg/hp, budget ≤ MAD 6,000, hydraulic braking, among others. A FAST diagram then links each service function to the technology chosen to fulfil it.
+
+Project management ran on a task table and a Gantt chart: the critical path A→B→E→F→G→H→I totals 17 weeks, with the fabrication branch (CAD design, 4 weeks, then part fabrication, 8 weeks) driving the overall duration ahead of the analysis branch (3 weeks, 9 weeks of float).
+
+### 2. CAD design in SOLIDWORKS
+
+Full modelling before fabrication: a tubular frame (round Ø30mm steel tube), a rear axle carrying the brake disc and the transmission sprocket, a front wheel hub designed with reserved clearance around the hub, a steering column, pedal assembly, seat mount, and a general assembly validating steering travel, chain routing and freedom from interference before moving to fabrication. The bill of materials and tube-cutting lengths were derived directly from the CAD model.
+
+### 3. Fabrication and assembly
+
+Cutting and shearing the tube per a documented, phased manufacturing routing, shielded-metal-arc welding of the frame, grinding, priming and anti-corrosion paint. Fitting the 110cc engine in the central-rear position to shift weight onto the drive axle, hydraulic braking salvaged from a motorcycle rear end, steering (a passenger-car steering wheel, column and tie rods), and the seat. Two wheel diameters were chosen: quad-bike wheels at the rear for traction, 8-inch wheelbarrow wheels at the front for steering.
+
+### 4. Commissioning, user guide and maintenance plan
+
+Writing a sequenced user guide (pre-start checks, setting neutral, electric or kick starting, moving off, braking and stopping) and a two-part maintenance plan: scheduled (before each session, every 5 sessions, every 3 months, at oil changes, annually) and condition-based, pairing each of five typical failure symptoms with a corrective action.
+
+### 5. Hybrid evolution study
+
+Full sizing of a 48V/500W BLDC hub motor on the front wheel: calculating the power needed to hold 30 km/h (rolling resistance and aerodynamic drag, ≈234W), low-speed torque (≈7.6 N·m nominal, up to ≈23 N·m peak), the Li-ion battery pack in a 13S4P configuration (46.8V, 10Ah, 468Wh), and usable range (≈45 min at full power). Complemented by an FMEA dedicated to the electrical system and a mechanical-integration and electrical-safety plan (fuse, IP54 protection rating, an emergency stop button independent of the thermal kill switch).
+
+## Tools & methods
+
+`SOLIDWORKS` `Arc welding (shielded metal arc)` `Octopus diagram` `SADT` `FAST` `FMEA` `Gantt chart` `Electromechanical sizing`
+
+## Engineering analysis
+
+**Size before you buy, not after.** Rather than picking a hub motor off a catalogue and checking afterward whether it would work, the electric-assist sizing started from the requirement — hold 30 km/h — and worked back to the power and torque needed:
+
+```
+F_rolling = Cr × m × g = 0.015 × 120 × 9.81 = 17.66 N
+F_aero = ½ × ρ × Cx × S × V² = ½ × 1.2 × 0.5 × 0.5 × 8.33² = 10.41 N
+F_total = 17.66 + 10.41 = 28.07 N
+P = F_total × V = 28.07 × 8.33 ≈ 234 W
+```
+
+Choosing a 500W motor leaves a safety factor of around 2, which covers acceleration, resistive losses in the wiring, and controller efficiency — without it, a motor sized exactly to the cruising regime would struggle from the first hard acceleration.
+
+**Treat a process constraint as an input, not an afterthought.** The frame was built in steel rather than aluminium: cost played into the decision, but the deciding factor was that the welding equipment available in the workshop couldn't weld aluminium reliably. A production-means constraint was built into the material choice from the start, rather than discovered mid-fabrication.
+
+**Reserve the space before knowing if you'll need it.** The front wheel hub was designed with reserved clearance around the hub as early as the initial CAD phase, anticipating an electric hub motor that would only be sized in the evolution study carried out after fabrication. That decision avoided having to rework the part after the fact for the hybrid study.
+
+## Difficulties encountered
+
+- **Welding compatibility with the material.** Aluminium, though lighter, had to be ruled out in favour of steel because the arc-welding equipment available in the workshop couldn't weld aluminium reliably — a material trade-off dictated by the actual tooling on hand, not by mass calculations alone.
+- **Reconciling two wheel diameters.** The original front wheels (wheelbarrow, 8 inches) and commercial hub motors (10 inches) aren't compatible as-is: the hybrid study requires moving the front to 10 inches, which unifies the front/rear diameters but complicates direct integration onto the existing wheel hub.
+- **No finite-element analysis.** The frame's sizing relies on experience and deliberately generous margins rather than a structural simulation — a limitation I acknowledge and document rather than hide.
+
+## Solutions implemented
+
+- Welded tubular frame (Ø30mm steel), ground, primed and painted against corrosion.
+- Complete powertrain: 110cc 4-stroke/4-speed motorcycle engine, hand-operated clutch, chain final drive.
+- Hydraulic disc braking on the rear axle (master cylinder, caliper, DOT 4 fluid) and a safety kill switch mounted on the steering wheel.
+- A sequenced user guide and a documented scheduled/condition-based maintenance plan.
+- A costed hybrid-evolution study: 48V/500W BLDC hub motor, 13S4P Li-ion pack, sized ESC and BMS, dedicated FMEA and a detailed budget.
+
+## Results
+
+The combustion-engine kart runs and meets every requirement in the specification for a build budget of MAD 5,710, under the MAD 6,000 ceiling set upfront — a vehicle with a clutch and 4-speed gearbox, clearly outperforming a commercial kids' kart sold at the same price. Top speed above 30 km/h and hydraulic braking directly satisfy the requirements set in the specification.
+
+The performance figures remain estimates, though: they weren't measured with onboard instrumentation, for lack of a speed sensor or a dyno, which limits validation to a functional check rather than a measured characterisation. The hybrid study, for its part, stops at sizing: the hub motor was never physically integrated into the vehicle.
+
+## What I took from it
+
+This project had me carry the entire product chain — from a stated need to a vehicle that runs and a usable maintenance guide — rather than stopping at CAD design as in my other personal projects. If I did it again, I'd run a finite-element structural calculation before fabrication rather than relying on empirical margins: the current margins work, but I can't say precisely how over- or under-sized they are, which a calculation would have settled at the design stage.

@@ -1,0 +1,98 @@
+---
+slug: nexteer-optimisation-outils-cnc
+locale: en
+title: "Continuous improvement of tool performance — CNC area"
+subtitle: "Monitoring cutting-tool performance on CNC machines"
+category: lean
+organisation: "Nexteer Automotive"
+organisationPublic: true
+location: "Kénitra, Morocco"
+period:
+  start: "2024-06"
+  end: "2024-06"
+durationLabel: "1 month"
+role: "Intern — Continuous Improvement (introductory internship)"
+summary: "One-month introductory internship at Nexteer Automotive: manufacturing process analysis and cutting-tool performance monitoring in the CNC area."
+featured: false
+order: 5
+confidential: true
+tools: []
+methods: ["CNC machines", "Process optimisation", "Tool performance monitoring"]
+kpis: []
+hero:
+  src: "/images/projets/nexteer-optimisation-outils-cnc/illustration-zone-cnc.jpg"
+  alt: "Illustration of a CNC machining workshop (generic mockup, not an actual photo of the Nexteer workshop — no proprietary data or equipment)"
+gallery: []
+links: []
+related: []
+---
+
+> Data intentionally indexed or anonymised out of respect for industrial confidentiality.
+
+## Context
+
+One-month introductory internship at Nexteer Automotive, in Kénitra, in the CNC (computer numerical control) machining area. First exposure to continuous improvement in an automotive manufacturing environment.
+
+## Problem
+
+Cutting-tool performance in the CNC area (wear, efficiency) was tracked in a way the supervising team considered improvable.
+
+## Objectives
+
+- Analyse manufacturing processes in the CNC area.
+- Monitor the performance of cutting tools and CNC machines.
+- Propose ways to reduce tool wear and increase operational efficiency.
+
+## My role
+
+As an intern, I took part in analysing manufacturing processes and monitoring cutting-tool performance, under the supervision of the team. A short, introductory internship: an observation-and-analysis scope, with no implementation responsibility.
+
+## Approach & methodology
+
+Observation and monitoring of manufacturing processes in the CNC area, focused on cutting-tool performance (wear, operational efficiency).
+
+Tool lifetime data (end mills and turning inserts) is extracted directly from the EMAG CNC machines, then sorted by date and change cycle in a Power BI dashboard. This tracking made it possible to plot lifetime curves by tool, by machine and by period, and to compare identical tools used under supposedly similar conditions.
+
+## Tools & methods
+
+`CNC machines` · `Process optimisation` · `Tool performance monitoring`
+
+## Engineering analysis
+
+The trigger for the analysis was a gap observed in the lifetime curves: one milling tool could machine up to 1,500 parts before replacement, while another of the same type, under apparently identical conditions, only machined 700 — an 800-part gap difficult to explain by normal wear alone (theoretical lifetime: 1,000 parts for a ball-nose end mill, 2,000 for a turning insert).
+
+Potential causes were structured with an Ishikawa diagram (the 6 Ms: machines, materials, methods, manpower, environment, measurement), based on the curves, on-site observations and interviews with operators. Four causes were then quantified with an FMEA (severity × occurrence × detectability = RPN) to prioritise them rather than treat them equally:
+
+- **Random machine stoppages** (RPN 36, the highest) — disrupt flow and distort the count of parts machined between two tool changes.
+- **Simultaneous left/right tool changes** even though machining only engages one axis (RPN 24) — the tool not in use gets replaced while it would still have usable life left.
+- **Rust on parts caused by inadequate storage** (RPN 24) — an irregular surface accelerates tool wear from the first pass.
+- **Poor digital torque-wrench setting**, which did not display the required tightening torque (10 N·m for milling tools, 25 N·m for tool holders) (RPN 18) — an out-of-tolerance clamp degrades cutting quality.
+
+The hypothesis ruled out was looking for a single cause behind the observed lifetime gap: the FMEA instead shows four factors of different natures (mechanical, procedural, material, metrological) each contributing part of the problem, which steered the recommendations toward a multi-pronged action plan rather than a single fix.
+
+## Difficulties encountered
+
+Over a one-month internship, it wasn't possible to set up dedicated instrumented monitoring: causes had to be reconstructed after the fact from existing Power BI curves, occasional shop-floor observations and operator interviews, rather than from data collection designed for the analysis.
+
+Frequent machine stoppages — one of the causes identified by the FMEA — also disrupted the data collection itself: they created uncertainty over the actual number of parts machined between two tool changes, making tool-to-tool comparison less reliable than it should have been.
+
+Finally, the internship's short duration didn't allow verifying whether the identified causes fully accounted for the observed gap (800 parts): the analysis stopped at identifying and prioritising causes, with no validation loop across several production cycles.
+
+## Solutions implemented
+
+For each of the four causes prioritised by the FMEA, a corrective action was proposed to the supervising team:
+
+- Check and adjust the tightening torque, replace the faulty digital torque wrench (Maintenance).
+- Train operators to change only the tool actually in use, and adjust the left/right tool-change practice (Production supervisor).
+- Improve part storage conditions and strengthen pre-machining inspection, to limit rust (Logistics).
+- Strengthen preventive maintenance and automated machine monitoring to reduce random stoppages (Maintenance).
+
+## Results
+
+This one-month internship did not allow measuring the effect of these actions on tool lifetime; the recommendations were handed over to the supervising team with the FMEA table and the owners assigned per action, for follow-up after the internship ended.
+
+## What I took from it
+
+This first exposure to continuous improvement in an automotive environment taught me to break down an apparently simple problem — one tool wearing out faster than another — into several distinct causes rather than looking for a single one. The FMEA also showed me the value of prioritising by score rather than intuition: the cause that seemed most visible on the shop floor (the poor clamping) wasn't the one with the highest RPN.
+
+A month is short for carrying through to validating actions, and I left with that limitation acknowledged rather than hidden: identifying and prioritising causes is already useful work, even without closing the loop on measuring impact within the time available.
