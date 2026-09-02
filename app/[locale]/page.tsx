@@ -3,9 +3,10 @@ import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/Section";
 import { Rule } from "@/components/ui/Rule";
 import { Reveal } from "@/components/ui/Reveal";
-import { CoverBanner } from "@/components/layout/CoverBanner";
+import { Hero } from "@/components/home/Hero";
 import { OrgLogo } from "@/components/ui/OrgLogo";
 import { ProjectRow } from "@/components/case/ProjectRow";
+import { HomeSkillsGrid } from "@/components/home/HomeSkillsGrid";
 import { getAllCaseStudies } from "@/lib/content";
 import { ORGANISATIONS } from "@/lib/organisations";
 import type { Locale } from "@/i18n/routing";
@@ -75,26 +76,11 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Cover — a desk photo treated as an accent-color duotone so it reads
-          as part of the site's monochrome blueprint system rather than a
-          full-color stock photo; see docs/redesign-brief.md and the
-          2026-08-28/2026-08-29 cover discussions. */}
-      <CoverBanner />
-
-      {/* Hero continuation — the name/credential/portrait/positioning tag now
-          live inside CoverBanner above (2026-08-29 merge, extended same day
-          by a live-mode steer that moved the positioning tag up too). This
-          section is now just a short accent divider on a bare surface: the
-          graph-paper grid, the wash that briefly replaced it, the value
-          sentence, and the CTA row were all removed in the same 2026-08-29
-          live-mode pass. */}
-      <section className="relative overflow-hidden border-b border-rule px-4 py-6 sm:px-6 sm:py-10">
-        <div className="relative z-10 mx-auto flex w-full max-w-[640px] flex-col items-center gap-4 text-center">
-          <div className="mx-auto flex max-w-[520px] flex-col items-center gap-[4px]">
-            <div className="hero-reveal hero-reveal-2 h-px w-10 bg-accent" />
-          </div>
-        </div>
-      </section>
+      {/* Redesign Phase 4 (BRIEF §4.1 Bloc 1 + §5.2): full-height centered
+          hero with the site's one authored entrance sequence, replacing the
+          old CoverBanner (side-by-side name/credential/portrait strip) and
+          the leftover thin divider section beneath it. */}
+      <Hero />
 
       {/* Organisations — a credibility strip with real logos (confirmed
           2026-08-28, supersedes the earlier no-raster-logo scoping in
@@ -161,21 +147,19 @@ export default function HomePage() {
         </Link>
       </Section>
 
-      {/* Ce que je sais faire — four evidence-linked blocks, no numbering, no
-          percentage bars. */}
+      {/* Ce que je sais faire — 2026-09-02 restyle: 01–04 dark cards with a
+          center portrait on desktop (HomeSkillsGrid), replacing the plain
+          2-column evidence list. Layout only borrowed from a reference site
+          per explicit request; colors/type/radii stay in the token system —
+          see CLAUDE.md. Data (`competences`, built above from the same
+          Home.competence_* keys as before) is unchanged, just re-rendered. */}
       <Section title={t("competences_eyebrow")}>
-        <Reveal stagger className="grid gap-6 sm:grid-cols-2">
-          {competences.map((c) => (
-            <div key={c.titre} className="border-t border-rule pt-4">
-              <h3 className="text-md text-ink">{c.titre}</h3>
-              <Link
-                href={`/projets/${c.slug}`}
-                className="group mt-2 block text-sm text-graphite hover:text-accent"
-              >
-                {c.evidence} <span className="cta-arrow">→</span>
-              </Link>
-            </div>
-          ))}
+        <Reveal>
+          <HomeSkillsGrid
+            items={competences}
+            photoSrc="/images/profile-cutout.png"
+            photoAlt={t("home_photo_alt")}
+          />
         </Reveal>
       </Section>
 

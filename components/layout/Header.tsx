@@ -90,6 +90,18 @@ export function Header() {
     }`;
   }
 
+  // BRIEF §5.2: the hero's entrance sequence includes the header nav links,
+  // opacity-fading in at t=1100ms with a 40ms stagger — homepage only, per
+  // "un seul grand moment de mouvement par page." Combined left+right index
+  // keeps the stagger reading left-to-right across both clusters.
+  const isHome = pathname === "/";
+  const ALL_NAV = [...LEFT_NAV, ...RIGHT_NAV];
+  function heroNavStyle(href: string): React.CSSProperties | undefined {
+    if (!isHome) return undefined;
+    const index = ALL_NAV.findIndex((item) => item.href === href);
+    return { animationDelay: `${1100 + index * 40}ms` };
+  }
+
   return (
     <header
       data-scrolled={scrolled}
@@ -109,7 +121,8 @@ export function Header() {
               key={item.href}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
-              className={`whitespace-nowrap ${navLinkClass(item.href)}`}
+              className={`whitespace-nowrap ${navLinkClass(item.href)} ${isHome ? "hero-nav-enter" : ""}`}
+              style={heroNavStyle(item.href)}
             >
               {t(item.key)}
             </Link>
@@ -127,7 +140,8 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className={`whitespace-nowrap ${navLinkClass(item.href)}`}
+                className={`whitespace-nowrap ${navLinkClass(item.href)} ${isHome ? "hero-nav-enter" : ""}`}
+                style={heroNavStyle(item.href)}
               >
                 {t(item.key)}
               </Link>

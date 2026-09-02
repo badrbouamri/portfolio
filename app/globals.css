@@ -808,6 +808,131 @@ a:hover > .cta-arrow-down {
   );
 }
 
+/* Homepage hero (Hero.tsx), BRIEF §4.1 Bloc 1 + §5.2 — the site's one
+   authored entrance sequence. Every timing value below is the brief's own
+   millisecond table; kept as separate small classes rather than one
+   composite animation so each element's delay/duration reads directly off
+   the spec. */
+.hero-photo-mask {
+  mask-image: radial-gradient(closest-side, black, transparent);
+  -webkit-mask-image: radial-gradient(closest-side, black, transparent);
+}
+.hero-photo {
+  opacity: 0;
+  transform: scale(1.06);
+  animation: hero-photo-in 1400ms var(--ease-plot) both;
+}
+@keyframes hero-photo-in {
+  to {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+}
+
+.hero-halo {
+  opacity: 0;
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 30%,
+    color-mix(in srgb, var(--color-signal) 25%, transparent),
+    transparent 70%
+  );
+  animation: hero-fade-in 1200ms var(--ease-plot) 120ms both;
+}
+@keyframes hero-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-mark {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: var(--color-steel);
+  opacity: 0.3;
+}
+.hero-mark-left {
+  left: 24px;
+}
+.hero-mark-right {
+  right: 24px;
+}
+
+.hero-eyebrow {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: hero-fade-up 700ms var(--ease-plot) 260ms both;
+}
+@keyframes hero-fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-name-line {
+  transform: translateY(100%);
+  animation: hero-name-in 900ms var(--ease-plot) both;
+}
+.hero-name-line-1 {
+  animation-delay: 380ms;
+}
+.hero-name-line-2 {
+  animation-delay: 460ms;
+}
+@keyframes hero-name-in {
+  to {
+    transform: translateY(0);
+  }
+}
+
+.hero-rule {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: hero-rule-in 800ms var(--ease-plot) 700ms both;
+}
+@keyframes hero-rule-in {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.hero-subtitle {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: hero-fade-up 700ms var(--ease-plot) 860ms both;
+}
+
+/* Header.tsx nav links, homepage only (`.hero-nav-enter`, gated on
+   pathname === "/"). Reuses .hero-fade-in; per-link delay is set inline
+   (1100ms + 40ms × index) since it depends on the link's position. */
+.hero-nav-enter {
+  opacity: 0;
+  animation: hero-fade-in 600ms var(--ease-plot) both;
+}
+
+.hero-scroll {
+  opacity: 0;
+  animation: hero-fade-in 400ms var(--ease-plot) 1500ms both;
+}
+.hero-scroll-seg {
+  animation: hero-scroll-loop 2000ms var(--ease-plot) infinite;
+}
+@keyframes hero-scroll-loop {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(36px);
+    opacity: 0;
+  }
+}
+
 /* Print stylesheet — scoped mainly at case studies (PRD M7), but hiding site
    chrome on paper is universally correct so it's not gated to that route. */
 @media print {

@@ -56,6 +56,12 @@
         "value": "10px",
         "createdAt": "2026-09-02T00:07:30.543Z",
         "reason": "BRIEF-REFONTE-PORTFOLIO.md §3 Footer spec: copyright line is explicitly 10px, not a type-scale step"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "13px",
+        "createdAt": "2026-09-02T00:27:13.681Z",
+        "reason": "BRIEF-REFONTE-PORTFOLIO.md §4.1 Bloc 1 spec: hero positioning subtitle is explicitly 13px"
       }
     ]
   }
