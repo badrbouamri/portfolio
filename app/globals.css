@@ -338,6 +338,36 @@ h3 {
   padding: 1px 5px;
 }
 
+/* Case-study data tables (raw HTML in MDX — no remark-gfm installed for
+   pipe-table syntax, and adding a dependency for this is out of scope).
+   Numeric cells set in --font-data per the sitewide "all numbers are mono"
+   rule; hairline borders match the rest of the shape system. */
+.prose-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 0.9em;
+}
+
+.prose-article th,
+.prose-article td {
+  border: 1px solid var(--color-rule);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.prose-article th {
+  font-family: var(--font-data), ui-monospace, monospace;
+  font-weight: 500;
+  color: var(--color-ink);
+  background: var(--color-surface);
+}
+
+.prose-article td {
+  font-family: var(--font-data), ui-monospace, monospace;
+  color: var(--color-graphite);
+}
+
 .prose-article a {
   color: var(--color-accent);
   text-underline-offset: 2px;

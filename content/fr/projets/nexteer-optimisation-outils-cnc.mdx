@@ -51,7 +51,7 @@ Stagiaire, j'ai participé à l'analyse des processus de fabrication et au suivi
 
 Observation et suivi des processus de fabrication en zone CNC, avec un focus sur la performance des outils de coupe (usure, efficacité opérationnelle).
 
-> ⚠️ À COMPLÉTER — détail des méthodes de suivi utilisées et des observations faites, si des notes ou souvenirs précis du stage existent.
+Les données de durée de vie des outils (fraises et plaquettes de tournage) sont extraites directement des machines CNC EMAG, puis classées par date et par cycle de changement dans un tableau de bord Power BI. Ce suivi a permis de tracer des courbes de durée de vie par outil, par machine et par période, et de comparer des outils identiques utilisés dans des conditions supposées similaires.
 
 ## Outils & méthodes
 
@@ -59,20 +59,40 @@ Observation et suivi des processus de fabrication en zone CNC, avec un focus sur
 
 ## Analyse d'ingénieur
 
-> ⚠️ À COMPLÉTER — ce stage étant court et introductif, ce bloc nécessite un souvenir précis des observations faites sur l'usure des outils ou l'efficacité des processus pour être honnête ; à défaut, il peut rester volontairement bref plutôt que d'inventer une analyse.
+Le déclencheur de l'analyse a été un écart observé sur les courbes de durée de vie : un outil de fraisage pouvait usiner jusqu'à 1 500 pièces avant remplacement, tandis qu'un autre du même type, dans des conditions apparemment identiques, n'en usinait que 700 — un écart de 800 pièces difficile à expliquer par la seule usure normale (durée de vie théorique : 1 000 pièces pour une fraise à bout sphérique, 2 000 pour une plaquette de tournage).
+
+Les causes potentielles ont été structurées avec un diagramme d'Ishikawa (les 6M : machines, matières, méthodes, main-d'œuvre, milieu, mesures), à partir des courbes, d'observations sur le terrain et d'entretiens avec les opérateurs. Quatre causes ont ensuite été quantifiées avec une AMDEC (gravité × fréquence × détectabilité = NPR) pour les prioriser plutôt que de les traiter à égalité :
+
+- **Arrêts aléatoires des machines** (NPR 36, le plus élevé) — perturbent le flux et faussent le comptage des pièces usinées entre deux changements d'outil.
+- **Changements simultanés des outils gauche et droite** alors que l'usinage ne mobilise qu'un seul axe (NPR 24) — l'outil non sollicité est remplacé alors qu'il aurait encore de la durée de vie disponible.
+- **Rouille sur les pièces liée à un stockage inadéquat** (NPR 24) — une surface irrégulière accélère l'usure de l'outil dès la prise de passe.
+- **Mauvais réglage de la clé dynamométrique numérique**, qui n'affichait pas le couple de serrage requis (10 N·m pour les outils de fraisage, 25 N·m pour les porte-outils) (NPR 18) — un serrage hors tolérance dégrade la qualité de coupe.
+
+L'hypothèse écartée était de chercher une cause unique à l'écart de durée de vie observé : l'AMDEC montre au contraire quatre facteurs de nature différente (mécanique, procédural, matière, métrologique) contribuant chacun à une part du problème, ce qui a orienté les recommandations vers un plan d'actions à plusieurs volets plutôt qu'un correctif isolé.
 
 ## Difficultés rencontrées
 
-> ⚠️ À COMPLÉTER — 2 à 3 difficultés réelles rencontrées durant ce stage court (ex. accès limité aux données, durée courte pour observer un effet mesurable).
+Sur un stage d'un mois, il n'était pas possible de mettre en place un suivi instrumenté dédié : les causes ont dû être reconstituées a posteriori à partir des courbes Power BI existantes, d'observations ponctuelles en atelier et d'entretiens avec les opérateurs, plutôt que d'une collecte de données conçue pour l'analyse.
+
+Les arrêts fréquents des machines — l'une des causes identifiées par l'AMDEC — perturbaient aussi la collecte elle-même : ils créaient des incertitudes sur le nombre réel de pièces usinées entre deux changements d'outil, rendant la comparaison d'un outil à l'autre moins fiable qu'elle n'aurait dû l'être.
+
+Enfin, la courte durée du stage ne permettait pas de vérifier si les causes identifiées expliquaient bien la totalité de l'écart observé (800 pièces) : l'analyse s'est arrêtée à l'identification et à la priorisation des causes, sans boucle de validation sur plusieurs cycles de production.
 
 ## Solutions mises en œuvre
 
-> ⚠️ À COMPLÉTER — pistes d'amélioration effectivement proposées pour réduire l'usure des outils et augmenter l'efficacité opérationnelle, si elles sont documentées.
+Pour chacune des quatre causes priorisées par l'AMDEC, une action corrective a été proposée à l'équipe encadrante :
+
+- Vérifier et ajuster le couple de serrage, remplacer la clé dynamométrique numérique défaillante (Maintenance).
+- Former les opérateurs à ne changer que l'outil réellement sollicité, et ajuster la pratique de changement d'outils gauche/droite (Superviseur de production).
+- Améliorer les conditions de stockage des pièces et renforcer leur inspection avant usinage, pour limiter la rouille (Logistique).
+- Renforcer la maintenance préventive et la surveillance automatisée des machines pour réduire les arrêts aléatoires (Maintenance).
 
 ## Résultats
 
-> ⚠️ À COMPLÉTER — aucun résultat chiffré n'est disponible pour ce stage court. Préciser ici, le cas échéant, un retour reçu de l'équipe encadrante ou une suite donnée aux propositions.
+Ce stage d'un mois n'a pas permis de mesurer l'effet de ces actions sur la durée de vie des outils ; les recommandations ont été remises à l'équipe encadrante avec le tableau AMDEC et les responsables assignés par action, pour suite à donner après la fin du stage.
 
 ## Ce que j'en retiens
 
-> ⚠️ À COMPLÉTER — 3 à 5 lignes personnelles, à la première personne (ce premier contact avec l'amélioration continue en environnement automobile a apporté quoi, concrètement).
+Ce premier contact avec l'amélioration continue en environnement automobile m'a appris à décomposer un problème apparemment simple — un outil s'use plus vite qu'un autre — en plusieurs causes distinctes plutôt que d'en chercher une seule. L'AMDEC m'a aussi montré l'intérêt de prioriser par un score plutôt que par intuition : la cause qui semblait la plus visible sur le terrain (le mauvais serrage) n'était pas celle avec le NPR le plus élevé.
+
+Un mois est court pour aller jusqu'à la validation des actions, et je suis reparti avec cette limite assumée plutôt que déguisée : identifier et prioriser des causes est déjà un travail utile, même sans boucler la mesure d'impact dans le temps imparti.

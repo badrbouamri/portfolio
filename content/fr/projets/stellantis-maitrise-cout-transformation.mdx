@@ -69,9 +69,7 @@ Stagiaire ingénieur amélioration continue, j'ai porté la démarche DMAIC de b
 
 1. **Define** — Cadrage du périmètre (atelier Micromobilité, ligne L2, station ST40) à l'aide d'un QQOQCCP et d'un SIPOC ; formalisation de l'écart entre le TC réel et sa cible budgétaire.
 2. **Measure** — Collecte et structuration des données de rebut ; construction d'un Pareto des défauts pour prioriser les contributeurs au coût de transformation.
-3. **Analyze** — Diagnostic des causes racines via AMDEC, diagramme d'Ishikawa et 5 Pourquoi, centré sur la cellule robotisée d'encollage et de conformation et sur les défauts d'étanchéité de la station ST40.
-
-> ⚠️ À COMPLÉTER — le détail des hypothèses de causes racines testées et retenues (issu du rapport PFE).
+3. **Analyze** — Diagnostic des causes racines via AMDEC, diagramme d'Ishikawa et 5 Pourquoi, centré sur la cellule robotisée d'encollage et de conformation et sur les défauts d'étanchéité de la station ST40. L'Ishikawa a structuré les causes possibles selon les 5M (machine, méthode, matière, main-d'œuvre, milieu) ; l'AMDEC a ensuite quantifié et priorisé douze modes de défaillance sur la cellule robotisée pour trancher entre les hypothèses (détail en Analyse d'ingénieur).
 
 4. **Improve** — Mise en place d'un poste de retouche anticipée standardisé pour traiter les défauts d'étanchéité en amont ; déploiement des actions correctives issues du diagnostic.
 5. **Control** — Conception d'un tableau de bord Power BI de suivi du rebut et d'une application web de gestion des consommables, pour pérenniser le pilotage au-delà du stage.
@@ -82,11 +80,39 @@ Stagiaire ingénieur amélioration continue, j'ai porté la démarche DMAIC de b
 
 ## Analyse d'ingénieur
 
-> ⚠️ À COMPLÉTER — ce bloc est le plus important du dossier ("la analyse qui fait recruter") : reprendre du rapport PFE le raisonnement précis — pourquoi telle cause racine a été retenue plutôt qu'une autre, quelle hypothèse a été écartée et sur quelle base (calcul, mesure, AMDEC), et inclure au moins une figure redessinée (Pareto, Ishikawa, ou extrait AMDEC anonymisé). Ne pas publier de capture d'écran de document interne.
+Le diagnostic a démarré par un Pareto des défauts de la ligne L2, qui a immédiatement écarté l'hypothèse d'une cause diffuse : trois familles de défauts — pannes d'encollage, retouches et pannes de conformation caisse — concentrent plus de 71 % du coût de rebut de la ligne, et les cinq premières familles dépassent 82 %. Le diagnostic s'est donc concentré sur la cellule robotisée de flammage-encollage-conformation, identifiée par ce Pareto comme responsable de plus de 85 % du coût du rebut, plutôt que d'être dispersé sur l'ensemble du process.
+
+L'Ishikawa (5M) appliqué à cette cellule a fait ressortir deux familles dominantes — machine et méthode — plutôt que la matière ou le milieu : buse d'encollage bouchée, pistolet bi-composant défaillant, absence de standard de purge, contrôle du cordon de colle insuffisant. La méthode des 5 Pourquoi a ensuite remonté deux chaînes causales distinctes à partir de ces symptômes : les défauts d'étanchéité remontent à un manque de standardisation des procédés critiques (encollage, flammage, conformation), tandis que la baisse de volume produit remonte séparément à un suivi préventif insuffisant des robots des stations ST40. Ces deux causes racines ne se recoupent pas complètement — l'hypothèse d'une cause unique commune aux deux problèmes a donc été écartée dès cette étape.
+
+L'AMDEC de la cellule robotisée a ensuite quantifié et priorisé douze modes de défaillance (Gravité × Fréquence × Détection = Criticité, seuil d'action fixé à C ≥ 24) pour trancher entre les causes candidates plutôt que de les traiter à égalité :
+
+<table>
+  <thead>
+    <tr><th>Composant</th><th>Mode de défaillance</th><th>Criticité (G×F×D)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Pistolet bi-composant</td><td>Panne / absence de cordon de colle</td><td>48</td></tr>
+    <tr><td>Pompe doseuse</td><td>Mélange produit non conforme</td><td>36</td></tr>
+    <tr><td>Flexibles / raccords colle</td><td>Fuite ou bouchage</td><td>24</td></tr>
+    <tr><td>Conformateur / ventouses</td><td>Défaut de géométrie</td><td>24</td></tr>
+    <tr><td>Brûleur de flammage</td><td>Flamme absente ou instable</td><td>24</td></tr>
+    <tr><td>Robot, axe 7</td><td>Blocage ou décalage de trajectoire</td><td>24</td></tr>
+  </tbody>
+</table>
+
+*Grille de cotation, composants et intitulés issus du rapport PFE ; valeurs monétaires omises par confidentialité industrielle.*
+
+Le pistolet bi-composant ressort avec la criticité la plus élevée (48) — et c'est aussi le premier poste du Pareto (39 % du coût de rebut) : les deux analyses, menées indépendamment, convergent sur la même cause. C'est ce recoupement, plutôt que l'AMDEC seule, qui a justifié de retenir le pistolet et le circuit d'encollage comme cible prioritaire du plan d'actions, avant les cinq autres modes au-dessus du seuil d'action (pompe doseuse, flexibles, conformateur, flammage, robot).
+
+Sur le volet économique, la mise en place du poste de retouche anticipée a réduit le coût journalier des retouches d'étanchéité d'environ 25 % (avant déduction du coût de l'équipe de sécurisation dédiée) — un résultat intermédiaire qui a confirmé la pertinence du diagnostic avant même la clôture du stage.
 
 ## Difficultés rencontrées
 
-> ⚠️ À COMPLÉTER — 2 à 3 obstacles réels rencontrés pendant le stage (techniques, organisationnels, ou liés à la donnée) et comment ils ont été traités. Ce bloc est volontairement honnête : son omission rend l'étude de cas moins crédible.
+Le suivi du rebut consolidait plusieurs sources (données caisse et ligne portes associée), avec des périmètres qui ne coïncidaient pas toujours exactement d'un rapport à l'autre ; il a fallu clarifier quel sous-périmètre correspondait à quel total avant de pouvoir bâtir un Pareto fiable, plutôt que de partir d'un chiffre agrégé qui aurait masqué les écarts.
+
+L'AMDEC portait sur huit sous-systèmes de la cellule robotisée (encollage, conformation, flammage, robot, pneumatique, automatisme, approvisionnement, mesure) : la faire à un niveau utile — ni trop générique pour rester actionnable, ni trop détaillé pour rester lisible — a demandé plusieurs itérations avec les équipes maintenance et qualité, pour converger sur une grille de cotation commune (Gravité/Fréquence/Détection) applicable de façon cohérente aux douze modes de défaillance retenus.
+
+Enfin, le poste de retouche anticipée déployé pour sécuriser l'étanchéité pendant la consolidation des actions correctives mobilisait six opérateurs dédiés en continu — un coût de fonctionnement qui, laissé tel quel, aurait réduit une partie du gain net obtenu sur les retouches. Le traitement a consisté à le documenter explicitement comme transitoire, en le conditionnant à la résorption progressive des causes racines (géométrie, trajectoires) plutôt que de le présenter comme la solution finale.
 
 ## Solutions mises en œuvre
 
@@ -98,8 +124,10 @@ Stagiaire ingénieur amélioration continue, j'ai porté la démarche DMAIC de b
 
 Réduction de **33,8 %** du coût de rebut sur la ligne L2, obtenue via la démarche DMAIC décrite ci-dessus. Les deux outils numériques livrés (tableau de bord Power BI, application web) restent en usage pour le pilotage courant du rebut et des consommables.
 
-> ⚠️ À COMPLÉTER — préciser, si pertinent, ce qui n'a pas été atteint ou ce qui reste en cours (transparence utile pour la crédibilité du bloc résultats).
+Ce résultat reste en partie porté par un dispositif transitoire : le poste de retouche anticipée mobilise une équipe dédiée dont le coût de fonctionnement réduit une partie du gain net obtenu sur les retouches d'étanchéité. La consolidation des actions correctives sur les causes racines (géométrie des postes, trajectoires de collage) doit encore permettre, à terme, de réduire cet effectif dédié sans revenir sur le niveau d'étanchéité atteint — un point qui restait à confirmer sur la durée au moment de la fin du stage.
 
 ## Ce que j'en retiens
 
-> ⚠️ À COMPLÉTER — 3 à 5 lignes personnelles, à la première personne, sur ce que ce projet a concrètement appris (méthode, posture, limites) — pas de généralités.
+Ce stage m'a montré la valeur de faire converger deux analyses indépendantes plutôt que de se fier à une seule : c'est parce que le Pareto et l'AMDEC pointaient tous les deux vers le même composant que j'ai pu prioriser le plan d'actions avec confiance, sans attendre une validation supplémentaire. J'ai aussi appris à ne pas présenter un résultat intermédiaire comme définitif — documenter le poste de retouche anticipée comme transitoire, plutôt que comme la solution, m'a semblé plus honnête et plus utile pour la suite que de m'arrêter à la seule réduction de 33,8 %.
+
+Enfin, concevoir le tableau de bord et l'application de suivi en parallèle du diagnostic m'a appris à construire des outils pour les équipes qui les utiliseraient après mon départ, pas seulement pour produire un résultat de stage.

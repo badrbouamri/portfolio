@@ -64,11 +64,37 @@ J'ai réalisé seul le diagnostic des pannes et les calculs d'efforts de roulage
 
 ## Analyse d'ingénieur
 
-> ⚠️ À COMPLÉTER — cette section doit détailler le raisonnement réel : quels modes de défaillance ont été identifiés et pourquoi, quelles hypothèses ont été écartées, et le détail (méthode + résultat indexé) du calcul des efforts de roulage/déroulage. Source : rapport de PFA / notes de stage AIC.
+Le diagnostic a porté sur les deux rouleuses du parc, DAVI et JAMMES-PROMESS, suivies sur une fenêtre de deux mois (février-mars). Pour chacune, l'historique des arrêts a été classé par un diagramme d'Ishikawa puis pondéré par un Pareto — non pas par fréquence des pannes, mais par leur poids réel dans le temps d'arrêt cumulé, ce qui change le classement : un incident rare mais long (cavitation de pompe, 15 % du temps d'arrêt DAVI) pèse davantage qu'un incident fréquent mais court (échangeur d'huile colmaté, 4 %).
+
+Sur DAVI, trois causes concentrent 54 % du temps d'arrêt : casse de la butée de guidage de tôle (21 %), défaut de circularité lié à l'usure des rouleaux (18 %) et cavitation de la pompe hydraulique (15 %). Sur JAMMES-PROMESS, le même défaut de circularité domine (26 %), suivi du grippage du vérin de serrage (21 %) et des surintensités du variateur d'entraînement (17 %). Les six causes retenues comme prioritaires se regroupent en six familles de facteurs (mécaniques, électriques, électroniques, matières, humains, réglages) — les facteurs mécaniques et hydrauliques dominent nettement les deux machines, ce qui a orienté le plan de maintenance vers la remise en état des organes mobiles (rouleaux, vérins, chaînes) plutôt que vers l'automatisme, secondaire sur cette période.
+
+Les indicateurs de fiabilité confirment un diagnostic différencié entre les deux machines plutôt qu'un simple classement : DAVI tombe moins souvent en panne (MTBF 32 h) mais immobilise la ligne plus longtemps à chaque incident (MTTR 5,7 h), pour une disponibilité de 84,9 % ; JAMMES-PROMESS est réparée plus vite (MTTR 3,6 h) malgré un MTBF plus court (25 h), d'où une disponibilité supérieure (87,4 %). Cette lecture a écarté l'hypothèse initiale — traiter les deux machines avec le même plan de maintenance — au profit de deux priorités distinctes : réduire le MTTR de DAVI (pièces critiques en stock, procédures de changement rapide) plutôt que sa fréquence de pannes déjà correcte, et renforcer le préventif ciblé sur JAMMES-PROMESS pour allonger son MTBF.
+
+Le second axe du stage portait sur le calcul analytique des efforts de roulage, pour objectiver la capacité réelle des machines face aux pièces traitées. La méthode : à partir des équations d'équilibre de la tôle en cours de roulage (rayons des rouleaux central et latéraux, angle d'inclinaison, propriétés du matériau), un programme Matlab résout les efforts exercés par chaque rouleau (latéral Q1, supérieur Q2, inférieur Q3) pour un jeu de paramètres donné.
+
+<table>
+  <thead>
+    <tr><th>Cas</th><th>Épaisseur tôle</th><th>Rayon de courbure</th><th>Limite élastique</th><th>Effort rouleau sup. (Q2)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>12 mm</td><td>709 mm</td><td>355 MPa</td><td>7,22 × 10⁶ N</td></tr>
+    <tr><td>2</td><td>25 mm</td><td>2 875 mm</td><td>355 MPa</td><td>2,04 × 10⁷ N</td></tr>
+    <tr><td>3</td><td>10 mm</td><td>16 000 mm</td><td>260 MPa</td><td>3,83 × 10⁶ N</td></tr>
+    <tr><td>4</td><td>20 mm</td><td>375 mm</td><td>355 MPa</td><td>5,75 × 10⁶ N</td></tr>
+  </tbody>
+</table>
+
+*Références de pièces et de client indexées ou omises par confidentialité industrielle ; seuls les paramètres techniques et les résultats de calcul sont reproduits.*
+
+Le résultat retenu : l'épaisseur de la tôle est le facteur qui pèse le plus sur l'effort (le cas 2, le plus épais, génère le Q2 le plus élevé malgré un grand rayon), et le rayon de courbure agit en sens inverse — plus il est petit, plus l'effort augmente à épaisseur égale (cas 4, rayon serré à 375 mm, effort presque aussi élevé que le cas 2 malgré une tôle deux fois moins épaisse). L'hypothèse écartée était de ne retenir que l'épaisseur comme critère de dimensionnement ; le cas 4 montre qu'un rayon serré peut à lui seul pousser une machine vers ses limites, même sur une tôle modérément épaisse — d'où la recommandation de croiser systématiquement épaisseur et rayon avant d'engager une pièce sur ces rouleuses, plutôt que de se fier à un seul des deux paramètres.
 
 ## Difficultés rencontrées
 
-> ⚠️ À COMPLÉTER — 2 à 3 obstacles réels rencontrés durant le stage (ex. accès aux données de pannes, disponibilité des machines pour mesures, contraintes de temps sur un stage de 2 mois) et comment ils ont été traités.
+L'historique de pannes disponible ne couvrait que deux mois (février-mars), ce qui limite la robustesse statistique du MTBF et du MTTR calculés — six événements pour DAVI, huit pour JAMMES-PROMESS. Plutôt que de présenter ces indicateurs comme des valeurs figées, ils ont été utilisés en comparaison relative entre les deux machines (laquelle tombe en panne moins souvent, laquelle se répare plus vite), une lecture plus robuste sur un échantillon court qu'une valeur absolue isolée.
+
+Le calcul des efforts de roulage exigeait des paramètres techniques précis (diamètres de rouleaux, angle d'inclinaison, propriétés mécaniques des matériaux) qui n'étaient pas centralisés dans un seul document ; il a fallu les reconstituer à partir des fiches machine et des caractéristiques matière des pièces traitées, puis les injecter dans un modèle Matlab pour obtenir des résultats exploitables.
+
+Enfin, DAVI et JAMMES-PROMESS reposent sur des architectures mécaniques différentes (nombre de rouleaux, mode de serrage, système d'entraînement) : un même diagramme d'Ishikawa n'aurait pas eu de sens pour les deux. Chaque machine a donc été diagnostiquée séparément avant de dégager les six familles de facteurs communes, ce qui a doublé le travail de classification dans un stage de deux mois.
 
 ## Solutions mises en œuvre
 
@@ -79,8 +105,8 @@ J'ai réalisé seul le diagnostic des pannes et les calculs d'efforts de roulage
 
 Ce stage portait sur le diagnostic et la formalisation d'un plan d'action ; sa mise en œuvre et la mesure de son effet (taux de disponibilité, fréquence des arrêts) revenaient à l'équipe maintenance du site après la fin du stage.
 
-> ⚠️ À COMPLÉTER si un retour ou une donnée de suivi existe depuis (ex. adoption du plan, disponibilité machine observée).
-
 ## Ce que j'en retiens
 
-> ⚠️ À COMPLÉTER — 3 à 5 lignes, premières personnes, spécifiques (pas de généralités).
+Ce stage m'a appris à préférer une comparaison relative à une valeur absolue quand l'échantillon est court : sur deux mois de données, opposer le MTBF et le MTTR des deux machines disait plus que chaque indicateur pris isolément. J'ai aussi vu concrètement qu'un classement de pannes par fréquence peut être trompeur — c'est le poids en temps d'arrêt, pas le nombre d'occurrences, qui doit guider les priorités de maintenance.
+
+Le calcul des efforts de roulage m'a également confirmé une intuition qu'il fallait vérifier plutôt que supposer : l'épaisseur seule ne suffit pas à juger si une pièce est dans la capacité d'une machine, le rayon de courbure peut à lui seul faire basculer le calcul. C'est ce genre d'écart entre l'intuition et le calcul qui, je pense, distingue un diagnostic solide d'un diagnostic seulement plausible.

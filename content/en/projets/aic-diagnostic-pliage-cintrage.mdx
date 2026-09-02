@@ -64,11 +64,37 @@ I carried out the failure diagnosis and the rolling/unrolling force calculations
 
 ## Engineering analysis
 
-> ⚠️ TO COMPLETE — this section must detail the actual reasoning: which failure modes were identified and why, which hypotheses were ruled out, and the detail (method + indexed result) of the rolling/unrolling force calculation. Source: PFA report / AIC internship notes.
+The diagnosis covered the fleet's two rolling machines, DAVI and JAMMES-PROMESS, tracked over a two-month window (February-March). For each, the stoppage history was classified with an Ishikawa diagram, then weighted with a Pareto — not by failure frequency, but by each cause's actual share of cumulative downtime, which reorders the priorities: a rare but long incident (pump cavitation, 15% of DAVI's downtime) outweighs a frequent but short one (clogged oil exchanger, 4%).
+
+On DAVI, three causes account for 54% of downtime: breakage of the sheet-guide stop (21%), circularity defects from roller wear (18%), and hydraulic-pump cavitation (15%). On JAMMES-PROMESS, the same circularity defect dominates (26%), followed by clamping-cylinder seizure (21%) and drive-variator overcurrent (17%). The causes retained as priorities group into six factor families (mechanical, electrical, electronic, material, human, parameter settings) — mechanical and hydraulic factors clearly dominate on both machines, which steered the maintenance plan toward reconditioning moving parts (rollers, cylinders, chains) rather than automation, a secondary factor over this period.
+
+The reliability indicators point to a differentiated diagnosis rather than a simple ranking: DAVI fails less often (MTBF 32h) but keeps the line down longer per incident (MTTR 5.7h), for 84.9% availability; JAMMES-PROMESS is repaired faster (MTTR 3.6h) despite a shorter MTBF (25h), giving it higher availability (87.4%). This reading ruled out the initial hypothesis — applying the same maintenance plan to both machines — in favour of two distinct priorities: reducing DAVI's MTTR (critical spares in stock, fast changeover procedures) rather than its already-acceptable failure frequency, and reinforcing targeted preventive maintenance on JAMMES-PROMESS to extend its MTBF.
+
+The internship's second axis was the analytical calculation of rolling forces, to objectively quantify the machines' real capacity against the parts they process. Method: starting from the sheet's equilibrium equations during rolling (central and side roller radii, tilt angle, material properties), a Matlab program solves for the force each roller exerts (side roller Q1, top roller Q2, bottom roller Q3) for a given set of parameters.
+
+<table>
+  <thead>
+    <tr><th>Case</th><th>Sheet thickness</th><th>Bend radius</th><th>Yield strength</th><th>Top roller force (Q2)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>12 mm</td><td>709 mm</td><td>355 MPa</td><td>7.22 × 10⁶ N</td></tr>
+    <tr><td>2</td><td>25 mm</td><td>2,875 mm</td><td>355 MPa</td><td>2.04 × 10⁷ N</td></tr>
+    <tr><td>3</td><td>10 mm</td><td>16,000 mm</td><td>260 MPa</td><td>3.83 × 10⁶ N</td></tr>
+    <tr><td>4</td><td>20 mm</td><td>375 mm</td><td>355 MPa</td><td>5.75 × 10⁶ N</td></tr>
+  </tbody>
+</table>
+
+*Part and client references indexed or omitted for industrial confidentiality; only technical parameters and calculation results are reproduced.*
+
+The result retained: sheet thickness is the factor that weighs most heavily on force (case 2, the thickest, generates the highest Q2 despite a large radius), and bend radius acts in the opposite direction — the smaller it is, the higher the force at equal thickness (case 4, a tight 375mm radius, produces a force nearly as high as case 2 despite a sheet half as thick). The hypothesis ruled out was sizing on thickness alone; case 4 shows a tight radius can by itself push a machine to its limits, even on a moderately thick sheet — hence the recommendation to always cross-check thickness against radius before committing a part to these rollers, rather than relying on either parameter alone.
 
 ## Challenges encountered
 
-> ⚠️ TO COMPLETE — 2 to 3 real obstacles encountered during the internship (e.g. access to failure data, machine availability for measurements, time constraints on a 2-month internship) and how they were handled.
+The available failure history covered only two months (February-March), which limits the statistical robustness of the calculated MTBF and MTTR — six events for DAVI, eight for JAMMES-PROMESS. Rather than presenting these indicators as fixed values, they were used as a relative comparison between the two machines (which fails less often, which gets repaired faster) — a more robust reading on a short sample than an isolated absolute value.
+
+The rolling-force calculation required precise technical parameters (roller diameters, tilt angle, material mechanical properties) that weren't centralised in a single document; they had to be reconstructed from machine spec sheets and the material properties of the parts being processed, then fed into a Matlab model to get usable results.
+
+Finally, DAVI and JAMMES-PROMESS rest on different mechanical architectures (roller count, clamping method, drive system): the same Ishikawa diagram wouldn't have made sense for both. Each machine was therefore diagnosed separately before extracting the six shared factor families, which doubled the classification work within a two-month internship.
 
 ## Solutions implemented
 
@@ -79,8 +105,8 @@ I carried out the failure diagnosis and the rolling/unrolling force calculations
 
 This internship focused on diagnosis and formalising an action plan; its implementation and the measurement of its effect (availability rate, stoppage frequency) were handed over to the site's maintenance team after the internship ended.
 
-> ⚠️ TO COMPLETE if feedback or follow-up data exists since then (e.g. plan adoption, observed machine availability).
-
 ## What I take from this
 
-> ⚠️ TO COMPLETE — 3 to 5 lines, first person, specific (no generalities).
+This internship taught me to prefer a relative comparison over an absolute value when the sample is short: over two months of data, contrasting the two machines' MTBF and MTTR said more than either indicator taken on its own. I also saw firsthand that ranking failures by frequency can be misleading — it's the share of downtime, not the number of occurrences, that should drive maintenance priorities.
+
+The rolling-force calculation also confirmed an intuition that needed checking rather than assuming: thickness alone isn't enough to judge whether a part is within a machine's capacity — bend radius alone can tip the calculation. That kind of gap between intuition and calculation is, I think, what separates a solid diagnosis from a merely plausible one.

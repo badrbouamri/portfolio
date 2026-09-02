@@ -69,9 +69,7 @@ As a continuous improvement engineering intern, I carried the DMAIC approach end
 
 1. **Define** — Scoping of the perimeter (Micromobility workshop, line L2, station ST40) using a QQOQCCP and a SIPOC; formalizing the gap between the actual TC and its budget target.
 2. **Measure** — Collection and structuring of scrap data; building a Pareto of defects to prioritize contributors to the transformation cost.
-3. **Analyze** — Root-cause diagnosis via FMEA, an Ishikawa diagram, and 5 Whys, focused on the robotized adhesive-application/forming cell and on the sealing defects at station ST40.
-
-> ⚠️ TO COMPLETE — the detail of the root-cause hypotheses tested and retained (from the PFE report).
+3. **Analyze** — Root-cause diagnosis via FMEA, an Ishikawa diagram, and 5 Whys, focused on the robotized adhesive-application/forming cell and on the sealing defects at station ST40. The Ishikawa structured possible causes across the 5Ms (machine, method, material, manpower, environment); the FMEA then quantified and prioritised twelve failure modes on the robotized cell to decide between hypotheses (detail in Engineering analysis).
 
 4. **Improve** — Implementation of a standardized early-rework station to treat sealing defects upstream; deployment of corrective actions from the diagnosis.
 5. **Control** — Design of a Power BI dashboard for scrap monitoring and a consumables-management web application, to sustain monitoring beyond the internship.
@@ -82,11 +80,39 @@ As a continuous improvement engineering intern, I carried the DMAIC approach end
 
 ## Engineering analysis
 
-> ⚠️ TO COMPLETE — this is the most important block in the case study ("the analysis that gets you hired"): bring in the precise reasoning from the PFE report — why this root cause was retained over another, which hypothesis was rejected and on what basis (calculation, measurement, FMEA), and include at least one redrawn figure (Pareto, Ishikawa, or an anonymised FMEA extract). Do not publish a screenshot of an internal document.
+The diagnosis started with a Pareto of line L2's defects, which immediately ruled out the hypothesis of a diffuse cause: three defect families — adhesive-application failures, rework, and body-forming failures — account for over 71% of the line's scrap cost, and the top five families exceed 82%. The diagnosis therefore concentrated on the flame-treatment/adhesive-application/forming robotized cell, identified by this Pareto as responsible for over 85% of the scrap cost, rather than being spread across the whole process.
+
+The Ishikawa (5M) applied to this cell surfaced two dominant families — machine and method — rather than material or environment: a clogged adhesive nozzle, a failing two-component gun, no purge standard, insufficient bead inspection. The 5 Whys then traced two distinct causal chains from these symptoms: sealing defects trace back to a lack of standardisation on critical processes (adhesive application, flame treatment, forming), while the drop in produced volume traces back separately to insufficient preventive monitoring of the ST40 stations' robots. These two root causes don't fully overlap — the hypothesis of a single cause common to both problems was therefore ruled out at this stage.
+
+The robotized cell's FMEA then quantified and prioritised twelve failure modes (Severity × Frequency × Detection = Criticality, action threshold set at C ≥ 24) to decide between candidate causes rather than treating them equally:
+
+<table>
+  <thead>
+    <tr><th>Component</th><th>Failure mode</th><th>Criticality (S×F×D)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Two-component gun</td><td>Failure / missing adhesive bead</td><td>48</td></tr>
+    <tr><td>Metering pump</td><td>Non-conforming product mix</td><td>36</td></tr>
+    <tr><td>Adhesive hoses / fittings</td><td>Leak or clogging</td><td>24</td></tr>
+    <tr><td>Forming unit / suction cups</td><td>Geometry defect</td><td>24</td></tr>
+    <tr><td>Flame-treatment burner</td><td>Flame missing or unstable</td><td>24</td></tr>
+    <tr><td>Robot, axis 7</td><td>Trajectory lock-up or drift</td><td>24</td></tr>
+  </tbody>
+</table>
+
+*Rating scale, components and failure-mode names sourced from the PFE report; monetary values omitted for industrial confidentiality.*
+
+The two-component gun comes out with the highest criticality (48) — and it's also the Pareto's top item (39% of the scrap cost): the two analyses, run independently, converge on the same cause. It's this convergence, more than the FMEA alone, that justified retaining the gun and its adhesive circuit as the action plan's priority target, ahead of the five other modes above the action threshold (metering pump, hoses, forming unit, flame treatment, robot).
+
+On the economic side, deploying the early-rework station cut the daily cost of sealing rework by roughly 25% (before deducting the cost of the dedicated safeguard team) — an intermediate result that confirmed the diagnosis was on target even before the internship ended.
 
 ## Challenges encountered
 
-> ⚠️ TO COMPLETE — 2 to 3 real obstacles encountered during the internship (technical, organisational, or data-related) and how they were handled. This block is deliberately honest: omitting it makes the whole case study read as sanitised.
+Scrap tracking consolidated several sources (body-shell data and the associated door line), with scopes that didn't always line up exactly between reports; it took some work to clarify which sub-scope matched which total before a reliable Pareto could be built, rather than starting from an aggregate figure that would have hidden the discrepancies.
+
+The FMEA covered eight subsystems of the robotized cell (adhesive application, forming, flame treatment, robot, pneumatics, automation, supply, and associated measurement systems): getting it to a useful level of detail — neither too generic to be actionable, nor too granular to stay readable — took several iterations with the maintenance and quality teams, to converge on a shared rating scale (Severity/Frequency/Detection) applicable consistently across the twelve failure modes retained.
+
+Finally, the early-rework station deployed to safeguard sealing quality while corrective actions matured relied on six dedicated operators running continuously — an operating cost that, left as-is, would have eaten into part of the net gain achieved on rework. The response was to document it explicitly as transitional, tied to the progressive resolution of the root causes (geometry, bonding trajectories), rather than presenting it as the final solution.
 
 ## Solutions implemented
 
@@ -98,8 +124,10 @@ As a continuous improvement engineering intern, I carried the DMAIC approach end
 
 A 33.8% reduction in scrap cost on line L2, achieved through the DMAIC approach described above. Both digital tools delivered (the Power BI dashboard, the web application) remain in use for ongoing scrap and consumables monitoring.
 
-> ⚠️ TO COMPLETE — specify, where relevant, what was not achieved or what remains in progress (useful transparency for the credibility of the results block).
+Part of this result still rests on a transitional setup: the early-rework station relies on a dedicated team whose operating cost eats into part of the net gain achieved on sealing rework. Consolidating the corrective actions on the root causes (station geometry, bonding trajectories) should still allow, over time, a reduction of this dedicated headcount without giving back the sealing level reached — a point that remained to be confirmed over the longer term as the internship ended.
 
 ## What I take from this
 
-> ⚠️ TO COMPLETE — 3 to 5 personal lines, first person, on what this project concretely taught (method, posture, limitations) — no generalities.
+This internship showed me the value of two independent analyses converging rather than relying on just one: it's because the Pareto and the FMEA both pointed at the same component that I could prioritise the action plan with confidence, without waiting for further validation. I also learned not to present an intermediate result as final — documenting the early-rework station as transitional, rather than as the solution, felt more honest and more useful going forward than stopping at the 33.8% reduction alone.
+
+Finally, designing the dashboard and the tracking application alongside the diagnosis taught me to build tools for the teams who'd use them after I left, not just to produce an internship deliverable.
