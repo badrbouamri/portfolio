@@ -280,8 +280,26 @@ No reference screenshot was attached to the brief in this session — the above 
 **What's JS-driven (the only things that must be):**
 - **`<Stat>` count-up** (`components/ui/Stat.tsx`): only the `number` branch counts — `useEffect` + `requestAnimationFrame`, eased with `--ease-plot`'s cubic-bezier evaluated by hand, `once: true` via `IntersectionObserver`. The `string` branch (every real KPI in this codebase — case-study `kpis` arrive pre-formatted, e.g. `"−33,8 %"`) renders statically; there's nothing to count up in a station code or a methodology name. The numeric branch is correct and demonstrated live at `/styleguide`, but no shipped content exercises it yet — flagging so this isn't mistaken for a bug later.
 - **Parallax** (`components/ui/Parallax.tsx`, new): a scroll listener (rAF-throttled, `passive: true`) driving a CSS custom property consumed by `transform: translateY(var(--parallax-y))`. Disabled below 1024px and under `prefers-reduced-motion` by not attaching the listener at all, not just zeroing the CSS. Used on exactly two elements per the brief's §5.4 list — the hero background photo and the case-study feature's `FramedImage`. The third (contour-line texture) was never built — it's explicitly optional in the brief and no such texture exists yet.
-- **Scroll-progress bar** (`components/case/ScrollProgress.tsx`, new): same rA F-throttled listener pattern, `/projets/[slug]` only, per §5.9.
+- **Scroll-progress bar** (`components/case/ScrollProgress.tsx`, new): same rAF-throttled listener pattern, `/projets/[slug]` only, per §5.9.
 
 **Everything else stays CSS**, unchanged from how it already worked: reveals, hover/focus states, the marquee (now also pausing via `IntersectionObserver` when scrolled out of view, per §5.11, not just on hover), page-transition entrance.
 
 **Reveal density, brought down to the brief's §5.3 list.** The homepage previously wrapped nearly every section in `<Reveal>` — exactly the "default reflex" the brief calls out as a tell. Cut to the five elements it names: the Bloc 4 heading, the Bloc 5 image, the Bloc 5 stat band, the Bloc 7 timeline, and the Bloc 8 contact block. Everything else (logo rail, the Bloc 3 note, the featured-projects grid itself, the competence list) is visible immediately.
+
+---
+
+## Phase 8 — Quality pass and delivery
+
+Every custom `:hover` gesture introduced by this redesign (`.sweep-fill`, `.btn-ghost`, `.nav-link` underline, `.competence-row` rule, `.cta-arrow`/`.cta-arrow-down`) is now gated behind `@media (hover: hover)`, with `:focus-visible` kept always-active in parallel — per §5.5's "no hover state stuck after a mobile tap." Added the one missing §5.5 micro-interaction (`ProjectCard`'s image scale-on-hover). `/styleguide` is deleted — its job (checking tokens/primitives live before the rest of the site used them) is done.
+
+**Recette checklist (§12), verified:**
+- `npm run build` clean; zero new ESLint/TS warnings in application code (the only warnings anywhere are pre-existing, in `.claude/skills/impeccable/scripts/*.mjs`, outside the Next.js app).
+- All 8 routes resolve in both locales against a production build (`npm run start`) — zero 404s, `/cv`'s 307→200 redirect confirmed to actually reach the PDF.
+- Zero new dependencies beyond the pre-approved `framer-motion`, which turned out not to be needed at all (Phase 7) — `git diff main -- package.json` is empty.
+- No case-study content text modified — every `content/*.mdx` diff against `main` is either the owner-approved Stellantis kpi addition or an unrelated pre-existing pending edit this redesign never touched.
+- Contrast was computed directly (not eyeballed) for every token pair back in Phase 0/1.
+- Reduced-motion, keyboard navigation, and the live scroll-driven behaviors (parallax, counters, marquee pause) could not be exercised live in this session — verified by code review instead. Root cause, confirmed directly in Phase 7: this session's automation tab reports `document.visibilityState === "hidden"`, the spec condition that makes browsers suspend `requestAnimationFrame`, throttle `IntersectionObserver`, and (confirmed in Phase 8) drop synthetic keyboard focus movement. Not a property of a real visitor's foreground tab.
+
+**Not independently verified this session** (no tooling access to run them): actual Lighthouse scores, cross-browser rendering at the brief's named breakpoints (320/375/768/1440/1920px — `resize_window` didn't take effect reliably in this environment), and real-device 60fps/CPU-throttled scroll profiling. The code follows the practices those checks would verify (transform/opacity-only animation, `next/image` throughout, self-hosted fonts, mobile-first responsive classes sitewide) but the numbers themselves are unmeasured — worth running for real before calling this done.
+
+**Two files remain intentionally uncommitted on this branch**, same reasoning as every prior phase: `messages/{fr,en}.json` (this redesign's new interface-label keys, interleaved with unrelated pending M7 translation work) and `.claude/CLAUDE.md` (a redesign-status pointer note, interleaved with unrelated pending M7 documentation). The working tree has everything; the commit history doesn't, because there's no clean non-interactive way to split them. Whoever commits that other pending work will pick these up too.
