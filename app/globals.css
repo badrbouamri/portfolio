@@ -317,6 +317,40 @@ h3 {
   margin: 0;
 }
 
+/* Skip link (BRIEF §7 / §9 `nav.skipToContent`) — visually hidden until
+   keyboard focus, then pinned above everything including the sticky header. */
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 8px;
+  z-index: 50;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border: 1px solid var(--color-rule);
+  border-radius: 2px;
+  padding: 8px 16px;
+  font-size: 14px;
+  transition: top 150ms var(--ease-interact);
+}
+.skip-link:focus-visible {
+  top: 8px;
+}
+
+/* Page transition entrance (BRIEF §5.8), PageTransition.tsx. */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.page-enter {
+  animation: page-enter 420ms var(--ease-plot) both;
+}
+
 /* BRIEF §5.5/§7: focus uses --signal (blue), not --accent — the redesign's
    role split reserves signal for focus/halo only, accent for data/actions.
    Offset widened to 3px to match. */
@@ -538,9 +572,24 @@ h3 {
   }
 }
 
+/* Header.tsx sticky scroll state (BRIEF §3 <Header />) — transparent at the
+   top of the page, a translucent blurred scrim past 40px of scroll.
+   color-mix over --color-paper keeps this theme-aware instead of the
+   brief's literal dark-only rgba(5,10,28,.72). */
+.site-header {
+  background: transparent;
+}
+.site-header[data-scrolled="true"] {
+  background: color-mix(in srgb, var(--color-paper) 72%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom-color: var(--color-rule);
+}
+
 /* Nav link underline (Header.tsx) — a ruler-tick sweep instead of a plain
    color swap, drawn from the same "measuring instrument" vocabulary as the
-   site's other technical-drawing cues rather than a generic underline. */
+   site's other technical-drawing cues rather than a generic underline.
+   The active page's link (BRIEF: "filet 1px sous le lien") keeps the same
+   underline permanently drawn instead of only on hover. */
 .nav-link {
   position: relative;
 }
@@ -555,6 +604,9 @@ h3 {
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 200ms var(--ease-plot);
+}
+.nav-link-active::after {
+  transform: scaleX(1);
 }
 
 /* Sweep-fill (Button.tsx solid variant, CvButton.tsx) — the same

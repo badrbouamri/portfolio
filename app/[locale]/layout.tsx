@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
 import { bodoniModa, interTight, plexMono } from "../fonts";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Backdrop } from "@/components/layout/Backdrop";
+import { PageTransition } from "@/components/layout/PageTransition";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -69,6 +70,7 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const t = await getTranslations("Header");
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -88,11 +90,16 @@ export default async function LocaleLayout({
               "try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}document.documentElement.classList.add('js-reveal')",
           }}
         />
+        <a href="#main-content" className="skip-link">
+          {t("skip_to_content")}
+        </a>
         <Backdrop />
         <NextIntlClientProvider messages={messages}>
           <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1">{children}</main>
+            <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
           </div>
         </NextIntlClientProvider>

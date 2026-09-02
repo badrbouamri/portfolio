@@ -50,6 +50,12 @@
         "value": "6px",
         "createdAt": "2026-09-01T23:52:57.231Z",
         "reason": "BRIEF-REFONTE-PORTFOLIO.md §3 SectionLabel spec: decorative chevron glyph is explicitly 6px, not a type-scale step"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "10px",
+        "createdAt": "2026-09-02T00:07:30.543Z",
+        "reason": "BRIEF-REFONTE-PORTFOLIO.md §3 Footer spec: copyright line is explicitly 10px, not a type-scale step"
       }
     ]
   }
