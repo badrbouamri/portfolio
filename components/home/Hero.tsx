@@ -18,7 +18,15 @@ export function Hero() {
   return (
     <section className="hero relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-4 text-center sm:px-6">
       <Parallax from={0} to={60} className="hero-photo-mask absolute inset-0" aria-hidden>
-        <Image src="/images/cover.jpg" alt="" fill priority sizes="100vw" className="hero-photo object-cover" />
+        <Image
+          src="/images/cover.jpg"
+          alt=""
+          fill
+          priority
+          fetchPriority="high"
+          sizes="100vw"
+          className="hero-photo object-cover"
+        />
       </Parallax>
       <div aria-hidden className="hero-halo absolute inset-0" />
 

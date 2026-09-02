@@ -104,6 +104,7 @@ export default async function ParcoursPage({
               sizes="220px"
               className="object-cover"
               priority
+              fetchPriority="high"
             />
           </div>
         </div>

@@ -20,6 +20,12 @@ export default async function ProjetsPage({
       <ProjectsHeroBand title={t("title")} intro={t("intro")} />
 
       <Section>
+        {/* Visually hidden — fixes a heading-order gap (h1 → h3, no h2
+            between the hero band's title and each ProjectCard's title):
+            a real, if pre-existing, accessibility issue caught by a
+            Lighthouse pass in Phase 8. No visible h2 needed here; the grid
+            itself is the page's only real content. */}
+        <h2 className="sr-only">{t("results_heading")}</h2>
         <Suspense fallback={null}>
           <ProjectsExplorer caseStudies={caseStudies} />
         </Suspense>

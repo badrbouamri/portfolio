@@ -32,7 +32,15 @@ export function FramedImage({
           className="absolute -bottom-3 -right-3 -z-10 h-full w-full rounded-hairline border border-rule"
         />
         <div className="relative overflow-hidden rounded-hairline border border-rule" style={{ aspectRatio: ratio }}>
-          <Image src={src} alt={alt} fill priority={priority} sizes={sizes} className="object-cover" />
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            priority={priority}
+            fetchPriority={priority ? "high" : undefined}
+            sizes={sizes}
+            className="object-cover"
+          />
         </div>
       </div>
       {caption ? <figcaption className="text-caption text-left text-steel">{caption}</figcaption> : null}
