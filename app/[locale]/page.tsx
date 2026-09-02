@@ -4,13 +4,15 @@ import { Section } from "@/components/ui/Section";
 import { Rule } from "@/components/ui/Rule";
 import { Reveal } from "@/components/ui/Reveal";
 import { Hero } from "@/components/home/Hero";
-import { OrgLogo } from "@/components/ui/OrgLogo";
-import { ProjectRow } from "@/components/case/ProjectRow";
-import { HomeSkillsGrid } from "@/components/home/HomeSkillsGrid";
+import { LogoRail } from "@/components/ui/LogoRail";
+import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Button } from "@/components/ui/Button";
+import { FeaturedProjects } from "@/components/home/FeaturedProjects";
+import { CaseStudyFeature } from "@/components/home/CaseStudyFeature";
+import { CompetenceList } from "@/components/home/CompetenceList";
 import { getAllCaseStudies } from "@/lib/content";
 import { ORGANISATIONS } from "@/lib/organisations";
 import type { Locale } from "@/i18n/routing";
-import type { CaseStudy } from "@/lib/schema";
 
 const STELLANTIS_SLUG = "stellantis-maitrise-cout-transformation";
 const AIC_SLUG = "aic-diagnostic-pliage-cintrage";
@@ -82,111 +84,93 @@ export default function HomePage() {
           the leftover thin divider section beneath it. */}
       <Hero />
 
-      {/* Organisations — a credibility strip with real logos (confirmed
-          2026-08-28, supersedes the earlier no-raster-logo scoping in
-          docs/tasks.md), grayscale at rest / colour on hover, each linking out
-          to the organisation's own site. The case-study link for Stellantis/AIC
-          already lives in Parcours, so this strip stays focused on "who I
-          worked with", not "read more". */}
-      <section className="mx-auto w-full max-w-[1200px] px-4 py-4 sm:px-6">
-        <p className="mb-3 font-data text-xs uppercase tracking-wide text-steel">
-          {t("organisations_eyebrow")}
-        </p>
-
-        <Reveal stagger className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
-          {ORGANISATIONS.map((org) => (
-            <OrgLogo
-              key={org.name}
-              organisation={org}
-              officialSiteLabel={t("organisations_official_site")}
-            />
-          ))}
-        </Reveal>
-
-      </section>
-
-      <Rule />
-
-      {/* About — first-person background blurb, replaces the Proof Points stat
-          bar (2026-09-01). Two paragraph groups split by a rule: who I am /
-          what I'm looking for, then the internships / Stellantis contribution /
-          tools I've built. Eyebrow + short title and inline <b> emphasis on
-          key facts (roles, organisations, headline figures) reuse the
-          sitewide Section eyebrow convention and the prose-article `strong`
-          weight (500 — IBM Plex Sans ships no 700 file) instead of a one-off
-          font, so the scan-friendly layout doesn't cost the token system. */}
-      <Section eyebrow={t("about_eyebrow")} title={t("about_title")}>
-        <Reveal stagger className="measure flex flex-col gap-4 text-sm text-graphite">
-          <p>{t.rich("about_p1", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}</p>
-          <p>{t.rich("about_p2", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}</p>
-          <Rule className="my-2" />
-          <p>{t.rich("about_p3", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}</p>
-          <p>{t.rich("about_p4", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}</p>
-          <p>{t.rich("about_p5", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}</p>
+      {/* Bloc 2 — LogoRail (BRIEF §3/§5.7): continuous marquee of host-
+          organisation logos, replacing the static wrap-flex row. */}
+      <Section>
+        <p className="font-data text-label mb-4 uppercase text-steel">{t("organisations_eyebrow")}</p>
+        <Reveal>
+          <LogoRail organisations={ORGANISATIONS} officialSiteLabel={t("organisations_official_site")} />
         </Reveal>
       </Section>
 
-      {/* Engineering Projects — 3 featured rows as of M7 (Méthodes + Conception +
-          Digital, per PRD §4.4): the 3rd (conception) slot that was a tracked
-          content gap through M2–M6 is now filled. Restyled 2026-09-01 from the
-          ProjectCard grid to editorial image+text rows (ProjectRow, shared
-          with /projets) per an explicit reference-screenshot request — see
-          CLAUDE.md. */}
+      <Rule />
+
+      {/* Bloc 3 — Note de positionnement (BRIEF §4.1): a single lead
+          paragraph in a 7-of-12 column offset by 2, plus the availability
+          line. Reuses the existing about_p1 string (already opens "Je suis
+          ingénieur d'État…") and contact_mobility rather than new content —
+          the fuller 5-paragraph About narrative this replaces on the
+          homepage stays available via /parcours. */}
       <Section>
-        <h2 className="font-editorial text-3xl text-ink sm:text-4xl">{t("projets_eyebrow")}</h2>
-        <Reveal stagger className="mt-6 flex flex-col gap-8">
-          {featured.map((cs: CaseStudy, i: number) => (
-            <ProjectRow key={cs.slug} caseStudy={cs} ctaLabel={tProjets("card_cta")} reverse={i % 2 === 1} />
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-12">
+          <Reveal className="sm:col-span-7 sm:col-start-3">
+            <p className="text-lead text-ink">
+              {t.rich("about_p1", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}
+            </p>
+            <p className="font-data mt-4 text-[13px] text-accent">{t("contact_mobility")}</p>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* Bloc 4 — Projets en vedette (BRIEF §4.1): asymmetric 6/3/3 card
+          grid, replacing ProjectRow on the homepage only (ProjectRow stays
+          in place for /projets until Phase 6). No numbering — order carries
+          no sequence here. */}
+      <Section>
+        <SectionLabel as="h2">{t("featured_eyebrow")}</SectionLabel>
+        <Reveal className="mt-6">
+          <FeaturedProjects
+            featured={featured}
+            featuredSlug={STELLANTIS_SLUG}
+            categoryLabel={(category) => tProjets(`category_${category}`)}
+            ctaLabel={tProjets("card_cta")}
+          />
         </Reveal>
         <Link
           href="/projets"
-          className="group mt-4 inline-block text-sm text-graphite transition-colors hover:text-accent"
+          className="group mt-6 inline-block text-sm text-graphite transition-colors hover:text-accent"
         >
           {t("projets_view_all")} <span className="cta-arrow">→</span>
         </Link>
       </Section>
 
-      {/* Ce que je sais faire — 2026-09-02 restyle: 01–04 dark cards with a
-          center portrait on desktop (HomeSkillsGrid), replacing the plain
-          2-column evidence list. Layout only borrowed from a reference site
-          per explicit request; colors/type/radii stay in the token system —
-          see CLAUDE.md. Data (`competences`, built above from the same
-          Home.competence_* keys as before) is unchanged, just re-rendered. */}
+      {/* Bloc 5 — Étude de cas Stellantis, pleine largeur (BRIEF §4.1). */}
+      {stellantis ? (
+        <Section>
+          <Reveal>
+            <CaseStudyFeature caseStudy={stellantis} eyebrow={t("case_study_eyebrow")} ctaLabel={t("read_case_study")} />
+          </Reveal>
+        </Section>
+      ) : null}
+
+      {/* Bloc 6 — Compétences (BRIEF §4.1): a list, not cards — see
+          CompetenceList.tsx. Data unchanged from the previous HomeSkillsGrid
+          rendering, same Home.competence_* keys. */}
       <Section title={t("competences_eyebrow")}>
         <Reveal>
-          <HomeSkillsGrid
-            items={competences}
-            photoSrc="/images/profile-cutout.png"
-            photoAlt={t("home_photo_alt")}
-          />
+          <CompetenceList items={competences} />
         </Reveal>
       </Section>
 
-      {/* Parcours condensé — reverse-chronological, links to /parcours (built
-          by a parallel workstream). */}
+      {/* Bloc 7 — Parcours (aperçu), BRIEF §4.1: numbered-by-sequence
+          timeline — a vertical rule per entry with a 7px accent pastille,
+          not literal 01/02/03 digits (the dots already carry the sequence
+          the brief's numbering rule is about). */}
       <Section title={t("parcours_eyebrow")}>
-        <Reveal stagger as="ol" className="flex flex-col gap-4">
+        <Reveal stagger as="ol" className="flex flex-col gap-6">
           {timeline.map((item) => {
             const body = (
               <>
-                <p className="font-data text-xs uppercase tracking-wide text-steel">
-                  {item.period}
-                </p>
-                <p className="text-sm text-ink">
-                  {item.role} — <span className="text-graphite">{item.organisation}</span>
-                </p>
+                <p className="font-data text-xs uppercase tracking-wide text-steel">{item.period}</p>
+                <h3 className="text-h3 mt-1 text-ink">{item.role}</h3>
+                <p className="text-steel">{item.organisation}</p>
               </>
             );
             return (
-              <li
-                key={item.organisation}
-                className={`border-l-2 border-rule pl-4 transition-colors ${
-                  item.slug ? "hover:border-l-accent" : ""
-                }`}
-              >
+              <li key={item.organisation} className="relative border-l border-rule pl-6">
+                <span aria-hidden className="absolute -left-[4px] top-1.5 h-[7px] w-[7px] rounded-full bg-accent" />
                 {item.slug ? (
-                  <Link href={`/projets/${item.slug}`} className="block">
+                  <Link href={`/projets/${item.slug}`} className="group block">
                     {body}
                   </Link>
                 ) : (
@@ -204,35 +188,45 @@ export default function HomePage() {
         </Link>
       </Section>
 
-      {/* Contact — compact summary; the full form lives on /contact (parallel
-          workstream). */}
-      <Section title={t("contact_eyebrow")}>
-        <Reveal className="flex flex-col gap-2 text-sm text-graphite">
-          <p className="font-data text-ink">{t("contact_availability")}</p>
-          <p>{t("contact_location")}</p>
-          <p>{t("contact_mobility")}</p>
-          <a
-            href="mailto:badrbouamri4@gmail.com"
-            className="font-data transition-colors hover:text-accent"
-          >
-            badrbouamri4@gmail.com
-          </a>
-          <a
-            href="https://www.linkedin.com/in/badr-eddine-elbouamri/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-data transition-colors hover:text-accent"
-          >
-            {t("contact_linkedin_label")}
-          </a>
-        </Reveal>
-        <Link
-          href="/contact"
-          className="group mt-4 inline-block text-sm text-accent transition-colors hover:text-ink"
-        >
-          {t("contact_cta")} <span className="cta-arrow">→</span>
-        </Link>
-      </Section>
+      {/* Bloc 8 — Contact (BRIEF §4.1): distinct section background
+          (--surface, the token-system equivalent of the brief's --ink-700
+          "one step lighter than page bg"), three-column coordinates, solid
+          CTA. */}
+      <div className="bg-surface">
+        <Section eyebrow={t("availability_eyebrow")}>
+          <Reveal>
+            <h2 className="text-h2 font-display text-ink">{t("availability_title")}</h2>
+            <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
+              <div>
+                <p className="font-data text-xs uppercase tracking-wide text-steel">
+                  {t("availability_location_label")}
+                </p>
+                <p className="mt-1 text-ink">{t("contact_location")}</p>
+              </div>
+              <div>
+                <p className="font-data text-xs uppercase tracking-wide text-steel">
+                  {t("availability_mobility_label")}
+                </p>
+                <p className="mt-1 text-ink">{t("contact_mobility")}</p>
+              </div>
+              <div>
+                <p className="font-data text-xs uppercase tracking-wide text-steel">
+                  {t("availability_email_label")}
+                </p>
+                <a
+                  href="mailto:badrbouamri4@gmail.com"
+                  className="font-data mt-1 block text-ink transition-colors hover:text-accent"
+                >
+                  badrbouamri4@gmail.com
+                </a>
+              </div>
+            </div>
+            <Button href="/contact" variant="solid" className="mt-8">
+              {t("contact_cta")}
+            </Button>
+          </Reveal>
+        </Section>
+      </div>
     </>
   );
 }

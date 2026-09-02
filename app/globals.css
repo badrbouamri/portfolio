@@ -933,6 +933,42 @@ a:hover > .cta-arrow-down {
   }
 }
 
+/* CompetenceList.tsx (BRIEF §4.1 Bloc 6) — the row's top rule sweeps to
+   --accent full-width on hover/focus, transform-origin left. */
+.competence-row-rule {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 260ms var(--ease-interact);
+}
+.competence-row:hover .competence-row-rule,
+.competence-row:focus-visible .competence-row-rule {
+  transform: scaleX(1);
+}
+
+/* LogoRail.tsx marquee (BRIEF §5.7) — continuous horizontal scroll, paused
+   on hover, disabled under 768px (static single row) and under
+   prefers-reduced-motion (handled by the sitewide animation-duration
+   override already, no extra rule needed here). */
+.logo-rail-marquee {
+  animation: logo-rail-scroll 42s linear infinite;
+}
+.logo-rail-viewport:hover .logo-rail-marquee {
+  animation-play-state: paused;
+}
+@keyframes logo-rail-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (max-width: 768px) {
+  .logo-rail-marquee {
+    animation: none;
+  }
+  .logo-rail-marquee > *[aria-hidden="true"] {
+    display: none;
+  }
+}
+
 /* Print stylesheet — scoped mainly at case studies (PRD M7), but hiding site
    chrome on paper is universally correct so it's not gated to that route. */
 @media print {

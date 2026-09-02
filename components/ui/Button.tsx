@@ -1,4 +1,5 @@
 import { type ComponentPropsWithoutRef, type ReactNode } from "react";
+import { Link } from "@/i18n/navigation";
 
 type ButtonVariant = "ghost" | "solid";
 
@@ -35,6 +36,16 @@ export function Button({ variant = "ghost", className = "", children, ...props }
 
   if ("href" in props && props.href !== undefined) {
     const { href, ...anchorProps } = props;
+    // Internal paths need next-intl's <Link> for locale-aware routing
+    // (e.g. "/contact" → "/en/contact"); anything else (external URLs,
+    // mailto:, tel:, #anchors) is a plain <a>.
+    if (href.startsWith("/")) {
+      return (
+        <Link href={href} className={classes} {...anchorProps}>
+          {children}
+        </Link>
+      );
+    }
     return (
       <a href={href} className={classes} {...anchorProps}>
         {children}
