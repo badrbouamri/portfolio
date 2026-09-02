@@ -30,7 +30,7 @@ export function ProjectCard({
                 alt={caseStudy.hero.alt}
                 fill
                 sizes="(min-width: 1024px) 360px, 100vw"
-                className="object-cover"
+                className="project-card-image object-cover"
               />
             ) : (
               <div aria-hidden className="hero-grid-bg absolute inset-0" />

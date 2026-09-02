@@ -657,9 +657,17 @@ h3 {
   transform-origin: left;
   transition: transform 320ms var(--ease-interact);
 }
-.sweep-fill:hover::before,
+/* :hover variants of every sweep/underline/nudge gesture below are gated to
+   real hover-capable pointers (BRIEF §5.5: "aucun état de survol collé
+   après un tap sur mobile") — :focus-visible stays ungated so keyboard
+   users always get the same feedback. */
 .sweep-fill:focus-visible::before {
   transform: scaleX(1);
+}
+@media (hover: hover) {
+  .sweep-fill:hover::before {
+    transform: scaleX(1);
+  }
 }
 
 /* Button.tsx ghost variant — fill sweeps to brass (not ink), and the label
@@ -669,13 +677,19 @@ h3 {
   --sweep-fill-color: var(--color-accent);
   transition: color 320ms var(--ease-interact);
 }
-.btn-ghost:hover,
 .btn-ghost:focus-visible {
   color: var(--color-on-accent);
 }
-.btn-ghost:hover .cta-arrow,
 .btn-ghost:focus-visible .cta-arrow {
   transform: translateX(4px);
+}
+@media (hover: hover) {
+  .btn-ghost:hover {
+    color: var(--color-on-accent);
+  }
+  .btn-ghost:hover .cta-arrow {
+    transform: translateX(4px);
+  }
 }
 
 /* Card.tsx hover (BRIEF §3 <Card />) — gated to real hover-capable pointers
@@ -696,9 +710,13 @@ h3 {
 .btn-tap:active {
   transform: scale(0.98);
 }
-.nav-link:hover::after,
 .nav-link:focus-visible::after {
   transform: scaleX(1);
+}
+@media (hover: hover) {
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
 }
 
 /* Mobile nav panel (Header.tsx) — it's freshly mounted each time it opens
@@ -779,22 +797,43 @@ h3 {
 }
 
 /* CTA arrow nudge (ProjectCard, CvButton) — the trailing glyph steps in the
-   direction it points on hover, a small directional affordance rather than a
-   generic scale/lift effect. */
+   direction it points on hover/focus, a small directional affordance
+   rather than a generic scale/lift effect. Hover gated per BRIEF §5.5. */
 .cta-arrow {
   display: inline-block;
   transition: transform 200ms var(--ease-plot);
 }
-.group:hover .cta-arrow,
-a:hover > .cta-arrow {
+.group:focus-visible .cta-arrow,
+a:focus-visible > .cta-arrow {
   transform: translateX(3px);
 }
 .cta-arrow-down {
   display: inline-block;
   transition: transform 200ms var(--ease-plot);
 }
-a:hover > .cta-arrow-down {
+a:focus-visible > .cta-arrow-down {
   transform: translateY(2px);
+}
+@media (hover: hover) {
+  .group:hover .cta-arrow,
+  a:hover > .cta-arrow {
+    transform: translateX(3px);
+  }
+  a:hover > .cta-arrow-down {
+    transform: translateY(2px);
+  }
+}
+
+/* ProjectCard.tsx image (BRIEF §5.5: "Image de projet | survol | scale
+   1→1.03"). Hover-gated only — no focus-visible equivalent, since the
+   image itself isn't the focusable element (the card's own link is). */
+.project-card-image {
+  transition: transform 500ms var(--ease-plot);
+}
+@media (hover: hover) {
+  .group:hover .project-card-image {
+    transform: scale(1.03);
+  }
 }
 
 /* Engineering Projects rows (ProjectRow.tsx / ProjectsHeroBand.tsx) — a
@@ -959,15 +998,20 @@ a:hover > .cta-arrow-down {
 }
 
 /* CompetenceList.tsx (BRIEF §4.1 Bloc 6) — the row's top rule sweeps to
-   --accent full-width on hover/focus, transform-origin left. */
+   --accent full-width on hover/focus, transform-origin left. Hover gated
+   per BRIEF §5.5 (see .sweep-fill above); focus-visible always active. */
 .competence-row-rule {
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 260ms var(--ease-interact);
 }
-.competence-row:hover .competence-row-rule,
 .competence-row:focus-visible .competence-row-rule {
   transform: scaleX(1);
+}
+@media (hover: hover) {
+  .competence-row:hover .competence-row-rule {
+    transform: scaleX(1);
+  }
 }
 
 /* ScrollProgress.tsx (BRIEF §5.9), /projets/[slug] only. */
