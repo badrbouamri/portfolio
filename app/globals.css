@@ -836,29 +836,13 @@ a:focus-visible > .cta-arrow-down {
   }
 }
 
-/* Engineering Projects rows (ProjectRow.tsx / ProjectsHeroBand.tsx) — a
-   deliberate one-off departure from the site's ink/graphite/accent token
-   system, requested explicitly to clone a reference template's look for
-   this one section (homepage + /projets). Scoped to these classes only so
-   it never leaks into the rest of the site's typography or color system;
-   see CLAUDE.md. */
+/* ProjectsHeroBand.tsx's /projets hero title — a deliberate one-off
+   departure from the site's type system (Bodoni Moda everywhere else),
+   kept scoped to this one heading; see CLAUDE.md. ProjectRow.tsx, which
+   originally justified this exception alongside .text-editorial-accent,
+   was deleted in the 2026-09-02 redesign — that class went with it. */
 .font-editorial {
   font-family: Georgia, "Times New Roman", serif;
-}
-
-.text-editorial-accent {
-  color: #b5342c;
-}
-
-/* Dark mode (2026-09-02): the fixed editorial red above fails 4.5:1 against
-   the dark paper/surface (2.99:1) — brightened here only, same hue family. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .text-editorial-accent {
-    color: #e2685d;
-  }
-}
-:root[data-theme="dark"] .text-editorial-accent {
-  color: #e2685d;
 }
 
 /* Homepage "Ce que je sais faire" skills grid (HomeSkillsGrid.tsx) — a very
