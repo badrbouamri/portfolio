@@ -100,18 +100,20 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Bloc 4 — Projets en vedette (BRIEF §4.1): asymmetric 6/3/3 card
-          grid, replacing ProjectRow on the homepage only (ProjectRow stays
-          in place for /projets until Phase 6). No numbering — order carries
-          no sequence here. */}
-      <Section>
+      {/* Bloc 4 — Projets en vedette (BRIEF §4.1): equal-width 3-card grid
+          (owner request, 2026-09-02 — see FeaturedProjects.tsx), replacing
+          ProjectRow on the homepage only (ProjectRow stays in place for
+          /projets until Phase 6). No numbering — order carries no sequence
+          here. `tight` (owner request, 2026-09-02): the standard 168px top
+          padding stacked on top of Bloc 3's own `tight` bottom padding left
+          a 224px void above this section's eyebrow. */}
+      <Section tight>
         <Reveal sweep>
           <SectionLabel as="h2">{t("featured_eyebrow")}</SectionLabel>
         </Reveal>
         <div className="mt-6">
           <FeaturedProjects
             featured={featured}
-            featuredSlug={STELLANTIS_SLUG}
             categoryLabel={(category) => tProjets(`category_${category}`)}
             ctaLabel={tProjets("card_cta")}
           />
