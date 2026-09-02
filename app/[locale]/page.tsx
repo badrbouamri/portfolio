@@ -9,8 +9,7 @@ import { LogoRail } from "@/components/ui/LogoRail";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Button } from "@/components/ui/Button";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
-import { CaseStudyFeature } from "@/components/home/CaseStudyFeature";
-import { CompetenceList } from "@/components/home/CompetenceList";
+import { ExpertiseGrid } from "@/components/home/ExpertiseGrid";
 import { getAllCaseStudies } from "@/lib/content";
 import { ORGANISATIONS } from "@/lib/organisations";
 import type { Locale } from "@/i18n/routing";
@@ -37,29 +36,6 @@ export default function HomePage() {
   const featured = caseStudies.filter((cs) => cs.featured).slice(0, 3);
   const stellantis = caseStudies.find((cs) => cs.slug === STELLANTIS_SLUG);
   const aic = caseStudies.find((cs) => cs.slug === AIC_SLUG);
-
-  const competences = [
-    {
-      titre: t("competence_methodes_titre"),
-      evidence: t("competence_methodes_evidence"),
-      slug: STELLANTIS_SLUG,
-    },
-    {
-      titre: t("competence_ac_titre"),
-      evidence: t("competence_ac_evidence"),
-      slug: STELLANTIS_SLUG,
-    },
-    {
-      titre: t("competence_maintenance_titre"),
-      evidence: t("competence_maintenance_evidence"),
-      slug: AIC_SLUG,
-    },
-    {
-      titre: t("competence_donnees_titre"),
-      evidence: t("competence_donnees_evidence"),
-      slug: STELLANTIS_SLUG,
-    },
-  ];
 
   const timeline: {
     organisation: string;
@@ -148,18 +124,20 @@ export default function HomePage() {
         </Link>
       </Section>
 
-      {/* Bloc 5 — Étude de cas Stellantis, pleine largeur (BRIEF §4.1). */}
-      {stellantis ? (
-        <Section>
-          <CaseStudyFeature caseStudy={stellantis} eyebrow={t("case_study_eyebrow")} ctaLabel={t("read_case_study")} />
-        </Section>
-      ) : null}
-
-      {/* Bloc 6 — Compétences (BRIEF §4.1): a list, not cards — see
-          CompetenceList.tsx. Data unchanged from the previous HomeSkillsGrid
-          rendering, same Home.competence_* keys. */}
-      <Section title={t("competences_eyebrow")}>
-        <CompetenceList items={competences} />
+      {/* Bloc 5 — Mon expertise / What I Do (owner request, 2026-09-02):
+          replaces the Stellantis case-study feature block with a services
+          overview — 4 numbered domains + center portrait. */}
+      <Section eyebrow={t("services_eyebrow")} title={t("services_title")}>
+        <ExpertiseGrid
+          items={[
+            { title: t("services_1_title"), desc: t("services_1_desc") },
+            { title: t("services_2_title"), desc: t("services_2_desc") },
+            { title: t("services_3_title"), desc: t("services_3_desc") },
+            { title: t("services_4_title"), desc: t("services_4_desc") },
+          ]}
+          photoSrc="/images/expertise-portrait.png"
+          photoAlt={t("services_photo_alt")}
+        />
       </Section>
 
       {/* Bloc 7 — Parcours (aperçu), BRIEF §4.1: numbered-by-sequence

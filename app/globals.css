@@ -894,9 +894,9 @@ a:focus-visible > .cta-arrow-down {
   font-family: Georgia, "Times New Roman", serif;
 }
 
-/* Homepage "Ce que je sais faire" skills grid (HomeSkillsGrid.tsx) — a very
-   subtle radial glow behind the center portrait on desktop, built from the
-   existing --color-accent token (no new color) rather than a flat shape. */
+/* Homepage "Mon expertise" grid (ExpertiseGrid.tsx) — a very subtle radial
+   glow behind the center portrait on desktop, built from the existing
+   --color-accent token (no new color) rather than a flat shape. */
 .skills-photo-halo {
   background: radial-gradient(
     circle,
@@ -1027,23 +1027,6 @@ a:focus-visible > .cta-arrow-down {
   100% {
     transform: translateY(36px);
     opacity: 0;
-  }
-}
-
-/* CompetenceList.tsx (BRIEF §4.1 Bloc 6) — the row's top rule sweeps to
-   --accent full-width on hover/focus, transform-origin left. Hover gated
-   per BRIEF §5.5 (see .sweep-fill above); focus-visible always active. */
-.competence-row-rule {
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 260ms var(--ease-interact);
-}
-.competence-row:focus-visible .competence-row-rule {
-  transform: scaleX(1);
-}
-@media (hover: hover) {
-  .competence-row:hover .competence-row-rule {
-    transform: scaleX(1);
   }
 }
 
