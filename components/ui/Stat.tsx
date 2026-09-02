@@ -74,7 +74,7 @@ export function Stat({ value, suffix = "", label, animate = true, className = ""
           value
         )}
       </p>
-      <p className="font-data text-label mt-1 uppercase text-steel">{label}</p>
+      <p className="font-data text-caption mt-1 text-steel">{label}</p>
     </div>
   );
 }
