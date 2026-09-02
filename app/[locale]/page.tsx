@@ -109,11 +109,14 @@ export default function HomePage() {
           line. Reuses the existing about_p1 string (already opens "Je suis
           ingénieur d'État…") and contact_mobility rather than new content —
           the fuller 5-paragraph About narrative this replaces on the
-          homepage stays available via /parcours. */}
-      <Section>
+          homepage stays available via /parcours. Owner request, 2026-09-02:
+          `tight` section padding (too much empty space around one short
+          paragraph) and text-lg instead of text-lead (bigger, more
+          confident opening statement). */}
+      <Section tight>
         <div className="grid grid-cols-1 sm:grid-cols-12">
           <div className="sm:col-span-7 sm:col-start-3">
-            <p className="text-lead text-ink">
+            <p className="text-lg text-ink">
               {t.rich("about_p1", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}
             </p>
             <p className="font-data mt-4 text-[13px] text-accent">{t("contact_mobility")}</p>

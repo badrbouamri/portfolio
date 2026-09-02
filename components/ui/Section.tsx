@@ -7,6 +7,10 @@ type SectionProps = {
   title?: string;
   children: ReactNode;
   className?: string;
+  // Owner request, 2026-09-02: reduced vertical padding for short,
+  // transitional blocks (e.g. the homepage's one-paragraph positioning
+  // note) that don't need the same breathing room as a full section.
+  tight?: boolean;
 };
 
 // Redesign Phase 6: eyebrow now goes through <SectionLabel /> (brass
@@ -15,9 +19,11 @@ type SectionProps = {
 // text-xl (31px sans) — this one change cascades the new heading scale to
 // every page that uses Section (Parcours, Compétences, Contact, Mentions
 // légales) plus the homepage sections that already relied on this default.
-export function Section({ eyebrow, title, children, className = "" }: SectionProps) {
+export function Section({ eyebrow, title, children, className = "", tight = false }: SectionProps) {
   return (
-    <section className={`section mx-auto w-full max-w-[1200px] px-4 sm:px-6 ${className}`}>
+    <section
+      className={`section mx-auto w-full max-w-[1200px] px-4 sm:px-6 ${tight ? "section-tight" : ""} ${className}`}
+    >
       {eyebrow ? (
         <Reveal sweep>
           <SectionLabel className="mb-2">{eyebrow}</SectionLabel>

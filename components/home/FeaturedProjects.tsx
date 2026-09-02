@@ -2,10 +2,11 @@ import { ProjectCard } from "@/components/case/ProjectCard";
 import type { CaseStudy } from "@/lib/schema";
 
 // BRIEF §4.1 Bloc 4 — asymmetric grid: the featured slot (Stellantis) takes
-// 6 of 12 columns with an image, the rest take 3 each without one. Order is
-// otherwise free (no numbering, per the brief's own numbering-discipline
-// rule) — this replaces ProjectRow on the homepage only; ProjectRow itself
-// stays in place for /projets until Phase 6 addresses that page.
+// 6 of 12 columns, the rest take 3 each. All three show their case study's
+// image (owner request, 2026-09-02) — ProjectCard already had the fallback
+// and sizes tuned for the 3-col width, this just stopped opting out of it.
+// Order is otherwise free (no numbering, per the brief's own numbering-
+// discipline rule).
 export function FeaturedProjects({
   featured,
   featuredSlug,
@@ -28,7 +29,7 @@ export function FeaturedProjects({
       </div>
       {small.map((cs) => (
         <div key={cs.slug} className="sm:col-span-3">
-          <ProjectCard caseStudy={cs} categoryLabel={categoryLabel(cs.category)} ctaLabel={ctaLabel} showImage={false} />
+          <ProjectCard caseStudy={cs} categoryLabel={categoryLabel(cs.category)} ctaLabel={ctaLabel} />
         </div>
       ))}
     </div>
