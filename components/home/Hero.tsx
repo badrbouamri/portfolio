@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Parallax } from "@/components/ui/Parallax";
 
 // BRIEF §4.1 Bloc 1 + §5.2. The site's one authored entrance sequence —
 // homepage only. Every step below is pure CSS (opacity/transform, timed via
@@ -16,9 +17,9 @@ export function Hero() {
 
   return (
     <section className="hero relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-4 text-center sm:px-6">
-      <div aria-hidden className="hero-photo-mask absolute inset-0">
+      <Parallax from={0} to={60} className="hero-photo-mask absolute inset-0" aria-hidden>
         <Image src="/images/cover.jpg" alt="" fill priority sizes="100vw" className="hero-photo object-cover" />
-      </div>
+      </Parallax>
       <div aria-hidden className="hero-halo absolute inset-0" />
 
       <span aria-hidden className="hero-mark hero-mark-left font-data">

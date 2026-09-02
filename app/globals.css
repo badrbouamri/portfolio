@@ -970,6 +970,12 @@ a:hover > .cta-arrow-down {
   transform: scaleX(1);
 }
 
+/* ScrollProgress.tsx (BRIEF §5.9), /projets/[slug] only. */
+.scroll-progress {
+  transform: scaleX(var(--scroll-progress, 0));
+  transform-origin: left;
+}
+
 /* LogoRail.tsx marquee (BRIEF §5.7) — continuous horizontal scroll, paused
    on hover, disabled under 768px (static single row) and under
    prefers-reduced-motion (handled by the sitewide animation-duration
@@ -977,7 +983,8 @@ a:hover > .cta-arrow-down {
 .logo-rail-marquee {
   animation: logo-rail-scroll 42s linear infinite;
 }
-.logo-rail-viewport:hover .logo-rail-marquee {
+.logo-rail-viewport:hover .logo-rail-marquee,
+.logo-rail-offscreen .logo-rail-marquee {
   animation-play-state: paused;
 }
 @keyframes logo-rail-scroll {

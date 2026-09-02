@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { OrgLogo } from "@/components/ui/OrgLogo";
 import type { OrganisationInfo } from "@/lib/organisations";
 
@@ -38,8 +41,25 @@ export function LogoRail({
   organisations: OrganisationInfo[];
   officialSiteLabel: string;
 }) {
+  const viewportRef = useRef<HTMLDivElement>(null);
+  // BRIEF §5.11: "le marquee se met en pause via IntersectionObserver quand
+  // il sort du champ" — on top of the existing CSS hover-pause, so it never
+  // animates offscreen wastefully.
+  const [offscreen, setOffscreen] = useState(false);
+
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setOffscreen(!entry.isIntersecting));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="logo-rail-viewport overflow-hidden">
+    <div
+      ref={viewportRef}
+      className={`logo-rail-viewport overflow-hidden ${offscreen ? "logo-rail-offscreen" : ""}`}
+    >
       <div className="logo-rail-marquee flex w-max">
         <LogoRailTrack organisations={organisations} officialSiteLabel={officialSiteLabel} />
         <span aria-hidden className="mx-6 h-6 w-px bg-rule" />

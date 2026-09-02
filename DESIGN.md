@@ -259,11 +259,29 @@ Contrast, computed directly (WCAG relative-luminance formula, not eyeballed):
 
 **Unchanged, because already compliant:** border-radius stays capped at 2px (`--radius-hairline`) — the brief's "2px max, découpé, pas arrondi" rule already matches this system; no token change needed. The `--radius-pill` exception (`SkillsToolbox`) stays as-is unless a later phase says otherwise.
 
-**Explicitly deferred to their own phase, not decided today:**
-- **Motion architecture** (Phase 7, not Phase 1): whether to add `framer-motion` per the brief and replace `Reveal.tsx`, or extend the existing CSS/`IntersectionObserver` `Reveal` + the "Plotter Rule" vocabulary to cover the brief's hero orchestration, parallax, and counters. The brief's own §5.3 rule ("only 5 elements reveal on scroll, not every section") is stricter than today's usage and will need a pass regardless of which engine wins.
-- **Case-study hero meta line** (Phase 6): the brief's `/projets/[slug]` plan reintroduces a période/entreprise/rôle line that `CaseHero` deliberately dropped on 2026-09-01. Needs a decision before Phase 6, not before Phase 1.
+**Resolved since:**
+- ~~Motion architecture~~ — Phase 7, see below.
+- ~~Case-study hero meta line~~ — Phase 6 reintroduced it (category filet + h1 + période/organisation/rôle mono line), per the brief's explicit `/projets/[slug]` spec.
+- ~~`/cv`~~ — Phase 6 checkpoint: kept as the instant-redirect `route.ts`, no intermediate page. The brief's "page de téléchargement" spec doesn't apply; owner confirmed the redirect's speed matters more here.
+- ~~`/competences`~~ — Phase 6 checkpoint: kept `SkillsToolbox` and the 6-group Preuves-par-domaine structure (too recent/deliberate, and the brief's 4-section/per-skill-evidence version needs data — which skill maps to which case study — that doesn't exist yet). Only heading-scale updates landed.
+
+**Still open:**
 - **Confidential imagery** (Phase 4/10): the brief's asset list requests a Power BI capture for the Stellantis block — allowed only blurred/anonymized per the existing confidentiality rules above, and still needs the convention-de-stage check CLAUDE.md flags for Stellantis content.
-- **`/cv`** is currently a `route.ts` (direct file serve), not a page — the brief's "page de téléchargement" assumes a page. Reconcile in Phase 6.
 - **Demos** (`/demos/consommables`, `/demos/pilotage`) aren't mentioned in the brief. Left out of the redesign scope unless asked for.
 
 No reference screenshot was attached to the brief in this session — the above is built from the brief's written description only.
+
+---
+
+## Phase 7 — Motion pass
+
+**Motion engine decision: no `framer-motion`.** Every phase since Phase 3 (page transitions) needed a piece of the brief's motion system and each was built as pure CSS or a small hand-rolled hook instead — the hero orchestration (Phase 4), the logo marquee (Phase 5), every hover/focus micro-interaction (Phase 2 forward). That's six phases of precedent for "dependency-free unless something structurally requires a library," and framer-motion was never structurally required: `requestAnimationFrame` handles the two pieces that need continuous JS control (counters, parallax) just as well, at zero bundle cost, which matters more on this site than usual — PRD §2 names a phone-scanning HR reviewer as one of two target readers. Deciding now, not deferring again.
+
+**What's JS-driven (the only things that must be):**
+- **`<Stat>` count-up** (`components/ui/Stat.tsx`): only the `number` branch counts — `useEffect` + `requestAnimationFrame`, eased with `--ease-plot`'s cubic-bezier evaluated by hand, `once: true` via `IntersectionObserver`. The `string` branch (every real KPI in this codebase — case-study `kpis` arrive pre-formatted, e.g. `"−33,8 %"`) renders statically; there's nothing to count up in a station code or a methodology name. The numeric branch is correct and demonstrated live at `/styleguide`, but no shipped content exercises it yet — flagging so this isn't mistaken for a bug later.
+- **Parallax** (`components/ui/Parallax.tsx`, new): a scroll listener (rAF-throttled, `passive: true`) driving a CSS custom property consumed by `transform: translateY(var(--parallax-y))`. Disabled below 1024px and under `prefers-reduced-motion` by not attaching the listener at all, not just zeroing the CSS. Used on exactly two elements per the brief's §5.4 list — the hero background photo and the case-study feature's `FramedImage`. The third (contour-line texture) was never built — it's explicitly optional in the brief and no such texture exists yet.
+- **Scroll-progress bar** (`components/case/ScrollProgress.tsx`, new): same rA F-throttled listener pattern, `/projets/[slug]` only, per §5.9.
+
+**Everything else stays CSS**, unchanged from how it already worked: reveals, hover/focus states, the marquee (now also pausing via `IntersectionObserver` when scrolled out of view, per §5.11, not just on hover), page-transition entrance.
+
+**Reveal density, brought down to the brief's §5.3 list.** The homepage previously wrapped nearly every section in `<Reveal>` — exactly the "default reflex" the brief calls out as a tell. Cut to the five elements it names: the Bloc 4 heading, the Bloc 5 image, the Bloc 5 stat band, the Bloc 7 timeline, and the Bloc 8 contact block. Everything else (logo rail, the Bloc 3 note, the featured-projects grid itself, the competence list) is visible immediately.

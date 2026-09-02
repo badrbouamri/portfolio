@@ -8,6 +8,7 @@ import { FramedImage } from "@/components/ui/FramedImage";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Stat } from "@/components/ui/Stat";
 import { ConfidentialNotice } from "@/components/case/ConfidentialNotice";
+import { ScrollProgress } from "@/components/case/ScrollProgress";
 import { Prose } from "@/components/ui/Prose";
 import { Section } from "@/components/ui/Section";
 
@@ -71,6 +72,7 @@ function CaseStudyBody({
 
   return (
     <Section>
+      <ScrollProgress />
       <SectionLabel className="mb-3">{categoryLabel}</SectionLabel>
       <h1 className="text-hero font-display text-balance leading-none text-ink">{caseStudy.title}</h1>
       <p className="font-data mb-8 mt-4 text-sm text-steel">{meta}</p>

@@ -88,9 +88,7 @@ export default function HomePage() {
           organisation logos, replacing the static wrap-flex row. */}
       <Section>
         <p className="font-data text-label mb-4 uppercase text-steel">{t("organisations_eyebrow")}</p>
-        <Reveal>
-          <LogoRail organisations={ORGANISATIONS} officialSiteLabel={t("organisations_official_site")} />
-        </Reveal>
+        <LogoRail organisations={ORGANISATIONS} officialSiteLabel={t("organisations_official_site")} />
       </Section>
 
       <Rule />
@@ -103,12 +101,12 @@ export default function HomePage() {
           homepage stays available via /parcours. */}
       <Section>
         <div className="grid grid-cols-1 sm:grid-cols-12">
-          <Reveal className="sm:col-span-7 sm:col-start-3">
+          <div className="sm:col-span-7 sm:col-start-3">
             <p className="text-lead text-ink">
               {t.rich("about_p1", { b: (chunks) => <strong className="font-medium text-ink">{chunks}</strong> })}
             </p>
             <p className="font-data mt-4 text-[13px] text-accent">{t("contact_mobility")}</p>
-          </Reveal>
+          </div>
         </div>
       </Section>
 
@@ -117,15 +115,17 @@ export default function HomePage() {
           in place for /projets until Phase 6). No numbering — order carries
           no sequence here. */}
       <Section>
-        <SectionLabel as="h2">{t("featured_eyebrow")}</SectionLabel>
-        <Reveal className="mt-6">
+        <Reveal sweep>
+          <SectionLabel as="h2">{t("featured_eyebrow")}</SectionLabel>
+        </Reveal>
+        <div className="mt-6">
           <FeaturedProjects
             featured={featured}
             featuredSlug={STELLANTIS_SLUG}
             categoryLabel={(category) => tProjets(`category_${category}`)}
             ctaLabel={tProjets("card_cta")}
           />
-        </Reveal>
+        </div>
         <Link
           href="/projets"
           className="group mt-6 inline-block text-sm text-graphite transition-colors hover:text-accent"
@@ -137,9 +137,7 @@ export default function HomePage() {
       {/* Bloc 5 — Étude de cas Stellantis, pleine largeur (BRIEF §4.1). */}
       {stellantis ? (
         <Section>
-          <Reveal>
-            <CaseStudyFeature caseStudy={stellantis} eyebrow={t("case_study_eyebrow")} ctaLabel={t("read_case_study")} />
-          </Reveal>
+          <CaseStudyFeature caseStudy={stellantis} eyebrow={t("case_study_eyebrow")} ctaLabel={t("read_case_study")} />
         </Section>
       ) : null}
 
@@ -147,9 +145,7 @@ export default function HomePage() {
           CompetenceList.tsx. Data unchanged from the previous HomeSkillsGrid
           rendering, same Home.competence_* keys. */}
       <Section title={t("competences_eyebrow")}>
-        <Reveal>
-          <CompetenceList items={competences} />
-        </Reveal>
+        <CompetenceList items={competences} />
       </Section>
 
       {/* Bloc 7 — Parcours (aperçu), BRIEF §4.1: numbered-by-sequence
