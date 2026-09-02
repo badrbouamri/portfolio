@@ -1,10 +1,21 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getAllCaseStudies } from "@/lib/content";
 import type { Locale } from "@/i18n/routing";
 import { Section } from "@/components/ui/Section";
 import { ProjectsHeroBand } from "@/components/case/ProjectsHeroBand";
 import { ProjectsExplorer } from "./_components/ProjectsExplorer";
+import { pageAlternates } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: pageAlternates(locale as Locale, "/projets") };
+}
 
 export default async function ProjetsPage({
   params,

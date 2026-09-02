@@ -4,6 +4,8 @@ import { getTranslations } from "next-intl/server";
 import { Section } from "@/components/ui/Section";
 import { featureFlags } from "@/lib/feature-flags";
 import { ConsommablesApp } from "@/components/demos/ConsommablesApp";
+import type { Locale } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -15,6 +17,7 @@ export async function generateMetadata({
   return {
     title: t("meta_title"),
     description: t("meta_description"),
+    alternates: pageAlternates(locale as Locale, "/demos/consommables"),
   };
 }
 

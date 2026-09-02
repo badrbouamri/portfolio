@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { featureFlags } from "@/lib/feature-flags";
 import { Section } from "@/components/ui/Section";
@@ -6,6 +7,17 @@ import { Rule } from "@/components/ui/Rule";
 import { ParetoChart } from "@/components/demos/pilotage/ParetoChart";
 import { ScrapTrendChart } from "@/components/demos/pilotage/ScrapTrendChart";
 import { ShiftStationBreakdown } from "@/components/demos/pilotage/ShiftStationBreakdown";
+import type { Locale } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: pageAlternates(locale as Locale, "/demos/pilotage") };
+}
 
 export default async function PilotageDemoPage() {
   // Demos ship behind a flag and 404 cleanly (not a "coming soon" page)

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getTranslations } from "next-intl/server";
 import { getAllCaseStudies, getCaseStudy } from "@/lib/content";
@@ -11,6 +12,16 @@ import { ConfidentialNotice } from "@/components/case/ConfidentialNotice";
 import { ScrollProgress } from "@/components/case/ScrollProgress";
 import { Prose } from "@/components/ui/Prose";
 import { Section } from "@/components/ui/Section";
+import { pageAlternates } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  return { alternates: pageAlternates(locale as Locale, `/projets/${slug}`) };
+}
 
 export function generateStaticParams() {
   // Only "fr" content exists as of M2 (see docs/tasks.md M3 — bilingual translation

@@ -5,6 +5,7 @@ import { Rule } from "@/components/ui/Rule";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import type { Locale } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
 import { ContactForm } from "./ContactForm";
 
 export async function generateMetadata({
@@ -17,6 +18,7 @@ export async function generateMetadata({
   return {
     title: t("page_title"),
     description: t("page_intro"),
+    alternates: pageAlternates(locale as Locale, "/contact"),
   };
 }
 

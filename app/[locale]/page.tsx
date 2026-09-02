@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/ui/Section";
@@ -13,9 +14,19 @@ import { CompetenceList } from "@/components/home/CompetenceList";
 import { getAllCaseStudies } from "@/lib/content";
 import { ORGANISATIONS } from "@/lib/organisations";
 import type { Locale } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
 
 const STELLANTIS_SLUG = "stellantis-maitrise-cout-transformation";
 const AIC_SLUG = "aic-diagnostic-pliage-cintrage";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: pageAlternates(locale as Locale, "") };
+}
 
 export default function HomePage() {
   const t = useTranslations("Home");

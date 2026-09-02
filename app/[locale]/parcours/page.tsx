@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { getAllCaseStudies } from "@/lib/content";
@@ -10,6 +11,16 @@ import { Rule } from "@/components/ui/Rule";
 import { Tag } from "@/components/ui/Tag";
 import { Reveal } from "@/components/ui/Reveal";
 import { findOrganisation } from "@/lib/organisations";
+import { pageAlternates } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: pageAlternates(locale as Locale, "/parcours") };
+}
 
 // Biography is a reviewed human translation per locale (content/fr/biographie.md,
 // content/en/biographie.md) — read at build time and rendered as-is, never paraphrased.

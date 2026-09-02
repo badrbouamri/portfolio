@@ -45,14 +45,14 @@ export async function generateMetadata({
     metadataBase: new URL(SITE_URL),
     title,
     description,
-    alternates: {
-      canonical: `/${activeLocale}`,
-      languages: {
-        fr: "/fr",
-        en: "/en",
-        "x-default": "/fr",
-      },
-    },
+    // No sitewide `alternates` fallback here on purpose: canonical/hreflang
+    // are only correct when computed against a page's own full path (see
+    // lib/seo.ts's pageAlternates), which this shared layout can't know —
+    // it only ever receives {locale}, never the matched child path. Every
+    // real page below sets its own via pageAlternates(); a page that
+    // doesn't is missing hreflang/canonical (harmless — Lighthouse only
+    // flags a *wrong* canonical, not a missing one) rather than inheriting
+    // a canonical that silently points at the homepage instead of itself.
   };
 }
 
