@@ -37,7 +37,13 @@ export function OrgLogo({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${organisation.name} — ${officialSiteLabel}`}
-      className={`group flex flex-col items-center border border-rule bg-surface transition-colors hover:border-accent focus-visible:border-accent ${
+      // Fixed light "brand plate" (2026-09-02, dark mode): these are raster
+      // logos with dark artwork meant for a white background, grayscale-
+      // filtered on top — on the dark-mode card they'd go illegible, and we
+      // can't safely auto-invert arbitrary third-party logos. bg-white and
+      // the literal light-mode --rule/--steel values below are intentionally
+      // NOT theme tokens here; every other color on this card still swaps.
+      className={`group flex flex-col items-center border border-[#dce0e3] bg-white transition-colors hover:border-accent focus-visible:border-accent ${
         compact ? "gap-1 px-2 py-2" : "gap-2 px-4 py-3"
       }`}
     >
@@ -51,7 +57,7 @@ export function OrgLogo({
         }`}
       />
       <span
-        className={`inline-flex items-center gap-1 font-data uppercase tracking-wide text-steel group-hover:text-accent ${
+        className={`inline-flex items-center gap-1 font-data uppercase tracking-wide text-[#626d77] group-hover:text-accent ${
           compact ? "sr-only" : "text-[11px]"
         }`}
       >

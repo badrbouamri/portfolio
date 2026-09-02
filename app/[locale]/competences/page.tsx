@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { Rule } from "@/components/ui/Rule";
 import { Tag } from "@/components/ui/Tag";
 import { Reveal } from "@/components/ui/Reveal";
-import { SkillsMatrix } from "@/components/skills/SkillsMatrix";
+import { SkillsToolbox } from "@/components/skills/SkillsToolbox";
 
 type GroupKey =
   | "methodes"
@@ -143,7 +143,7 @@ export default async function CompetencesPage({
   return (
     <>
       <Section eyebrow={tSkills("eyebrow")} title={tSkills("title")}>
-        <SkillsMatrix />
+        <SkillsToolbox />
       </Section>
 
       <Rule />
@@ -151,9 +151,9 @@ export default async function CompetencesPage({
       <Section eyebrow={t("evidence_eyebrow")} title={t("evidence_title")}>
         <Reveal stagger className="flex flex-col gap-8">
           {groups.map((group, index) => (
-            <div key={group.key}>
+            <div key={group.key} id={`preuve-${group.key}`}>
               {index > 0 ? <Rule className="mb-8" /> : null}
-              <h2 className="mb-3 text-lg text-ink">{group.heading}</h2>
+              <h2 className="text-h3 mb-3 text-ink">{group.heading}</h2>
               <div className="mb-3 flex flex-wrap gap-2">
                 {TAGS[group.key][lang].map((tag) => (
                   <Tag key={tag}>{tag}</Tag>
