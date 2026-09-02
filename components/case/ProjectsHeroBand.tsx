@@ -15,6 +15,7 @@ export function ProjectsHeroBand({ title, intro }: { title: string; intro: strin
           sizes="100vw"
           className="object-cover object-bottom"
           priority
+          fetchPriority="high"
         />
       </div>
       <div className="relative z-10 mx-auto -mt-16 max-w-[1200px] px-4 sm:-mt-20 sm:px-6">

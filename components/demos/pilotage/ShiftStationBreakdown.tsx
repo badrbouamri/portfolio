@@ -65,7 +65,7 @@ export function ShiftStationBreakdown() {
       >
         <Button
           type="button"
-          variant={shift === "toutes" ? "primary" : "secondary"}
+          variant={shift === "toutes" ? "solid" : "ghost"}
           aria-pressed={shift === "toutes"}
           onClick={() => setShift("toutes")}
         >
@@ -75,7 +75,7 @@ export function ShiftStationBreakdown() {
           <Button
             key={code}
             type="button"
-            variant={shift === code ? "primary" : "secondary"}
+            variant={shift === code ? "solid" : "ghost"}
             aria-pressed={shift === code}
             onClick={() => setShift(code)}
           >

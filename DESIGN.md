@@ -109,6 +109,9 @@ A four-neutral, two-accent system — restrained on purpose; a wider palette wou
 ### Named Rules
 **The Hairline Rule.** Separation between regions is drawn with a 1px `--rule` border, never a `box-shadow`. The one sanctioned exception is the project card's hover state, which uses a flat 4px offset step-shadow (`0 4px 0 0 var(--color-rule)`) — a drafting-ruler nudge, not ambient elevation.
 
+### Dark mode (2026-09-02)
+Same 8 tokens, same roles — paper/surface darken, ink/graphite/steel lighten, `accent`/`signal` brighten (not just invert) so they still clear 4.5:1 as text against the new dark backgrounds. Values live in `app/globals.css` under a `:root[data-theme="dark"]` block (explicit choice, `ThemeToggle.tsx`) and a matching `@media (prefers-color-scheme: dark)` block (OS default, no JS). Components that use `--ink`/`--paper` as a swappable text/background pair (not a literal color) invert correctly for free — e.g. HomeSkillsGrid's dark cards become light cards on the dark page, which still reads as a valid "accent card" treatment. The one component that can't safely invert is `OrgLogo`: partner-brand raster logos are drawn for a white background, so its card keeps a **fixed** light plate regardless of theme (literal `#ffffff`/`#dce0e3`/`#626d77`, not tokens) — the only place in the system where a color is deliberately theme-inert.
+
 ## Typography
 
 **Display Font:** IBM Plex Sans Condensed, 600 (with ui-sans-serif, system-ui, sans-serif fallback)
@@ -180,6 +183,9 @@ Near-square corners throughout — 2px border-radius is the system maximum (`--r
 
 Do not extend `.font-editorial` / `.text-editorial-accent` to any other component — treat this as scoped to Engineering Projects rows only, not a precedent for future reference-site cloning.
 
+### "Ce que je sais faire" skills cards (HomeSkillsGrid) — layout-only borrow
+**2026-09-02.** Unlike the Engineering Projects rows above, this restyle kept the token system: dark cards use `bg-ink`/`border-graphite` (→ `border-steel` on hover/focus) — existing tokens, just used as a card surface for the first time — `--paper`/`--rule` for on-dark text, and the sitewide `--radius-hairline` (2px), not a new rounded-card radius, even though the reference layout had rounder corners (explicit user call when asked). The one fully-round element, the small circular arrow control, reuses `rounded-pill` (999px) — the existing `SkillsToolbox` exception, not a new one. Only the *layout* (3-column grid with a center portrait on desktop, 01–04 corner numbering, circular arrow) is borrowed from a reference screenshot. The portrait (`public/images/profile-cutout.png`) is a user-supplied transparent PNG; a subtle `--color-accent` radial glow sits behind it (`.skills-photo-halo`, no new color).
+
 ### Cards (ProjectCard) — superseded, kept for history
 - **Corner Style:** 0px radius.
 - **Background:** `--surface` on `--paper`.
@@ -216,3 +222,84 @@ The site's one memorable, load-bearing visual device: a bordered grid of labelle
 - **Don't** use amber, or any color, as pure decoration — every color in this system carries a semantic role.
 - **Don't** render skill/competency levels as percentage bars — PRD explicitly calls these "unfalsifiable and juvenile"; use evidence links instead.
 - **Don't** introduce a second accent hue or a warmer/cooler neutral ramp without updating this file first — the four-neutral/two-accent palette is a deliberate constraint, not an incomplete one.
+
+---
+
+## Redesign in progress (2026-09-02) — `BRIEF-REFONTE-PORTFOLIO.md`, Phase 0
+
+**Status: everything below is a Phase-0/checkpoint-1 proposal, not yet implemented.** No component, token, or dependency has changed. This section records the audit, the conflicts found against the system above, and how each was resolved after checking in with the owner — before any code is touched in Phase 1.
+
+### What the brief asks for, and the scope decision made
+
+The brief (a "Simon Sparks"-style Dribbble reference — deep blue night, editorial serif, brass accent, offset frames — reinterpreted for an industrial-methods engineer's audience, not a 3D artist's) was written as a **dark-only** redesign: one palette, no light mode. That directly conflicted with dark mode + light-as-default, which shipped the day before this brief arrived (see "Dark mode (2026-09-02)" above). Asked to choose, the owner chose to **keep both themes** — bigger scope than the brief itself specifies, since it means designing a light-mode counterpart to a palette that was written dark-only. The mapping below is that counterpart; it hasn't been through the same live-review pass the rest of this system has, so treat the light-side values as provisional until Phase 8's Lighthouse/contrast pass confirms them, the same rigor already applied to every other token in this file.
+
+**Fonts:** the brief specifies `next/font/google` for Bodoni Moda + Inter Tight. Kept as a deliberate substitution, not asked about separately: this project self-hosts fonts via `next/font/local` specifically for reliability in Morocco (documented above, under Typography) — that reasoning doesn't change because the reference changed. **Decision: self-host the same three families the brief names** (Bodoni Moda, Inter Tight, IBM Plex Mono) via local `.woff2` files instead of a Google Fonts request. Visual outcome is identical; only the loading mechanism differs.
+
+### Retained tokens — same 8 names, reskinned per theme
+
+The existing token *names* and *roles* (`paper`, `surface`, `ink`, `graphite`, `steel`, `rule`, `accent`, `signal`) are kept rather than adopting the brief's `ink-900…ink-400` naming — renaming eight tokens sitewide across every component that already consumes them (`Button`, `Card`, `Section`, `Rule`, `Tag`, …) would be pure churn for no visual difference. Only the values change, per theme:
+
+| Token | Light (new) | Dark (new) | Role |
+|---|---|---|---|
+| `--paper` | `#F2F5FC` | `#050A1C` (brief `ink-900`) | page background |
+| `--surface` | `#FFFFFF` | `#0D1836` (brief `ink-500`) | card/raised surfaces |
+| `--surface-hover` *(new)* | `#E7ECFA` | `#122048` (brief `ink-400`) | surface hover state |
+| `--ink` | `#0A1533` (brief `ink-700`, reused as light-mode text) | `#EAF0FF` (brief `paper`) | primary text |
+| `--graphite` | `#33415E` | `#8FA3C8` (brief `paper-dim`) | secondary text |
+| `--steel` | `#5B6B8C` | `#6E80A6` | tertiary text/captions |
+| `--rule` | `rgba(10,21,51,.10)` | `rgba(234,240,255,.08)` (brief exact) | hairline borders |
+| `--accent` (brass, replaces petrol) | `#7A5A18` | `#E4C07A` (brief exact) | links, buttons, borders, data emphasis |
+| `--signal` | `#2F5FD9` | `#3E7BFF` (brief exact) | focus ring + halo glow **only** — see role change below |
+
+Contrast, computed directly (WCAG relative-luminance formula, not eyeballed):
+- Light ink/paper 16.5:1, graphite/paper 9.4:1, steel/paper 4.9:1, brass/paper 5.8:1 — all pass 4.5:1 text minimum.
+- Dark brass/paper 11.4:1, dark graphite("paper-dim")/paper 7.7:1, dark signal/paper 5.1:1, light signal/paper 5.1:1 — all pass.
+
+**Role change, flagged explicitly:** today, `--signal` is amber and *is* used as text (KPI headline figures). The brief's `signal` is blue and is "halo/focus only, never text" — the brief's `brass` takes over what `--signal` currently does (data emphasis). This is a **semantic swap**, not just a new hex: every current `text-signal` KPI-figure usage becomes `text-accent` (brass) in the new system, and `--signal` stops being used as a text color anywhere. Worth a second look before Phase 1 lands it, since it touches every `<Stat>`/KPI in the codebase.
+
+**Unchanged, because already compliant:** border-radius stays capped at 2px (`--radius-hairline`) — the brief's "2px max, découpé, pas arrondi" rule already matches this system; no token change needed. The `--radius-pill` exception (`SkillsToolbox`) stays as-is unless a later phase says otherwise.
+
+**Resolved since:**
+- ~~Motion architecture~~ — Phase 7, see below.
+- ~~Case-study hero meta line~~ — Phase 6 reintroduced it (category filet + h1 + période/organisation/rôle mono line), per the brief's explicit `/projets/[slug]` spec.
+- ~~`/cv`~~ — Phase 6 checkpoint: kept as the instant-redirect `route.ts`, no intermediate page. The brief's "page de téléchargement" spec doesn't apply; owner confirmed the redirect's speed matters more here.
+- ~~`/competences`~~ — Phase 6 checkpoint: kept `SkillsToolbox` and the 6-group Preuves-par-domaine structure (too recent/deliberate, and the brief's 4-section/per-skill-evidence version needs data — which skill maps to which case study — that doesn't exist yet). Only heading-scale updates landed.
+
+**Still open:**
+- **Confidential imagery** (Phase 4/10): the brief's asset list requests a Power BI capture for the Stellantis block — allowed only blurred/anonymized per the existing confidentiality rules above, and still needs the convention-de-stage check CLAUDE.md flags for Stellantis content.
+- **Demos** (`/demos/consommables`, `/demos/pilotage`) aren't mentioned in the brief. Left out of the redesign scope unless asked for.
+
+No reference screenshot was attached to the brief in this session — the above is built from the brief's written description only.
+
+---
+
+## Phase 7 — Motion pass
+
+**Motion engine decision: no `framer-motion`.** Every phase since Phase 3 (page transitions) needed a piece of the brief's motion system and each was built as pure CSS or a small hand-rolled hook instead — the hero orchestration (Phase 4), the logo marquee (Phase 5), every hover/focus micro-interaction (Phase 2 forward). That's six phases of precedent for "dependency-free unless something structurally requires a library," and framer-motion was never structurally required: `requestAnimationFrame` handles the two pieces that need continuous JS control (counters, parallax) just as well, at zero bundle cost, which matters more on this site than usual — PRD §2 names a phone-scanning HR reviewer as one of two target readers. Deciding now, not deferring again.
+
+**What's JS-driven (the only things that must be):**
+- **`<Stat>` count-up** (`components/ui/Stat.tsx`): only the `number` branch counts — `useEffect` + `requestAnimationFrame`, eased with `--ease-plot`'s cubic-bezier evaluated by hand, `once: true` via `IntersectionObserver`. The `string` branch (every real KPI in this codebase — case-study `kpis` arrive pre-formatted, e.g. `"−33,8 %"`) renders statically; there's nothing to count up in a station code or a methodology name. The numeric branch is correct and demonstrated live at `/styleguide`, but no shipped content exercises it yet — flagging so this isn't mistaken for a bug later.
+- **Parallax** (`components/ui/Parallax.tsx`, new): a scroll listener (rAF-throttled, `passive: true`) driving a CSS custom property consumed by `transform: translateY(var(--parallax-y))`. Disabled below 1024px and under `prefers-reduced-motion` by not attaching the listener at all, not just zeroing the CSS. Used on exactly two elements per the brief's §5.4 list — the hero background photo and the case-study feature's `FramedImage`. The third (contour-line texture) was never built — it's explicitly optional in the brief and no such texture exists yet.
+- **Scroll-progress bar** (`components/case/ScrollProgress.tsx`, new): same rAF-throttled listener pattern, `/projets/[slug]` only, per §5.9.
+
+**Everything else stays CSS**, unchanged from how it already worked: reveals, hover/focus states, the marquee (now also pausing via `IntersectionObserver` when scrolled out of view, per §5.11, not just on hover), page-transition entrance.
+
+**Reveal density, brought down to the brief's §5.3 list.** The homepage previously wrapped nearly every section in `<Reveal>` — exactly the "default reflex" the brief calls out as a tell. Cut to the five elements it names: the Bloc 4 heading, the Bloc 5 image, the Bloc 5 stat band, the Bloc 7 timeline, and the Bloc 8 contact block. Everything else (logo rail, the Bloc 3 note, the featured-projects grid itself, the competence list) is visible immediately.
+
+---
+
+## Phase 8 — Quality pass and delivery
+
+Every custom `:hover` gesture introduced by this redesign (`.sweep-fill`, `.btn-ghost`, `.nav-link` underline, `.competence-row` rule, `.cta-arrow`/`.cta-arrow-down`) is now gated behind `@media (hover: hover)`, with `:focus-visible` kept always-active in parallel — per §5.5's "no hover state stuck after a mobile tap." Added the one missing §5.5 micro-interaction (`ProjectCard`'s image scale-on-hover). `/styleguide` is deleted — its job (checking tokens/primitives live before the rest of the site used them) is done.
+
+**Recette checklist (§12), verified:**
+- `npm run build` clean; zero new ESLint/TS warnings in application code (the only warnings anywhere are pre-existing, in `.claude/skills/impeccable/scripts/*.mjs`, outside the Next.js app).
+- All 8 routes resolve in both locales against a production build (`npm run start`) — zero 404s, `/cv`'s 307→200 redirect confirmed to actually reach the PDF.
+- Zero new dependencies beyond the pre-approved `framer-motion`, which turned out not to be needed at all (Phase 7) — `git diff main -- package.json` is empty.
+- No case-study content text modified — every `content/*.mdx` diff against `main` is either the owner-approved Stellantis kpi addition or an unrelated pre-existing pending edit this redesign never touched.
+- Contrast was computed directly (not eyeballed) for every token pair back in Phase 0/1.
+- Reduced-motion, keyboard navigation, and the live scroll-driven behaviors (parallax, counters, marquee pause) could not be exercised live in this session — verified by code review instead. Root cause, confirmed directly in Phase 7: this session's automation tab reports `document.visibilityState === "hidden"`, the spec condition that makes browsers suspend `requestAnimationFrame`, throttle `IntersectionObserver`, and (confirmed in Phase 8) drop synthetic keyboard focus movement. Not a property of a real visitor's foreground tab.
+
+**Not independently verified this session** (no tooling access to run them): actual Lighthouse scores, cross-browser rendering at the brief's named breakpoints (320/375/768/1440/1920px — `resize_window` didn't take effect reliably in this environment), and real-device 60fps/CPU-throttled scroll profiling. The code follows the practices those checks would verify (transform/opacity-only animation, `next/image` throughout, self-hosted fonts, mobile-first responsive classes sitewide) but the numbers themselves are unmeasured — worth running for real before calling this done.
+
+**Two files remain intentionally uncommitted on this branch**, same reasoning as every prior phase: `messages/{fr,en}.json` (this redesign's new interface-label keys, interleaved with unrelated pending M7 translation work) and `.claude/CLAUDE.md` (a redesign-status pointer note, interleaved with unrelated pending M7 documentation). The working tree has everything; the commit history doesn't, because there's no clean non-interactive way to split them. Whoever commits that other pending work will pick these up too.

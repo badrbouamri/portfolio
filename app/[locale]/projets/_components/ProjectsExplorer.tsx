@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
-import { ProjectRow } from "@/components/case/ProjectRow";
+import { ProjectCard } from "@/components/case/ProjectCard";
 import type { CaseStudy } from "@/lib/schema";
 
 const CATEGORIES = ["methodes", "lean", "maintenance", "conception", "digital"] as const;
@@ -44,7 +44,7 @@ export function ProjectsExplorer({ caseStudies }: { caseStudies: CaseStudy[] }) 
       <div role="group" aria-label={t("filter_label")} className="mb-6 flex flex-wrap gap-2">
         <Button
           type="button"
-          variant={activeCategory === null ? "primary" : "secondary"}
+          variant={activeCategory === null ? "solid" : "ghost"}
           aria-pressed={activeCategory === null}
           onClick={() => selectCategory(null)}
         >
@@ -54,7 +54,7 @@ export function ProjectsExplorer({ caseStudies }: { caseStudies: CaseStudy[] }) 
           <Button
             key={cat}
             type="button"
-            variant={activeCategory === cat ? "primary" : "secondary"}
+            variant={activeCategory === cat ? "solid" : "ghost"}
             aria-pressed={activeCategory === cat}
             onClick={() => selectCategory(cat)}
           >
@@ -66,14 +66,22 @@ export function ProjectsExplorer({ caseStudies }: { caseStudies: CaseStudy[] }) 
       {filtered.length === 0 ? (
         <div className="border border-rule bg-surface p-6 text-center">
           <p className="mb-4 text-sm text-graphite">{t("empty_message")}</p>
-          <Button type="button" variant="secondary" onClick={() => selectCategory(null)}>
+          <Button type="button" variant="ghost" onClick={() => selectCategory(null)}>
             {t("empty_cta")} →
           </Button>
         </div>
       ) : (
-        <div key={activeCategory ?? "all"} className="filter-grid flex flex-col gap-8">
-          {filtered.map((cs, i) => (
-            <ProjectRow key={cs.slug} caseStudy={cs} ctaLabel={t("card_cta")} reverse={i % 2 === 1} />
+        <div
+          key={activeCategory ?? "all"}
+          className="filter-grid grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {filtered.map((cs) => (
+            <ProjectCard
+              key={cs.slug}
+              caseStudy={cs}
+              categoryLabel={t(`category_${cs.category}`)}
+              ctaLabel={t("card_cta")}
+            />
           ))}
         </div>
       )}

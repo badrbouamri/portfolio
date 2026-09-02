@@ -55,7 +55,7 @@ export function ConsommablesApp() {
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="measure text-sm text-graphite">{t("intro")}</p>
-        <Button variant="secondary" onClick={handleReset} className="self-start sm:self-auto sm:shrink-0">
+        <Button variant="ghost" onClick={handleReset} className="self-start sm:self-auto sm:shrink-0">
           {t("reset_button")}
         </Button>
       </div>

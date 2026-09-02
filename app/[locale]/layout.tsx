@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
-import { plexSansCondensed, plexSans, plexMono } from "../fonts";
+import { bodoniModa, interTight, plexMono } from "../fonts";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Backdrop } from "@/components/layout/Backdrop";
+import { PageTransition } from "@/components/layout/PageTransition";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -68,24 +70,36 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const t = await getTranslations("Header");
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`${plexSansCondensed.variable} ${plexSans.variable} ${plexMono.variable} antialiased`}
+        className={`${bodoniModa.variable} ${interTight.variable} ${plexMono.variable} antialiased`}
       >
         {/* Synchronous (render-blocking) bootstrap script, not next/script: it must
             run before first paint so scroll-reveal CSS (gated on .js-reveal) never
-            causes a flash, and so content stays fully visible with JS disabled. */}
+            causes a flash, and so content stays fully visible with JS disabled.
+            Also applies a saved dark/light choice (ThemeToggle.tsx) before paint,
+            so a returning visitor never sees a light-mode flash before dark mode
+            kicks in. No explicit choice → the prefers-color-scheme media query in
+            globals.css handles it with zero JS. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: "document.documentElement.classList.add('js-reveal')",
+            __html:
+              "try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}document.documentElement.classList.add('js-reveal')",
           }}
         />
+        <a href="#main-content" className="skip-link">
+          {t("skip_to_content")}
+        </a>
+        <Backdrop />
         <NextIntlClientProvider messages={messages}>
           <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1">{children}</main>
+            <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
           </div>
         </NextIntlClientProvider>

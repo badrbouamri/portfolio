@@ -85,7 +85,7 @@ export default async function ParcoursPage({
     <Section eyebrow={t("eyebrow")} title={t("title")}>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-[1fr_220px]">
         <div>
-          <h2 className="mb-3 text-lg text-ink">{t("bio_heading")}</h2>
+          <h2 className="text-h3 mb-3 text-ink">{t("bio_heading")}</h2>
           <div className="measure text-graphite">
             {bioParagraphs.map((paragraph, index) => (
               <p key={index} className="mb-4">
@@ -104,6 +104,7 @@ export default async function ParcoursPage({
               sizes="220px"
               className="object-cover"
               priority
+              fetchPriority="high"
             />
           </div>
         </div>
@@ -112,15 +113,16 @@ export default async function ParcoursPage({
       <Rule className="my-8" />
 
       <div>
-        <h2 className="mb-4 text-lg text-ink">{t("experience_heading")}</h2>
+        <h2 className="text-h3 mb-4 text-ink">{t("experience_heading")}</h2>
         <Reveal stagger as="ul" className="flex flex-col gap-6">
           {experience.map((entry) => {
             const org = findOrganisation(entry.organisation);
             return (
             <li
               key={`${entry.organisation}-${entry.sortKey}`}
-              className="border-l-2 border-rule pl-4"
+              className="relative border-l border-rule pl-6"
             >
+              <span aria-hidden className="absolute -left-[4px] top-1.5 h-[7px] w-[7px] rounded-full bg-accent" />
               <div className="flex items-start justify-between gap-3">
                 <p className="font-data text-xs uppercase tracking-wide text-steel">
                   {entry.period}
@@ -163,7 +165,7 @@ export default async function ParcoursPage({
           })}
         </Reveal>
 
-        <div className="mt-6 border-l-2 border-rule pl-4">
+        <div className="mt-6 border-l border-rule pl-6">
           <h3 className="mb-2 font-data text-xs uppercase tracking-wide text-steel">
             {t("engagements_heading")}
           </h3>
@@ -174,10 +176,11 @@ export default async function ParcoursPage({
       <Rule className="my-8" />
 
       <div>
-        <h2 className="mb-4 text-lg text-ink">{t("education_heading")}</h2>
+        <h2 className="text-h3 mb-4 text-ink">{t("education_heading")}</h2>
         <Reveal stagger as="ul" className="flex flex-col gap-4">
           {EDUCATION_KEYS.map((edu) => (
-            <li key={edu.label} className="border-l-2 border-rule pl-4">
+            <li key={edu.label} className="relative border-l border-rule pl-6">
+              <span aria-hidden className="absolute -left-[4px] top-1.5 h-[7px] w-[7px] rounded-full bg-accent" />
               <p className="font-data text-xs uppercase tracking-wide text-steel">
                 {t(edu.period)}
               </p>
@@ -191,10 +194,11 @@ export default async function ParcoursPage({
       <Rule className="my-8" />
 
       <div>
-        <h2 className="mb-4 text-lg text-ink">{t("certifications_heading")}</h2>
+        <h2 className="text-h3 mb-4 text-ink">{t("certifications_heading")}</h2>
         <Reveal stagger as="ul" className="flex flex-col gap-4">
           {CERTIFICATION_KEYS.map((cert) => (
-            <li key={cert.label} className="border-l-2 border-rule pl-4">
+            <li key={cert.label} className="relative border-l border-rule pl-6">
+              <span aria-hidden className="absolute -left-[4px] top-1.5 h-[7px] w-[7px] rounded-full bg-accent" />
               <p className="font-data text-xs uppercase tracking-wide text-steel">
                 {t(cert.period)}
               </p>
@@ -208,7 +212,7 @@ export default async function ParcoursPage({
       <Rule className="my-8" />
 
       <div>
-        <h2 className="mb-3 text-lg text-ink">{t("languages_heading")}</h2>
+        <h2 className="text-h3 mb-3 text-ink">{t("languages_heading")}</h2>
         <Reveal stagger className="flex flex-wrap gap-2">
           <Tag>
             {t("lang_arabic")} — {t("lang_arabic_level")}
@@ -225,7 +229,7 @@ export default async function ParcoursPage({
       <Rule className="my-8" />
 
       <div>
-        <h2 className="mb-2 text-lg text-ink">{t("availability_heading")}</h2>
+        <h2 className="text-h3 mb-2 text-ink">{t("availability_heading")}</h2>
         <p className="text-sm text-graphite">{t("location_text")}</p>
         <p className="text-sm text-graphite">{t("availability_text")}</p>
       </div>

@@ -111,7 +111,7 @@ export function ConsommablesConsumptionForm({
 
       {error ? <p className="text-sm text-signal">{error}</p> : null}
 
-      <Button type="submit" className="self-start">
+      <Button type="submit" variant="solid" className="self-start">
         {t("form_submit")}
       </Button>
     </form>

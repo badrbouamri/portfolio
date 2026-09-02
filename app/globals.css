@@ -1,33 +1,98 @@
 @import "tailwindcss";
 
+/* Redesign (BRIEF-REFONTE-PORTFOLIO.md, 2026-09-02) — Phase 1. Same 8 token
+   names/roles as before (see DESIGN.md → Colors for the pre-redesign values,
+   kept there for history), reskinned to the brief's blue-night/brass palette
+   with a light counterpart designed to match (the brief itself is dark-only;
+   keeping the light/dark toggle was an explicit owner call — see DESIGN.md →
+   "Redesign in progress"). `accent`/`signal` also change ROLE, not just hex:
+   `accent` (brass) now carries data emphasis — KPI figures, links, active
+   state — taking over what `signal` (amber) used to do; `signal` (blue) is
+   reserved for focus rings and the backdrop halo only, per the brief's own
+   "jamais du texte" rule. `--surface-hover` is new (brief's `ink-400`).
+   Contrast computed directly (WCAG relative luminance), not eyeballed:
+   light ink/paper 16.5:1, graphite/paper 9.4:1, steel/paper 4.9:1, accent/paper
+   5.8:1; dark accent/paper 11.4:1, graphite/paper 7.7:1, signal/paper 5.1:1
+   (light signal/paper also 5.1:1) — all clear 4.5:1. */
 :root {
-  --paper: #f4f5f6;
+  --paper: #f2f5fc;
   --surface: #ffffff;
-  --ink: #14181b;
-  --graphite: #3a4249;
-  /* Darkened from the original PRD §8.2 value (#78838c) after M4's Lighthouse/axe
-     pass found it failed WCAG AA (4.5:1) at the 12px sizes actually used sitewide
-     for eyebrows/captions/dates — this shade holds 4.5:1+ against both --paper and
-     --surface while keeping the same steel-gray hue. */
-  --steel: #626d77;
-  --rule: #dce0e3;
-  --accent: #0b5563;
-  /* Darkened from the original PRD §8.2 value (#b26b00), which measured 4.2:1 (not
-     the required 4.5:1) against --surface for the 14px KPI figures — same amber hue. */
-  --signal: #9c5e00;
-  /* DESIGN.md → Motion: natural deceleration, used on every authored reveal/state
-     transition sitewide instead of a plain ease-out — confident arrivals, never bounce. */
+  --surface-hover: #e7ecfa;
+  --ink: #0a1533;
+  --graphite: #33415e;
+  --steel: #5b6b8c;
+  --rule: rgba(10, 21, 51, 0.1);
+  --rule-active: rgba(122, 90, 24, 0.45);
+  --accent: #7a5a18;
+  --on-accent: #f7f9ff;
+  --signal: #2f5fd9;
+  --halo-tint: rgba(47, 95, 217, 0.1);
+  --grain-opacity: 0;
+  /* Card hover halo (BRIEF §2.3 Ombres): the one shadow in the system, a
+     soft signal-tinted glow standing in for ambient elevation. */
+  --shadow-halo: 0 0 60px -20px rgba(47, 95, 217, 0.28);
+  /* DESIGN.md → Motion: natural deceleration, used on scroll reveals/state
+     transitions sitewide — confident arrivals, never bounce. Matches the
+     brief's `ease.soft`. `--ease-interact` is the brief's `ease.out`, for
+     hover/press feedback specifically — introduced here, not yet rewired
+     into every existing hover transition (Phase 7 does that pass). */
   --ease-plot: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-interact: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Two selectors carry identical dark values on purpose: the plain
+   `[data-theme]` attribute is what the inline bootstrap script (layout.tsx)
+   sets once the reader picks a mode explicitly (localStorage-backed, wins
+   over system); the media-query form covers everyone else, following the OS
+   setting with no JS and no flash. `:not([data-theme="light"])` keeps an
+   explicit light choice from being re-overridden by the media query. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #050a1c;
+    --surface: #0d1836;
+    --surface-hover: #122048;
+    --ink: #eaf0ff;
+    --graphite: #8fa3c8;
+    --steel: #6e80a6;
+    --rule: rgba(234, 240, 255, 0.08);
+    --rule-active: rgba(228, 192, 122, 0.45);
+    --accent: #e4c07a;
+    --on-accent: #050a1c;
+    --signal: #3e7bff;
+    --halo-tint: rgba(62, 123, 255, 0.18);
+    --grain-opacity: 0.035;
+    --shadow-halo: 0 0 80px -20px rgba(62, 123, 255, 0.35);
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #050a1c;
+  --surface: #0d1836;
+  --surface-hover: #122048;
+  --ink: #eaf0ff;
+  --graphite: #8fa3c8;
+  --steel: #6e80a6;
+  --rule: rgba(234, 240, 255, 0.08);
+  --rule-active: rgba(228, 192, 122, 0.45);
+  --accent: #e4c07a;
+  --on-accent: #050a1c;
+  --signal: #3e7bff;
+  --halo-tint: rgba(62, 123, 255, 0.18);
+  --grain-opacity: 0.035;
+  --shadow-halo: 0 0 80px -20px rgba(62, 123, 255, 0.35);
 }
 
 @theme inline {
   --color-paper: var(--paper);
   --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
   --color-ink: var(--ink);
   --color-graphite: var(--graphite);
   --color-steel: var(--steel);
   --color-rule: var(--rule);
+  --color-rule-active: var(--rule-active);
   --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
   --color-signal: var(--signal);
 
   --text-xs: 12px;
@@ -39,6 +104,29 @@
   --text-2xl: 39px;
   --text-3xl: 49px;
 
+  /* Redesign type scale (BRIEF-REFONTE-PORTFOLIO.md §2.2). Named by role
+     rather than size, since the brief's numbers aren't a clean ratio off the
+     scale above. Fluid between the brief's mobile/desktop pair via clamp()
+     instead of a hand-wired breakpoint per component. Not yet applied to any
+     component — Phase 2 (Primitives) wires these into Button/Card/Stat/
+     SectionLabel; the scale above stays live for anything not migrated yet. */
+  --text-hero: clamp(40px, 6vw + 20px, 76px);
+  --text-hero--line-height: 1.02;
+  --text-hero--letter-spacing: -0.015em;
+  --text-h2: clamp(30px, 3vw + 20px, 44px);
+  --text-h2--line-height: 1.1;
+  --text-h3: clamp(19px, 1vw + 16px, 22px);
+  --text-h3--line-height: 1.25;
+  --text-lead: clamp(18px, 0.5vw + 16px, 20px);
+  --text-lead--line-height: 1.6;
+  --text-label: 11px;
+  --text-label--line-height: 1;
+  --text-label--letter-spacing: 0.22em;
+  --text-data-lg: clamp(36px, 4vw + 20px, 56px);
+  --text-data-lg--line-height: 1;
+  --text-caption: 13px;
+  --text-caption--line-height: 1.5;
+
   --spacing-1: 8px;
   --spacing-2: 16px;
   --spacing-3: 24px;
@@ -48,6 +136,11 @@
 
   --radius-none: 0px;
   --radius-hairline: 2px;
+  /* One-off exception, not part of the token system: every other radius in the
+     site is --radius-hairline (2px) or square. Scoped to SkillsToolbox's filter
+     tabs/pills only (the "pastilles" look explicitly requested for that
+     component) — do not reuse elsewhere. Logged in .impeccable/config.json. */
+  --radius-pill: 999px;
 
   --breakpoint-xs: 390px;
   --breakpoint-sm: 768px;
@@ -78,6 +171,39 @@ body {
   body {
     font-size: 17px;
   }
+}
+
+/* Redesign (BRIEF-REFONTE-PORTFOLIO.md §2.3): vertical rhythm defined once
+   here, consumed by Section.tsx. No child component may re-add vertical
+   section padding — that's the classic specificity fight the brief calls
+   out explicitly. 768px matches the project's existing --breakpoint-sm
+   (already overridden from Tailwind's default 640px), same breakpoint the
+   body font-size switch above already uses. */
+.section {
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-top: 168px;
+    padding-bottom: 168px;
+  }
+}
+
+/* <Backdrop /> (components/layout/Backdrop.tsx), BRIEF §2.4. Base paint is
+   `body`'s own background above; these are the two layers on top of it.
+   Grain opacity is 0 in light mode (--grain-opacity token) — the brief
+   designed the turbulence overlay for a dark ground only, so light mode
+   gets the halo without the grain rather than an untested inversion. */
+.backdrop-halo {
+  background: radial-gradient(ellipse 60% 60% at 50% -10%, var(--halo-tint), transparent 70%);
+}
+
+.backdrop-grain {
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
 h1,
@@ -130,8 +256,33 @@ h3 {
   list-style: disc;
 }
 
+/* BRIEF §4.2 /projets/[slug]: "les phases DMAIC... sont numérotées 01→05".
+   Every ordered list across case-study content is already reserved for
+   genuinely sequential steps (DMAIC, diagnostic steps, MTBF/MTTR analysis
+   — checked all 9 case studies), so restyling every .prose-article <ol>
+   this way, rather than requiring a special MDX component, is safe: content
+   authors already signalled "sequence" by choosing <ol> over <ul>.
+   decimal-leading-zero is a native CSS counter style — no JS padding. */
 .prose-article > ol {
-  list-style: decimal;
+  list-style: none;
+  counter-reset: prose-step;
+  padding-left: 0;
+}
+
+.prose-article > ol > li {
+  counter-increment: prose-step;
+  position: relative;
+  padding-left: 40px;
+}
+
+.prose-article > ol > li::before {
+  content: counter(prose-step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--font-data), ui-monospace, monospace;
+  font-size: 0.85em;
+  color: var(--color-accent);
 }
 
 .prose-article li {
@@ -191,9 +342,46 @@ h3 {
   margin: 0;
 }
 
+/* Skip link (BRIEF §7 / §9 `nav.skipToContent`) — visually hidden until
+   keyboard focus, then pinned above everything including the sticky header. */
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 8px;
+  z-index: 50;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border: 1px solid var(--color-rule);
+  border-radius: 2px;
+  padding: 8px 16px;
+  font-size: 14px;
+  transition: top 150ms var(--ease-interact);
+}
+.skip-link:focus-visible {
+  top: 8px;
+}
+
+/* Page transition entrance (BRIEF §5.8), PageTransition.tsx. */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.page-enter {
+  animation: page-enter 420ms var(--ease-plot) both;
+}
+
+/* BRIEF §5.5/§7: focus uses --signal (blue), not --accent — the redesign's
+   role split reserves signal for focus/halo only, accent for data/actions.
+   Offset widened to 3px to match. */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
 }
 
 /* One orchestrated page-load reveal, hero only (PRD §8.7). Disabled by the
@@ -359,9 +547,9 @@ h3 {
   transition-delay: 400ms;
 }
 
-/* Skills matrix "pips" (components/skills/SkillsMatrix.tsx) — filled squares
+/* Skills level "pips" (components/skills/SkillsToolbox.tsx) — filled dots
    snap in like calibration marks being stamped, left to right, once the
-   matrix scrolls into view. Unfilled pips never animate; they're already the
+   legend scrolls into view. Unfilled pips never animate; they're already the
    "at rest" state. */
 .js-reveal .reveal-stagger.is-visible .pip-filled,
 .js-reveal .reveal.is-visible .pip-filled {
@@ -389,9 +577,44 @@ h3 {
   }
 }
 
+/* SkillsToolbox pill grid — a sober appear-in-place on mount and on every
+   filter change (not scroll-triggered like Reveal, since the grid is already
+   in view when a filter tab is clicked). Delay is set inline per pill in
+   SkillsToolbox.tsx. Respects prefers-reduced-motion via the sitewide
+   animation-duration override above, no extra gating needed here. */
+.skill-pill {
+  animation: skill-pill-in 220ms var(--ease-plot) both;
+}
+
+@keyframes skill-pill-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header.tsx sticky scroll state (BRIEF §3 <Header />) — transparent at the
+   top of the page, a translucent blurred scrim past 40px of scroll.
+   color-mix over --color-paper keeps this theme-aware instead of the
+   brief's literal dark-only rgba(5,10,28,.72). */
+.site-header {
+  background: transparent;
+}
+.site-header[data-scrolled="true"] {
+  background: color-mix(in srgb, var(--color-paper) 72%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom-color: var(--color-rule);
+}
+
 /* Nav link underline (Header.tsx) — a ruler-tick sweep instead of a plain
    color swap, drawn from the same "measuring instrument" vocabulary as the
-   site's other technical-drawing cues rather than a generic underline. */
+   site's other technical-drawing cues rather than a generic underline.
+   The active page's link (BRIEF: "filet 1px sous le lien") keeps the same
+   underline permanently drawn instead of only on hover. */
 .nav-link {
   position: relative;
 }
@@ -407,12 +630,18 @@ h3 {
   transform-origin: left;
   transition: transform 200ms var(--ease-plot);
 }
+.nav-link-active::after {
+  transform: scaleX(1);
+}
 
-/* Sweep-fill (Button.tsx primary variant, CvButton.tsx) — the same
+/* Sweep-fill (Button.tsx solid variant, CvButton.tsx) — the same
    left-to-right ruler-tick gesture as .nav-link, scaled up to a full fill:
-   a flat ink plane sweeps in from the left on hover/focus instead of the
+   a flat plane sweeps in from the left on hover/focus instead of the
    background swapping instantly. isolation + a negative-z-index pseudo keeps
-   the fill behind the button's own text without needing to wrap it in a span. */
+   the fill behind the button's own text without needing to wrap it in a span.
+   Fill color is a variable (default --color-ink, the solid-button darken-on-
+   hover) so .btn-ghost below can point it at --color-accent instead without
+   a second copy of the mechanism. Timing matches BRIEF §5.5 (320ms, ease-out). */
 .sweep-fill {
   position: relative;
   isolation: isolate;
@@ -423,18 +652,71 @@ h3 {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--color-ink);
+  background: var(--sweep-fill-color, var(--color-ink));
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 250ms var(--ease-plot);
+  transition: transform 320ms var(--ease-interact);
 }
-.sweep-fill:hover::before,
+/* :hover variants of every sweep/underline/nudge gesture below are gated to
+   real hover-capable pointers (BRIEF §5.5: "aucun état de survol collé
+   après un tap sur mobile") — :focus-visible stays ungated so keyboard
+   users always get the same feedback. */
 .sweep-fill:focus-visible::before {
   transform: scaleX(1);
 }
-.nav-link:hover::after,
+@media (hover: hover) {
+  .sweep-fill:hover::before {
+    transform: scaleX(1);
+  }
+}
+
+/* Button.tsx ghost variant — fill sweeps to brass (not ink), and the label
+   swaps to --on-accent so it stays legible once the fill lands underneath,
+   per BRIEF §3 <Button />. */
+.btn-ghost {
+  --sweep-fill-color: var(--color-accent);
+  transition: color 320ms var(--ease-interact);
+}
+.btn-ghost:focus-visible {
+  color: var(--color-on-accent);
+}
+.btn-ghost:focus-visible .cta-arrow {
+  transform: translateX(4px);
+}
+@media (hover: hover) {
+  .btn-ghost:hover {
+    color: var(--color-on-accent);
+  }
+  .btn-ghost:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+}
+
+/* Card.tsx hover (BRIEF §3 <Card />) — gated to real hover-capable pointers
+   only, per the brief's explicit requirement, so a tap on mobile never
+   leaves the card stuck in its hover state. */
+@media (hover: hover) {
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-rule-active);
+    box-shadow: var(--shadow-halo);
+  }
+}
+
+/* :active → scale(.98) on every button (BRIEF §3/§5.5). */
+.btn-tap {
+  transition: transform 150ms var(--ease-interact);
+}
+.btn-tap:active {
+  transform: scale(0.98);
+}
 .nav-link:focus-visible::after {
   transform: scaleX(1);
+}
+@media (hover: hover) {
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
 }
 
 /* Mobile nav panel (Header.tsx) — it's freshly mounted each time it opens
@@ -515,22 +797,43 @@ h3 {
 }
 
 /* CTA arrow nudge (ProjectCard, CvButton) — the trailing glyph steps in the
-   direction it points on hover, a small directional affordance rather than a
-   generic scale/lift effect. */
+   direction it points on hover/focus, a small directional affordance
+   rather than a generic scale/lift effect. Hover gated per BRIEF §5.5. */
 .cta-arrow {
   display: inline-block;
   transition: transform 200ms var(--ease-plot);
 }
-.group:hover .cta-arrow,
-a:hover > .cta-arrow {
+.group:focus-visible .cta-arrow,
+a:focus-visible > .cta-arrow {
   transform: translateX(3px);
 }
 .cta-arrow-down {
   display: inline-block;
   transition: transform 200ms var(--ease-plot);
 }
-a:hover > .cta-arrow-down {
+a:focus-visible > .cta-arrow-down {
   transform: translateY(2px);
+}
+@media (hover: hover) {
+  .group:hover .cta-arrow,
+  a:hover > .cta-arrow {
+    transform: translateX(3px);
+  }
+  a:hover > .cta-arrow-down {
+    transform: translateY(2px);
+  }
+}
+
+/* ProjectCard.tsx image (BRIEF §5.5: "Image de projet | survol | scale
+   1→1.03"). Hover-gated only — no focus-visible equivalent, since the
+   image itself isn't the focusable element (the card's own link is). */
+.project-card-image {
+  transition: transform 500ms var(--ease-plot);
+}
+@media (hover: hover) {
+  .group:hover .project-card-image {
+    transform: scale(1.03);
+  }
 }
 
 /* Engineering Projects rows (ProjectRow.tsx / ProjectsHeroBand.tsx) — a
@@ -545,6 +848,201 @@ a:hover > .cta-arrow-down {
 
 .text-editorial-accent {
   color: #b5342c;
+}
+
+/* Dark mode (2026-09-02): the fixed editorial red above fails 4.5:1 against
+   the dark paper/surface (2.99:1) — brightened here only, same hue family. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .text-editorial-accent {
+    color: #e2685d;
+  }
+}
+:root[data-theme="dark"] .text-editorial-accent {
+  color: #e2685d;
+}
+
+/* Homepage "Ce que je sais faire" skills grid (HomeSkillsGrid.tsx) — a very
+   subtle radial glow behind the center portrait on desktop, built from the
+   existing --color-accent token (no new color) rather than a flat shape. */
+.skills-photo-halo {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent) 22%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+/* Homepage hero (Hero.tsx), BRIEF §4.1 Bloc 1 + §5.2 — the site's one
+   authored entrance sequence. Every timing value below is the brief's own
+   millisecond table; kept as separate small classes rather than one
+   composite animation so each element's delay/duration reads directly off
+   the spec. */
+.hero-photo-mask {
+  mask-image: radial-gradient(closest-side, black, transparent);
+  -webkit-mask-image: radial-gradient(closest-side, black, transparent);
+}
+.hero-photo {
+  opacity: 0;
+  transform: scale(1.06);
+  animation: hero-photo-in 1400ms var(--ease-plot) both;
+}
+@keyframes hero-photo-in {
+  to {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+}
+
+.hero-halo {
+  opacity: 0;
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 30%,
+    color-mix(in srgb, var(--color-signal) 25%, transparent),
+    transparent 70%
+  );
+  animation: hero-fade-in 1200ms var(--ease-plot) 120ms both;
+}
+@keyframes hero-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-mark {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: var(--color-steel);
+  opacity: 0.3;
+}
+.hero-mark-left {
+  left: 24px;
+}
+.hero-mark-right {
+  right: 24px;
+}
+
+.hero-eyebrow {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: hero-fade-up 700ms var(--ease-plot) 260ms both;
+}
+@keyframes hero-fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-name-line {
+  transform: translateY(100%);
+  animation: hero-name-in 900ms var(--ease-plot) both;
+}
+.hero-name-line-1 {
+  animation-delay: 380ms;
+}
+.hero-name-line-2 {
+  animation-delay: 460ms;
+}
+@keyframes hero-name-in {
+  to {
+    transform: translateY(0);
+  }
+}
+
+.hero-rule {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: hero-rule-in 800ms var(--ease-plot) 700ms both;
+}
+@keyframes hero-rule-in {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.hero-subtitle {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: hero-fade-up 700ms var(--ease-plot) 860ms both;
+}
+
+/* Header.tsx nav links, homepage only (`.hero-nav-enter`, gated on
+   pathname === "/"). Reuses .hero-fade-in; per-link delay is set inline
+   (1100ms + 40ms × index) since it depends on the link's position. */
+.hero-nav-enter {
+  opacity: 0;
+  animation: hero-fade-in 600ms var(--ease-plot) both;
+}
+
+.hero-scroll {
+  opacity: 0;
+  animation: hero-fade-in 400ms var(--ease-plot) 1500ms both;
+}
+.hero-scroll-seg {
+  animation: hero-scroll-loop 2000ms var(--ease-plot) infinite;
+}
+@keyframes hero-scroll-loop {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(36px);
+    opacity: 0;
+  }
+}
+
+/* CompetenceList.tsx (BRIEF §4.1 Bloc 6) — the row's top rule sweeps to
+   --accent full-width on hover/focus, transform-origin left. Hover gated
+   per BRIEF §5.5 (see .sweep-fill above); focus-visible always active. */
+.competence-row-rule {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 260ms var(--ease-interact);
+}
+.competence-row:focus-visible .competence-row-rule {
+  transform: scaleX(1);
+}
+@media (hover: hover) {
+  .competence-row:hover .competence-row-rule {
+    transform: scaleX(1);
+  }
+}
+
+/* ScrollProgress.tsx (BRIEF §5.9), /projets/[slug] only. */
+.scroll-progress {
+  transform: scaleX(var(--scroll-progress, 0));
+  transform-origin: left;
+}
+
+/* LogoRail.tsx marquee (BRIEF §5.7) — continuous horizontal scroll, paused
+   on hover, disabled under 768px (static single row) and under
+   prefers-reduced-motion (handled by the sitewide animation-duration
+   override already, no extra rule needed here). */
+.logo-rail-marquee {
+  animation: logo-rail-scroll 42s linear infinite;
+}
+.logo-rail-viewport:hover .logo-rail-marquee,
+.logo-rail-offscreen .logo-rail-marquee {
+  animation-play-state: paused;
+}
+@keyframes logo-rail-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (max-width: 768px) {
+  .logo-rail-marquee {
+    animation: none;
+  }
+  .logo-rail-marquee > *[aria-hidden="true"] {
+    display: none;
+  }
 }
 
 /* Print stylesheet — scoped mainly at case studies (PRD M7), but hiding site

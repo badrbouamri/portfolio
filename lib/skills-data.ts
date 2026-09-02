@@ -20,8 +20,22 @@ export type Skill = {
   // false until the profile owner confirms the level themselves — decoupled
   // from `level` so a genuinely-confirmed "notions" skill doesn't keep
   // showing the "placeholder" hint forever. Flip to true per skill as you
-  // confirm it (see SkillsMatrix's title tooltip on unconfirmed rows).
+  // confirm it (see SkillsToolbox's title tooltip on unconfirmed rows).
   confirmed: boolean;
+  // Filename in /public/icons/skills/ (owner-supplied vendor logos, mixed
+  // raster formats — not actually SVG despite the toolbox brief asking for
+  // it; each was cropped/downscaled to a 128px square before being added
+  // here). Omit for skills with no real-world logo, or where the owner's
+  // source asset was a wordmark with no isolable square mark (ANSYS,
+  // ABAQUS) — SkillsToolbox falls back to a 2-letter monogram either way.
+  icon?: string;
+  // false hides the skill from SkillsToolbox's pill grid while keeping it
+  // defined here as the single source of truth. Used for the 4 engineering-
+  // science topics (machines thermiques, transfert de chaleur, mécanique des
+  // fluides, énergies renouvelables) that don't fit the toolbox's tool/method
+  // taxonomy — they remain evidenced separately in the Compétences page's
+  // "Preuves par domaine" section. Defaults to true when omitted.
+  toolbox?: boolean;
 };
 
 export type SkillCategory = {
@@ -35,9 +49,9 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     id: "cao",
     labelKey: "category_cao",
     skills: [
-      { nameKey: "skill_catia", level: "expert", confirmed: true },
-      { nameKey: "skill_solidworks", level: "expert", confirmed: true },
-      { nameKey: "skill_autocad", level: "maitrise", confirmed: true },
+      { nameKey: "skill_catia", level: "expert", confirmed: true, icon: "catia.png" },
+      { nameKey: "skill_solidworks", level: "expert", confirmed: true, icon: "solidworks.png" },
+      { nameKey: "skill_autocad", level: "maitrise", confirmed: true, icon: "autocad.png" },
     ],
   },
   {
@@ -87,20 +101,20 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       { nameKey: "skill_abaqus", level: "maitrise", confirmed: true },
       { nameKey: "skill_digimat", level: "maitrise", confirmed: true },
       { nameKey: "skill_ces_edupack", level: "maitrise", confirmed: true },
-      { nameKey: "skill_machines_thermiques", level: "maitrise", confirmed: true },
-      { nameKey: "skill_transfert_chaleur", level: "expert", confirmed: true },
-      { nameKey: "skill_mecanique_fluides", level: "maitrise", confirmed: true },
-      { nameKey: "skill_energies_renouvelables", level: "expert", confirmed: true },
+      { nameKey: "skill_machines_thermiques", level: "maitrise", confirmed: true, toolbox: false },
+      { nameKey: "skill_transfert_chaleur", level: "expert", confirmed: true, toolbox: false },
+      { nameKey: "skill_mecanique_fluides", level: "maitrise", confirmed: true, toolbox: false },
+      { nameKey: "skill_energies_renouvelables", level: "expert", confirmed: true, toolbox: false },
     ],
   },
   {
     id: "data",
     labelKey: "category_data",
     skills: [
-      { nameKey: "skill_power_bi", level: "expert", confirmed: true },
-      { nameKey: "skill_excel_vba", level: "expert", confirmed: true },
-      { nameKey: "skill_python", level: "notions", confirmed: true },
-      { nameKey: "skill_matlab", level: "maitrise", confirmed: true },
+      { nameKey: "skill_power_bi", level: "expert", confirmed: true, icon: "power-bi.png" },
+      { nameKey: "skill_excel_vba", level: "expert", confirmed: true, icon: "excel.png" },
+      { nameKey: "skill_python", level: "notions", confirmed: true, icon: "python.png" },
+      { nameKey: "skill_matlab", level: "maitrise", confirmed: true, icon: "matlab.png" },
       { nameKey: "skill_c_cpp", level: "notions", confirmed: true },
       { nameKey: "skill_dev_web", level: "maitrise", confirmed: true },
       { nameKey: "skill_iot", level: "maitrise", confirmed: true },
