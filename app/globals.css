@@ -256,8 +256,33 @@ h3 {
   list-style: disc;
 }
 
+/* BRIEF §4.2 /projets/[slug]: "les phases DMAIC... sont numérotées 01→05".
+   Every ordered list across case-study content is already reserved for
+   genuinely sequential steps (DMAIC, diagnostic steps, MTBF/MTTR analysis
+   — checked all 9 case studies), so restyling every .prose-article <ol>
+   this way, rather than requiring a special MDX component, is safe: content
+   authors already signalled "sequence" by choosing <ol> over <ul>.
+   decimal-leading-zero is a native CSS counter style — no JS padding. */
 .prose-article > ol {
-  list-style: decimal;
+  list-style: none;
+  counter-reset: prose-step;
+  padding-left: 0;
+}
+
+.prose-article > ol > li {
+  counter-increment: prose-step;
+  position: relative;
+  padding-left: 40px;
+}
+
+.prose-article > ol > li::before {
+  content: counter(prose-step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--font-data), ui-monospace, monospace;
+  font-size: 0.85em;
+  color: var(--color-accent);
 }
 
 .prose-article li {

@@ -19,7 +19,7 @@ export default async function MentionsLegalesPage() {
         {blocks.map((block, index) => (
           <div key={block.heading}>
             {index > 0 ? <Rule className="mb-6" /> : null}
-            <h2 className="mb-2 text-lg text-ink">{block.heading}</h2>
+            <h2 className="text-h3 mb-2 text-ink">{block.heading}</h2>
             <p className="text-sm text-graphite">{block.text}</p>
           </div>
         ))}

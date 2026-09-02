@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useId } from "react";
+import { useActionState, useId, type ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
@@ -8,8 +8,66 @@ import type { Locale } from "@/i18n/routing";
 import { submitContactMessage } from "./actions";
 import { contactFormInitialState } from "@/lib/contact-form-state";
 
-const inputClass =
-  "w-full rounded-[2px] border border-rule bg-surface px-3 py-2 text-sm text-ink placeholder:text-steel";
+// BRIEF §4.2 <Contact /> fields: transparent background, 1px bottom rule
+// that turns --accent on focus, floating label. The peer-based float relies
+// on `placeholder=" "` (a single space, never empty string) so
+// `:placeholder-shown` only matches an actually-empty field, and on the
+// label following the control in DOM order (peer-* is a sibling selector).
+const fieldClass =
+  "peer w-full border-0 border-b border-rule bg-transparent px-0 pb-2 pt-5 text-ink outline-none transition-colors focus:border-accent";
+const labelClass =
+  "pointer-events-none absolute left-0 top-5 text-steel transition-all duration-200 peer-focus:top-0 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs";
+
+function Field({
+  id,
+  name,
+  label,
+  type = "text",
+  required,
+  autoComplete,
+  maxLength,
+  errorId,
+  invalid,
+  error,
+}: {
+  id: string;
+  name: string;
+  label: string;
+  type?: string;
+  required?: boolean;
+  autoComplete?: string;
+  maxLength?: number;
+  errorId: string;
+  invalid: boolean;
+  error?: ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <div className="relative">
+        <input
+          id={id}
+          name={name}
+          type={type}
+          placeholder=" "
+          required={required}
+          autoComplete={autoComplete}
+          maxLength={maxLength}
+          className={fieldClass}
+          aria-invalid={invalid ? true : undefined}
+          aria-describedby={invalid ? errorId : undefined}
+        />
+        <label htmlFor={id} className={labelClass}>
+          {label}
+        </label>
+      </div>
+      {error ? (
+        <p id={errorId} role="alert" className="font-data text-xs text-accent">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
 
 function SubmitButton() {
   const t = useTranslations("Contact");
@@ -31,13 +89,9 @@ export function ContactForm({ locale }: { locale: Locale }) {
   const emailId = useId();
   const organisationId = useId();
   const messageId = useId();
-  const nameErrorId = `${nameId}-error`;
-  const emailErrorId = `${emailId}-error`;
-  const organisationErrorId = `${organisationId}-error`;
-  const messageErrorId = `${messageId}-error`;
 
   return (
-    <form action={formAction} noValidate className="flex flex-col gap-5">
+    <form action={formAction} noValidate className="flex flex-col gap-6">
       {/* Honeypot — hidden from sighted users via a clip-based technique (not
           display:none/visibility:hidden, which some bots special-case) and
           removed from the tab order + accessibility tree. Real users never
@@ -60,87 +114,61 @@ export function ContactForm({ locale }: { locale: Locale }) {
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor={nameId} className="text-sm font-medium text-ink">
-          {t("field_name_label")}
-        </label>
-        <input
-          id={nameId}
-          name="name"
-          type="text"
-          required
-          autoComplete="name"
-          maxLength={100}
-          className={inputClass}
-          aria-invalid={state.fieldErrors?.name ? true : undefined}
-          aria-describedby={state.fieldErrors?.name ? nameErrorId : undefined}
-        />
-        {state.fieldErrors?.name ? (
-          <p id={nameErrorId} role="alert" className="font-data text-xs text-signal">
-            {t(state.fieldErrors.name)}
-          </p>
-        ) : null}
-      </div>
+      <Field
+        id={nameId}
+        name="name"
+        label={t("field_name_label")}
+        required
+        autoComplete="name"
+        maxLength={100}
+        errorId={`${nameId}-error`}
+        invalid={!!state.fieldErrors?.name}
+        error={state.fieldErrors?.name ? t(state.fieldErrors.name) : undefined}
+      />
+
+      <Field
+        id={emailId}
+        name="email"
+        label={t("field_email_label")}
+        type="email"
+        required
+        autoComplete="email"
+        maxLength={200}
+        errorId={`${emailId}-error`}
+        invalid={!!state.fieldErrors?.email}
+        error={state.fieldErrors?.email ? t(state.fieldErrors.email) : undefined}
+      />
+
+      <Field
+        id={organisationId}
+        name="organisation"
+        label={t("field_organisation_label")}
+        autoComplete="organization"
+        maxLength={150}
+        errorId={`${organisationId}-error`}
+        invalid={!!state.fieldErrors?.organisation}
+        error={state.fieldErrors?.organisation ? t(state.fieldErrors.organisation) : undefined}
+      />
 
       <div className="flex flex-col gap-1.5">
-        <label htmlFor={emailId} className="text-sm font-medium text-ink">
-          {t("field_email_label")}
-        </label>
-        <input
-          id={emailId}
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          maxLength={200}
-          className={inputClass}
-          aria-invalid={state.fieldErrors?.email ? true : undefined}
-          aria-describedby={state.fieldErrors?.email ? emailErrorId : undefined}
-        />
-        {state.fieldErrors?.email ? (
-          <p id={emailErrorId} role="alert" className="font-data text-xs text-signal">
-            {t(state.fieldErrors.email)}
-          </p>
-        ) : null}
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor={organisationId} className="text-sm font-medium text-ink">
-          {t("field_organisation_label")}
-        </label>
-        <input
-          id={organisationId}
-          name="organisation"
-          type="text"
-          autoComplete="organization"
-          maxLength={150}
-          className={inputClass}
-          aria-invalid={state.fieldErrors?.organisation ? true : undefined}
-          aria-describedby={state.fieldErrors?.organisation ? organisationErrorId : undefined}
-        />
-        {state.fieldErrors?.organisation ? (
-          <p id={organisationErrorId} role="alert" className="font-data text-xs text-signal">
-            {t(state.fieldErrors.organisation)}
-          </p>
-        ) : null}
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor={messageId} className="text-sm font-medium text-ink">
-          {t("field_message_label")}
-        </label>
-        <textarea
-          id={messageId}
-          name="message"
-          required
-          rows={6}
-          maxLength={2000}
-          className={inputClass}
-          aria-invalid={state.fieldErrors?.message ? true : undefined}
-          aria-describedby={state.fieldErrors?.message ? messageErrorId : undefined}
-        />
+        <div className="relative">
+          <textarea
+            id={messageId}
+            name="message"
+            placeholder=" "
+            required
+            rows={6}
+            maxLength={2000}
+            className={fieldClass}
+            aria-invalid={state.fieldErrors?.message ? true : undefined}
+            aria-describedby={state.fieldErrors?.message ? `${messageId}-error` : undefined}
+          />
+          <label htmlFor={messageId} className={labelClass}>
+            {t("field_message_label")}
+          </label>
+        </div>
         {state.fieldErrors?.message ? (
-          <p id={messageErrorId} role="alert" className="font-data text-xs text-signal">
+          <p id={`${messageId}-error`} role="alert" className="font-data text-xs text-accent">
             {t(state.fieldErrors.message)}
           </p>
         ) : null}
@@ -148,7 +176,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
       <div aria-live="polite">
         {state.status === "error" && state.formError ? (
-          <p role="alert" className="text-sm text-signal">
+          <p role="alert" className="text-sm text-accent">
             {t(state.formError)}
           </p>
         ) : null}

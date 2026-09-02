@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { Section } from "@/components/ui/Section";
 import { Rule } from "@/components/ui/Rule";
 import { Reveal } from "@/components/ui/Reveal";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 import type { Locale } from "@/i18n/routing";
 import { ContactForm } from "./ContactForm";
 
@@ -30,12 +31,10 @@ export default async function ContactPage({
   return (
     <Section>
       <Reveal sweep>
-        <p className="mb-2 font-data text-xs uppercase tracking-wide text-steel">
-          {t("page_eyebrow")}
-        </p>
+        <SectionLabel className="mb-2">{t("page_eyebrow")}</SectionLabel>
       </Reveal>
       <Reveal>
-        <h1 className="mb-4 text-2xl text-ink">{t("page_title")}</h1>
+        <h1 className="text-h2 font-display mb-4 text-ink">{t("page_title")}</h1>
       </Reveal>
       <Reveal>
         <p className="measure mb-8 text-graphite">{t("page_intro")}</p>
@@ -48,7 +47,7 @@ export default async function ContactPage({
             a form at all). Reveal only ever hides content once .js-reveal is
             confirmed present (see Reveal.tsx), so this stays true with motion on. */}
         <Reveal stagger as="div">
-          <h2 className="mb-4 text-lg text-ink">{t("details_heading")}</h2>
+          <h2 className="text-h3 mb-4 text-ink">{t("details_heading")}</h2>
           <dl className="flex flex-col gap-4 text-sm">
             <div>
               <dt className="text-steel">{t("email_label")}</dt>
@@ -88,7 +87,7 @@ export default async function ContactPage({
 
         <div>
           <Rule className="mb-8 md:hidden" />
-          <h2 className="mb-4 text-lg text-ink">{t("form_heading")}</h2>
+          <h2 className="text-h3 mb-4 text-ink">{t("form_heading")}</h2>
           <ContactForm locale={locale as Locale} />
         </div>
       </div>
