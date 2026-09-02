@@ -165,7 +165,7 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-nav-panel"
             onClick={() => setOpen((v) => !v)}
-            className="flex h-8 w-8 items-center justify-center rounded-hairline border border-rule text-ink transition-colors hover:border-accent"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-hairline border border-rule text-ink transition-colors hover:border-accent"
           >
             <span
               aria-hidden

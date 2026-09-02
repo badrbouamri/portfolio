@@ -327,8 +327,10 @@ h3 {
   transition: color 150ms ease;
 }
 
-.prose-article a:hover {
-  color: var(--color-ink);
+@media (hover: hover) {
+  .prose-article a:hover {
+    color: var(--color-ink);
+  }
 }
 
 .prose-article blockquote {
@@ -1011,7 +1013,11 @@ a:focus-visible > .cta-arrow-down {
 .logo-rail-marquee {
   animation: logo-rail-scroll 42s linear infinite;
 }
-.logo-rail-viewport:hover .logo-rail-marquee,
+@media (hover: hover) {
+  .logo-rail-viewport:hover .logo-rail-marquee {
+    animation-play-state: paused;
+  }
+}
 .logo-rail-offscreen .logo-rail-marquee {
   animation-play-state: paused;
 }
