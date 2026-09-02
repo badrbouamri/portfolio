@@ -4,21 +4,24 @@ locale: "fr"
 title: "Système d'irrigation intelligent IoT"
 subtitle: "Arrosage automatisé et connecté, piloté par capteurs et météo"
 category: "digital"
-organisation: "Projet personnel"
+organisation: "Projet académique — ENSET Mohammedia"
 organisationPublic: true
 location: "Kénitra, Maroc"
 period:
-  start: "À préciser" # ⚠️ À COMPLÉTER — dates réelles inconnues, ne pas deviner
-  end: "À préciser" # ⚠️ À COMPLÉTER — dates réelles inconnues, ne pas deviner
-durationLabel: "À préciser" # ⚠️ À COMPLÉTER
-role: "Concepteur & développeur"
-summary: "Conception d'un système d'irrigation automatisé (ESP32, MQTT, API météo) avec supervision à distance, pour une gestion optimisée de la consommation d'eau."
+  start: "2025-04"
+  end: "2025-04"
+durationLabel: "Projet académique"
+role: "Étudiant ingénieur — firmware, IA et supervision (projet de groupe)"
+summary: "Système d'irrigation automatisé (ESP32, MQTT, IA embarquée, application mobile) avec supervision à distance, réalisé en équipe de sept étudiants."
 featured: true
 order: 4
 confidential: false
-tools: ["ESP32", "MQTT", "OpenWeather API"]
+tools: ["ESP32", "MQTT", "OpenWeather API", "Random Forest", "Flutter"]
 methods: []
-kpis: []
+kpis:
+  - label: Précision du modèle IA
+    value: "> 95 %"
+    note: Sur jeu de test simulé, pas en conditions réelles
 hero:
   src: "/images/projets/irrigation-intelligente-iot/schema-systeme-illustration.jpg"
   alt: "Schéma illustré du système : prototype de terrain ESP32 avec capteur d'humidité et électrovanne, et logigramme de la logique de décision (capteurs, correction météo, supervision à distance)"
@@ -29,9 +32,7 @@ related: []
 
 ## Contexte
 
-Projet personnel mené en dehors du cadre académique, sans commande ni contrainte d'un client ou d'une entreprise. L'objectif de départ : explorer l'IoT appliqué à un problème concret — l'arrosage — plutôt que de rester sur un exercice de programmation isolé. Le système cible un usage domestique ou de petite parcelle, où l'arrosage est aujourd'hui déclenché manuellement ou sur une simple minuterie, sans tenir compte de l'état réel du sol ni de la météo à venir.
-
-> ⚠️ À COMPLÉTER — préciser le contexte exact (parcelle test, jardin personnel, projet de club/association ENSET ?) et la motivation initiale précise.
+Projet innovant réalisé en équipe de sept étudiants en Génie Mécanique des Systèmes Industriels à l'ENSET Mohammedia, sous la direction de MM. Lakhdar Abdelghani et Samri Hassan. L'objectif : concevoir un système d'irrigation intelligent et autonome, à base d'ESP32, de MQTT et d'intelligence artificielle, pour un usage domestique ou de petite parcelle où l'arrosage est aujourd'hui déclenché manuellement ou sur une simple minuterie, sans tenir compte de l'état réel du sol ni de la météo à venir.
 
 ## Problématique
 
@@ -45,52 +46,58 @@ Un arrosage à minuterie fixe ignore deux informations pourtant disponibles : l'
 
 ## Mon rôle
 
-Projet personnel réalisé seul : conception de l'architecture, développement du firmware embarqué, mise en place de la communication et de la supervision à distance. Aucune répartition d'équipe à documenter — l'ensemble de la chaîne, du capteur à la supervision, relève de ce même travail individuel.
+Projet réalisé en équipe de sept étudiants. Je me suis impliqué sur l'ensemble de la chaîne technique : le firmware embarqué sur l'ESP32 (capteurs, relais, connexion Wi-Fi et MQTT), la couche de communication MQTT entre l'ESP32, le serveur d'IA et l'application mobile, le modèle d'intelligence artificielle de décision (Random Forest), et l'application mobile de supervision développée avec Flutter.
 
 ## Démarche & méthodologie
 
-L'architecture retenue suit une chaîne simple, typique d'un projet IoT de ce type :
+L'architecture retenue suit une chaîne en six étapes :
 
-1. **Acquisition locale** — un microcontrôleur ESP32 lit en continu un capteur d'humidité du sol (et, le cas échéant, d'autres grandeurs environnementales).
-2. **Décision locale** — un seuil d'humidité déclenche une pré-décision d'arrosage directement sur l'ESP32, sans dépendre en permanence d'une connexion réseau.
-3. **Correction météo** — avant d'exécuter l'arrosage, le système interroge l'API OpenWeather pour vérifier une pluie imminente et ajuster ou annuler la décision.
-4. **Communication** — les mesures et l'état du système remontent via le protocole **MQTT**, choisi pour son fonctionnement en publication/abonnement, léger et adapté à des objets à ressources limitées, plutôt qu'un polling HTTP classique plus coûteux en énergie et en trafic.
-5. **Supervision à distance** — un tableau de bord permet de suivre l'état du système et son historique, et d'intervenir manuellement si besoin.
+1. **Acquisition locale** — l'ESP32 lit un capteur d'humidité du sol et un capteur DHT11 (température et humidité de l'air).
+2. **Enrichissement météo** — l'ESP32 interroge l'API OpenWeatherMap (pluie actuelle, prévisions à 24 h et 48 h) et fusionne cette donnée avec les mesures locales.
+3. **Publication MQTT** — l'ensemble (capteurs + météo) est publié au format JSON sur un broker Mosquitto, sur le topic `irrigation/sensors`.
+4. **Décision par IA** — un serveur (PC) hébergeant un modèle de Random Forest (entraîné avec scikit-learn, sauvegardé au format joblib) reçoit ces données via MQTT et décide d'irriguer ou non.
+5. **Action** — la décision est republiée sur le topic `irrigation/command` ; l'ESP32 y est abonné et active un relais commandant un moteur 5 V, qui simule l'ouverture de la vanne. L'état de la vanne est à son tour publié sur `irrigation/valve`.
+6. **Supervision à distance** — une application mobile développée avec Flutter s'abonne aux topics de données et d'état pour l'affichage temps réel, et publie sur `irrigation/command` en cas de commande manuelle.
 
-> ⚠️ À COMPLÉTER — confirmer le détail exact de l'implémentation (broker MQTT utilisé, structure des topics, interface de supervision réellement construite) : la description ci-dessus reflète l'architecture générale annoncée, pas le détail vérifié du code.
+Le choix de MQTT (plutôt qu'un polling HTTP classique) tient à son modèle publication/abonnement, léger et adapté à un objet à ressources limitées comme l'ESP32.
 
 ## Outils & méthodes
 
-`ESP32` · `MQTT` · `API OpenWeather` · capteur d'humidité du sol
+`ESP32` · `MQTT` · `API OpenWeather` · `Random Forest` · `Flutter` · capteur d'humidité du sol · DHT11
 
 ## Analyse d'ingénieur
 
-Deux choix de conception méritent d'être justifiés :
+Trois choix de conception méritent d'être justifiés, et un résultat mesuré nuancé.
 
-**MQTT plutôt qu'un polling HTTP direct.** Un objet connecté sur batterie ou alimentation limitée gagne à minimiser le nombre et la durée des connexions réseau actives. Le modèle publication/abonnement de MQTT permet à l'ESP32 de n'émettre que lorsqu'un événement le justifie (changement d'état, mesure significative), au lieu d'interroger ou d'être interrogé en continu — ce qui réduit la consommation et la charge réseau.
+**MQTT plutôt qu'un polling HTTP direct.** Un objet connecté sur ressources limitées gagne à minimiser le nombre et la durée des connexions réseau actives. Le modèle publication/abonnement de MQTT permet à l'ESP32 de publier ses mesures et de recevoir ses commandes de façon asynchrone, plutôt que d'interroger ou d'être interrogé en continu — ce qui réduit la consommation et la charge réseau, un critère explicitement retenu dans le cahier des charges (besoin non fonctionnel d'efficacité énergétique).
 
-**Décision locale avant correction distante.** Faire porter le seuil d'humidité directement sur l'ESP32 (plutôt que de tout déporter vers un serveur) garantit que le système continue à fonctionner de façon autonome même en cas de coupure réseau ou d'indisponibilité de l'API météo — la donnée météo vient ensuite affiner une décision qui reste fonctionnelle sans elle.
+**Décision par un modèle entraîné plutôt qu'un simple seuil.** L'hypothèse initiale la plus simple — irriguer sous un seuil fixe d'humidité du sol — a été écartée au profit d'un modèle de Random Forest qui croise plusieurs variables (humidité du sol, température, humidité de l'air, pluie actuelle, prévisions à 24 h et 48 h) pour décider. Un seuil unique ignore la météo à venir ; le modèle permet par exemple de ne pas irriguer malgré un sol sec si une pluie est prévue dans les heures suivantes.
 
-> ⚠️ À COMPLÉTER — ce bloc est le plus important du dossier ("le bloc qui fait recruter", selon la structure attendue). Il manque ici l'analyse spécifique au projet réel : hypothèses testées et rejetées, calibration du seuil d'humidité, éventuel figure/schéma d'architecture ou de logique de décision à insérer.
+**Entraînement sur données synthétiques, pas sur mesures de terrain.** Faute de données réelles disponibles au moment du projet, le modèle a été entraîné sur un jeu de données synthétique généré pour simuler différentes combinaisons d'humidité, de température et de météo, puis évalué sur un jeu de test également simulé — avec un taux de précision supérieur à 95 % sur ce jeu de test. Ce résultat valide la cohérence interne du modèle par rapport aux scénarios simulés ; il ne garantit pas la même précision face à des situations de terrain non représentées dans l'entraînement, une limite assumée du prototype plutôt que dissimulée. Toutes les décisions prises en fonctionnement sont journalisées (CSV) pour permettre un ré-entraînement ultérieur sur données réelles.
 
 ## Difficultés rencontrées
 
-> ⚠️ À COMPLÉTER — lister 2 à 3 difficultés réelles rencontrées (ex. fiabilité du capteur, gestion de la perte de connexion Wi-Fi, alimentation électrique, calibration du seuil d'humidité selon le type de sol, latence de l'API météo). Ne pas inventer de difficultés génériques : ce bloc perd toute sa valeur s'il ne reflète pas une expérience vécue.
+L'intégration matérielle a demandé plusieurs ajustements de câblage entre les capteurs et l'ESP32 pour obtenir une lecture stable et limiter les interférences électriques.
+
+L'absence de données réelles disponibles a forcé le recours à des données simulées pour entraîner le modèle d'IA — un choix assumé, mais qui limite la confiance qu'on peut accorder à sa précision sur des situations de terrain non représentées dans l'entraînement.
+
+La sécurisation du broker MQTT (TLS/SSL) a pris plus de temps que prévu, entre la configuration des certificats et la gestion des autorisations. Des décalages de latence ont aussi été observés par moments entre l'émission des données par les capteurs et leur affichage dans l'application mobile, nécessitant une optimisation du code.
 
 ## Solutions mises en œuvre
 
-- Système d'irrigation automatisé et connecté associant mesure locale d'humidité et prévision météo.
-- Chaîne de communication MQTT entre l'ESP32 et la supervision.
-- Interface de supervision à distance pour le suivi et la gestion de la consommation d'eau.
-
-> ⚠️ À COMPLÉTER — nommer précisément les artefacts livrés (ex. nom du firmware/repo, capture ou schéma de l'interface de supervision réellement construite).
+- Firmware ESP32 : lecture des capteurs, appel à l'API météo, publication/souscription MQTT, pilotage du relais, reconnexion automatique en cas de coupure Wi-Fi ou MQTT.
+- Modèle de décision Random Forest (scikit-learn), entraîné sur données simulées et sauvegardé au format joblib, avec journalisation des décisions pour ré-entraînement futur.
+- Application mobile Flutter : visualisation temps réel des mesures, suivi de l'état de la vanne, commande manuelle.
+- Broker MQTT (Mosquitto) sécurisé en TLS/SSL entre les trois modules.
 
 ## Résultats
 
-Le système fonctionne comme prototype démontrant la chaîne complète : mesure → décision locale → correction météo → action → supervision à distance. **Aucun résultat chiffré de gain en consommation d'eau n'est disponible à ce stade** — ce projet n'a pas fait l'objet d'une mesure comparative (avant/après) permettant de quantifier une économie d'eau réelle. Le présenter honnêtement comme un prototype fonctionnel, plutôt que d'avancer un pourcentage d'économie non mesuré, est délibéré.
+Le prototype a passé l'ensemble des tests fonctionnels menés : mesures des capteurs conformes, commutation du relais fiable, publication/souscription MQTT sans perte de message, reconnexion automatique après coupure Wi-Fi/MQTT ou coupure de courant, application mobile fonctionnelle sur plusieurs smartphones Android. Le modèle de décision a atteint un taux de précision supérieur à 95 % sur son jeu de test — un jeu de données simulé, pas une validation en conditions réelles.
 
-> ⚠️ À COMPLÉTER — si une mesure ou une estimation existe réellement (même approximative), l'ajouter ici avec sa méthode de calcul.
+**Aucun résultat chiffré de gain en consommation d'eau n'est disponible** : ce projet n'a pas fait l'objet d'une mesure comparative avant/après en conditions réelles, et le prototype n'est pas encore équipé d'une alimentation autonome (batterie ou panneau solaire) ni d'un boîtier adapté à un usage extérieur prolongé. Le présenter comme un prototype fonctionnel et testé, plutôt que d'avancer une économie d'eau non mesurée, est délibéré.
 
 ## Ce que j'en retiens
 
-> ⚠️ À COMPLÉTER — 3 à 5 lignes personnelles : ce que ce projet a changé dans la façon d'aborder l'IoT, une limite identifiée a posteriori, un choix technique qui serait refait différemment aujourd'hui. À écrire à la première personne, sans platitude.
+Travailler sur l'ensemble de la chaîne technique — firmware, communication, IA et application — m'a appris à raisonner sur un système complet plutôt que sur un module isolé : une latence dans l'application mobile peut venir du firmware, du broker MQTT ou du réseau, et il faut savoir situer le problème dans la bonne couche avant de le corriger.
+
+L'entraînement du modèle sur des données synthétiques est la limite que je referais différemment aujourd'hui : j'irais chercher, même en petite quantité, des mesures de terrain réelles avant d'annoncer un taux de précision, plutôt que de valider le modèle uniquement sur des scénarios simulés qui ne testent que sa cohérence interne.
