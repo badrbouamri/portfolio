@@ -1,14 +1,44 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import localFont from "next/font/local";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
-import { bodoniModa, interTight, plexMono } from "../fonts";
+import { interTight, plexMono } from "../fonts";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Backdrop } from "@/components/layout/Backdrop";
 import { PageTransition } from "@/components/layout/PageTransition";
 import "../globals.css";
+
+// Declared here rather than in app/fonts.ts (alongside interTight/plexMono):
+// Next's automatic font preload is keyed off the file that calls localFont(),
+// and only fires for calls that live in a rendered layout/page file — never
+// for one re-exported from a shared module like fonts.ts (see the comment
+// there). This is the brief's one font meant to preload (BRIEF-REFONTE-
+// PORTFOLIO.md §8: "préchargement du seul Display"), so it moved here.
+// Note: as of Next.js 15.5.23 this project's build still doesn't emit a
+// visible <link rel="preload"> for it even after this move — the
+// next-font-manifest.json app/pages preload maps come out empty regardless
+// (checked directly, both webpack and Turbopack builds). Correctly placed
+// per Next's documented mechanism and harmless either way; worth rechecking
+// after a Next.js upgrade rather than digging further into this version.
+const bodoniModa = localFont({
+  src: [
+    {
+      path: "../../public/fonts/bodoni-moda/bodoni-moda-latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/bodoni-moda/bodoni-moda-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

@@ -8,22 +8,15 @@ import localFont from "next/font/local";
 // Fonts' latin subset and committed under public/fonts/, same as every other
 // family here. Superseded IBM Plex Sans Condensed / IBM Plex Sans (still on
 // disk under public/fonts/ pending Phase 8 cleanup, in case of rollback).
-export const bodoniModa = localFont({
-  src: [
-    {
-      path: "../public/fonts/bodoni-moda/bodoni-moda-latin-400-normal.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/bodoni-moda/bodoni-moda-latin-500-normal.woff2",
-      weight: "500",
-      style: "normal",
-    },
-  ],
-  variable: "--font-display",
-  display: "swap",
-});
+//
+// Bodoni Moda (Display) is declared in app/[locale]/layout.tsx, not here —
+// next/font's automatic preload only fires when the font-loader call itself
+// lives in a rendered layout/page file (Next keys its per-file preload
+// manifest on that file's own path); a shared fonts.ts module is never
+// itself a rendered segment, so nothing declared here ever gets preloaded
+// regardless of the `preload` option. That's exactly what the brief wants
+// for Body/Mono ("préchargement du seul Display") — only Display needs to
+// move.
 
 export const interTight = localFont({
   src: [
