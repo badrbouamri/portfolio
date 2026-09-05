@@ -44,6 +44,12 @@
         "value": "13px",
         "createdAt": "2026-09-02T00:27:13.681Z",
         "reason": "BRIEF-REFONTE-PORTFOLIO.md §4.1 Bloc 1 spec: hero positioning subtitle is explicitly 13px"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "11px",
+        "createdAt": "2026-09-05T16:49:31.801Z",
+        "reason": "pre-existing OrgLogo caption size, unchanged by the 2026-09-05 redesign (only removed grayscale filter/conditional light plate) - carried forward from every prior redesign pass"
       }
     ]
   }

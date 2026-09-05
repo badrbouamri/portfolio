@@ -87,6 +87,18 @@ export default async function ContactPage({
             <span className="text-sm text-ink transition-colors group-hover:text-accent">BadrEddine Elbouamri</span>
           </a>
 
+          <a
+            href="https://github.com/badrbouamri"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col gap-0.5 border border-rule p-4 transition-colors hover:border-accent"
+          >
+            <span className="font-data text-xs uppercase tracking-wide text-steel">{t("github_label")}</span>
+            <span className="font-data text-sm text-ink transition-colors group-hover:text-accent">
+              github.com/badrbouamri
+            </span>
+          </a>
+
           <div className="flex flex-col gap-0.5 border border-rule p-4">
             <span className="font-data text-xs uppercase tracking-wide text-steel">{t("location_label")}</span>
             <span className="font-data text-sm text-ink">{t("location_value")}</span>

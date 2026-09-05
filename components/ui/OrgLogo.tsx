@@ -16,9 +16,12 @@ function ExternalLinkGlyph() {
   );
 }
 
-// A "worked with" credibility badge: grayscale at rest, colour on hover/focus
-// (redesign-brief.md §2.2), linking out to the organisation's own site — not
-// the case study, which is already linked from Parcours/Preuves.
+// A "worked with" credibility badge, linking out to the organisation's own
+// site — not the case study, which is already linked from Parcours/Preuves.
+// Video-reference clone (2026-09-05): logos render in full original color,
+// no grayscale-until-hover treatment, directly on the page background —
+// except the two whose own brand color needs a light plate to stay legible
+// on black (see OrganisationInfo.needsLightPlate, lib/organisations.ts).
 export function OrgLogo({
   organisation,
   officialSiteLabel,
@@ -38,6 +41,8 @@ export function OrgLogo({
   // invisible-to-AT link. tabIndex={-1} pulls this copy out of tab order.
   inert?: boolean;
 }) {
+  const plate = organisation.needsLightPlate;
+
   return (
     <a
       href={organisation.website}
@@ -45,27 +50,24 @@ export function OrgLogo({
       rel="noopener noreferrer"
       aria-label={`${organisation.name} — ${officialSiteLabel}`}
       tabIndex={inert ? -1 : undefined}
-      // Fixed light "brand plate" (2026-09-02, dark mode): these are raster
-      // logos with dark artwork meant for a white background, grayscale-
-      // filtered on top — on the dark-mode card they'd go illegible, and we
-      // can't safely auto-invert arbitrary third-party logos. bg-white and
-      // the literal light-mode --rule/--steel values below are intentionally
-      // NOT theme tokens here; every other color on this card still swaps.
-      className={`group flex flex-col items-center border border-[#dce0e3] bg-white transition-colors hover:border-accent focus-visible:border-accent ${
-        compact ? "gap-1 px-2 py-2" : "gap-2 px-4 py-3"
-      }`}
+      className={`group flex flex-col items-center transition-colors ${
+        plate
+          ? // Small, tight light plate — literal light values, not theme
+            // tokens: this is a fixed light chip regardless of theme, sized
+            // to the logo, not a full-bleed white card.
+            "rounded-hairline border border-[#dce0e3] bg-white hover:border-accent focus-visible:border-accent"
+          : "border border-transparent hover:border-rule"
+      } ${compact ? "gap-1 px-2 py-2" : "gap-2 px-4 py-3"}`}
     >
       <Image
         src={organisation.logo.src}
         alt=""
         width={organisation.logo.width}
         height={organisation.logo.height}
-        className={`w-auto object-contain grayscale opacity-80 transition-[filter,opacity] duration-200 group-hover:grayscale-0 group-hover:opacity-100 group-focus-visible:grayscale-0 group-focus-visible:opacity-100 ${
-          compact ? "h-5" : "h-8"
-        }`}
+        className={`w-auto object-contain ${compact ? "h-5" : "h-8"}`}
       />
       <span
-        className={`inline-flex items-center gap-1 font-data uppercase tracking-wide text-[#626d77] group-hover:text-accent ${
+        className={`inline-flex items-center gap-1 font-data uppercase tracking-wide text-steel group-hover:text-accent ${
           compact ? "sr-only" : "text-[11px]"
         }`}
       >

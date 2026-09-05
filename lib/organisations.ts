@@ -2,12 +2,22 @@ export type OrganisationInfo = {
   name: string;
   website: string;
   logo: { src: string; width: number; height: number };
+  // Video-reference clone (2026-09-05): logos render in original color with
+  // no card at all by default (Nexteer's red, AIC's red/yellow both clear
+  // 4.5:1 directly on the black page background). The two logos whose own
+  // brand color doesn't survive a black ground — Stellantis is entirely
+  // navy-blue wordmark (~2:1 contrast on black) and ENSET's subtitle line is
+  // true black text (invisible on black) — opt into a small, tight light
+  // plate via this flag rather than losing legibility. Not a stylistic
+  // choice; verified by sampling actual pixel colors from both PNGs.
+  needsLightPlate?: boolean;
 };
 
 export const STELLANTIS: OrganisationInfo = {
   name: "Stellantis",
   website: "https://www.stellantis.com",
   logo: { src: "/images/logos/stellantis.png", width: 749, height: 160 },
+  needsLightPlate: true,
 };
 
 export const AIC_METALLURGIE: OrganisationInfo = {
@@ -26,6 +36,7 @@ export const ENSET: OrganisationInfo = {
   name: "ENSET Mohammedia",
   website: "https://www.enset-media.ac.ma/",
   logo: { src: "/images/logos/enset.png", width: 396, height: 160 },
+  needsLightPlate: true,
 };
 
 export const ORGANISATIONS: OrganisationInfo[] = [STELLANTIS, AIC_METALLURGIE, NEXTEER, ENSET];

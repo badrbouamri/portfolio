@@ -72,8 +72,11 @@ export default function HomePage() {
       <Hero />
 
       {/* Bloc 2 — LogoRail (BRIEF §3/§5.7): continuous marquee of host-
-          organisation logos, replacing the static wrap-flex row. */}
-      <Section>
+          organisation logos, replacing the static wrap-flex row. `tight`
+          (2026-09-05): a thin decorative marquee doesn't need the standard
+          section's full breathing room — at the default padding it left a
+          300px+ dead gap before Bloc 3 (see globals.css .section comment). */}
+      <Section tight>
         <p className="font-data text-label mb-4 uppercase text-steel">{t("organisations_eyebrow")}</p>
         <LogoRail organisations={ORGANISATIONS} officialSiteLabel={t("organisations_official_site")} />
       </Section>

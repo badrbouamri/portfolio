@@ -139,38 +139,45 @@ body {
   }
 }
 
-/* Redesign (BRIEF-REFONTE-PORTFOLIO.md §2.3): vertical rhythm defined once
-   here, consumed by Section.tsx. No child component may re-add vertical
-   section padding — that's the classic specificity fight the brief calls
-   out explicitly. 768px matches the project's existing --breakpoint-sm
-   (already overridden from Tailwind's default 640px), same breakpoint the
-   body font-size switch above already uses. */
+/* Vertical rhythm defined once here, consumed by Section.tsx. No child
+   component may re-add vertical section padding — that's the classic
+   specificity fight the original brief called out explicitly. 768px
+   matches the project's existing --breakpoint-sm (already overridden from
+   Tailwind's default 640px), same breakpoint the body font-size switch
+   above already uses.
+   Tightened for the video-reference clone (2026-09-05): the prior
+   96/168px values were sized for the editorial blue-night/brass system's
+   generous breathing room. Two adjacent non-tight sections (e.g. the
+   homepage's LogoRail section followed by Featured Projects) stacked their
+   bottom+top padding into a 300px+ dead gap that read as a broken/empty
+   region rather than a deliberate pause — the reference's own rhythm runs
+   much tighter throughout. Halved, not zeroed: sections still need to read
+   as distinct regions. */
 .section {
-  padding-top: 96px;
-  padding-bottom: 96px;
+  padding-top: 56px;
+  padding-bottom: 56px;
 }
 
 @media (min-width: 768px) {
   .section {
-    padding-top: 168px;
-    padding-bottom: 168px;
+    padding-top: 96px;
+    padding-bottom: 96px;
   }
 }
 
-/* Compact variant (owner request, 2026-09-02): the homepage's Bloc 3
-   positioning note is a single short paragraph, not a full content
-   section — the sitewide rhythm above left disproportionate empty space
-   above and below it. Two-class selector wins on specificity over .section
-   alone, cleanly, without fighting Tailwind's cascade. */
+/* Compact variant (owner request, 2026-09-02, tightened again 2026-09-05
+   alongside .section above): for a single short paragraph or thin
+   decorative element (a logo marquee, a one-line note) that doesn't need
+   even the standard rhythm's breathing room. */
 .section.section-tight {
-  padding-top: 32px;
-  padding-bottom: 32px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 @media (min-width: 768px) {
   .section.section-tight {
-    padding-top: 56px;
-    padding-bottom: 56px;
+    padding-top: 24px;
+    padding-bottom: 24px;
   }
 }
 

@@ -15,6 +15,7 @@
     "location": "Kénitra, Morocco",
     "legal_link": "Legal notice",
     "linkedin_label": "LinkedIn",
+    "github_label": "GitHub",
     "email_label": "Email",
     "copyright": "© {year} Badr Eddine ELBOUAMRI. All rights reserved."
   },
@@ -195,6 +196,7 @@
     "email_label": "Email",
     "phone_label": "Phone",
     "linkedin_label": "LinkedIn",
+    "github_label": "GitHub",
     "location_label": "Location",
     "location_value": "Kénitra, Morocco",
     "form_heading": "Send a message",
