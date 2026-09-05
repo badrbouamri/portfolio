@@ -15,24 +15,22 @@ import "../globals.css";
 // Next's automatic font preload is keyed off the file that calls localFont(),
 // and only fires for calls that live in a rendered layout/page file — never
 // for one re-exported from a shared module like fonts.ts (see the comment
-// there). This is the brief's one font meant to preload (BRIEF-REFONTE-
-// PORTFOLIO.md §8: "préchargement du seul Display"), so it moved here.
-// Note: as of Next.js 15.5.23 this project's build still doesn't emit a
-// visible <link rel="preload"> for it even after this move — the
-// next-font-manifest.json app/pages preload maps come out empty regardless
-// (checked directly, both webpack and Turbopack builds). Correctly placed
-// per Next's documented mechanism and harmless either way; worth rechecking
-// after a Next.js upgrade rather than digging further into this version.
-const bodoniModa = localFont({
+// there). Display is the one face worth preloading (it's the LCP element on
+// the homepage — the giant hero surname), so it moved here.
+//
+// Redesign (video-reference clone, 2026-09-05): Archivo Black replaces
+// Bodoni Moda as --font-display. The reference's headings and giant hero
+// name are a heavy grotesque, not a serif — Bodoni Moda doesn't fit the new
+// world at all, so this is a full substitution, not a weight/style tweak.
+// Archivo Black ships one weight only (400, which *is* the black weight),
+// self-hosted via next/font/local per this project's Morocco-reliability
+// convention (see Typography in DESIGN.md). Bodoni Moda's files stay on
+// disk under public/fonts/ pending cleanup, in case of rollback.
+const archivoBlack = localFont({
   src: [
     {
-      path: "../../public/fonts/bodoni-moda/bodoni-moda-latin-400-normal.woff2",
+      path: "../../public/fonts/archivo-black/archivo-black-latin-400-normal.woff2",
       weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/bodoni-moda/bodoni-moda-latin-500-normal.woff2",
-      weight: "500",
       style: "normal",
     },
   ],
@@ -105,19 +103,17 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`${bodoniModa.variable} ${interTight.variable} ${plexMono.variable} antialiased`}
+        className={`${archivoBlack.variable} ${interTight.variable} ${plexMono.variable} antialiased`}
       >
         {/* Synchronous (render-blocking) bootstrap script, not next/script: it must
             run before first paint so scroll-reveal CSS (gated on .js-reveal) never
             causes a flash, and so content stays fully visible with JS disabled.
-            Also applies a saved dark/light choice (ThemeToggle.tsx) before paint,
-            so a returning visitor never sees a light-mode flash before dark mode
-            kicks in. No explicit choice → the prefers-color-scheme media query in
-            globals.css handles it with zero JS. */}
+            No theme branch needed — the site is dark-only (video-reference clone,
+            2026-09-05; ThemeToggle.tsx deleted), so there's no saved choice to
+            re-apply before paint. */}
         <script
           dangerouslySetInnerHTML={{
-            __html:
-              "try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}document.documentElement.classList.add('js-reveal')",
+            __html: "document.documentElement.classList.add('js-reveal')",
           }}
         />
         <a href="#main-content" className="skip-link">

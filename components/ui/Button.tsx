@@ -20,15 +20,17 @@ type ButtonProps = ButtonAsButton | ButtonAsAnchor;
 const base =
   "btn-tap inline-flex items-center justify-center gap-2 rounded-hairline px-[26px] py-[14px] text-label uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-50";
 
-// BRIEF §3 <Button /> and §5.5. `ghost` (default) is a transparent/outlined
-// button whose fill sweeps in from the left on hover/focus (reusing the
-// sitewide .sweep-fill mechanism, parameterized to brass instead of ink via
-// --sweep-fill-color); `solid` is filled at rest and darkens to --ink on
-// hover, same mechanism as the pre-redesign primary button. Renders <a> when
-// `href` is given, <button> otherwise — never a clickable div.
+// Video-reference clone, 2026-09-05. `ghost` (default) mirrors the
+// reference's hero CTAs: a white-outlined, transparent button whose fill
+// sweeps to accent red on hover/focus (sitewide .sweep-fill mechanism,
+// parameterized via --sweep-fill-color); `solid` mirrors the reference's
+// "Send Message" CTA — filled white at rest, sweeping to accent red on
+// hover. Dark text works unchanged against both white and red (5.9:1 and
+// better), so neither variant needs a hover text-color swap. Renders <a>
+// when `href` is given, <button> otherwise — never a clickable div.
 const variants: Record<ButtonVariant, string> = {
-  ghost: "btn-ghost sweep-fill border border-accent text-ink",
-  solid: "sweep-fill bg-accent text-on-accent",
+  ghost: "btn-ghost sweep-fill border border-ink/30 text-ink",
+  solid: "btn-solid sweep-fill bg-ink text-paper",
 };
 
 export function Button({ variant = "ghost", className = "", children, ...props }: ButtonProps) {

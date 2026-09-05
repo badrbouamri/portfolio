@@ -1,85 +1,43 @@
 @import "tailwindcss";
 
-/* Redesign (BRIEF-REFONTE-PORTFOLIO.md, 2026-09-02) — Phase 1. Same 8 token
-   names/roles as before (see DESIGN.md → Colors for the pre-redesign values,
-   kept there for history), reskinned to the brief's blue-night/brass palette
-   with a light counterpart designed to match (the brief itself is dark-only;
-   keeping the light/dark toggle was an explicit owner call — see DESIGN.md →
-   "Redesign in progress"). `accent`/`signal` also change ROLE, not just hex:
-   `accent` (brass) now carries data emphasis — KPI figures, links, active
-   state — taking over what `signal` (amber) used to do; `signal` (blue) is
-   reserved for focus rings and the backdrop halo only, per the brief's own
-   "jamais du texte" rule. `--surface-hover` is new (brief's `ink-400`).
+/* Redesign (video-reference clone, 2026-09-05) — full visual-world
+   replacement. Same 8 token names/roles as before (see DESIGN.md → Colors
+   for the blue-night/brass values this supersedes, kept there for history),
+   reskinned to a black-ground/red-accent editorial system, dark-only —
+   the reference itself never shows a light mode, so the light/dark toggle
+   is retired (ThemeToggle.tsx deleted) rather than designing an untested
+   light counterpart no reference frame justifies. `accent` (red) is the
+   system's one saturated color: links, primary text emphasis, KPI figures,
+   active nav, card borders on hover. `signal` (amber) is kept for its
+   existing alert/error role in the two live demos (ConsommablesApp,
+   pilotage charts) — repointed to a warm amber so it reads as a distinct
+   "alert" tone from the brand red, not a second brand color.
    Contrast computed directly (WCAG relative luminance), not eyeballed:
-   light ink/paper 16.5:1, graphite/paper 9.4:1, steel/paper 4.9:1, accent/paper
-   5.8:1; dark accent/paper 11.4:1, graphite/paper 7.7:1, signal/paper 5.1:1
-   (light signal/paper also 5.1:1) — all clear 4.5:1. */
+   ink/paper 18.1:1, graphite/paper 10.4:1, steel/paper 6.3:1, accent/paper
+   6.0:1, signal/paper 11.6:1 — all clear 4.5:1. */
 :root {
-  --paper: #f2f5fc;
-  --surface: #ffffff;
-  --surface-hover: #e7ecfa;
-  --ink: #0a1533;
-  --graphite: #33415e;
-  --steel: #5b6b8c;
-  --rule: rgba(10, 21, 51, 0.1);
-  --rule-active: rgba(122, 90, 24, 0.45);
-  --accent: #7a5a18;
-  --on-accent: #f7f9ff;
-  --signal: #2f5fd9;
-  --halo-tint: rgba(47, 95, 217, 0.1);
-  --grain-opacity: 0;
-  /* Card hover halo (BRIEF §2.3 Ombres): the one shadow in the system, a
-     soft signal-tinted glow standing in for ambient elevation. */
-  --shadow-halo: 0 0 60px -20px rgba(47, 95, 217, 0.28);
+  --paper: #0a0a0a;
+  --surface: #141414;
+  --surface-hover: #1e1e1e;
+  --ink: #f5f5f5;
+  --graphite: #b4b4b4;
+  --steel: #8a8a8a;
+  --rule: rgba(255, 255, 255, 0.12);
+  --rule-active: rgba(255, 59, 59, 0.5);
+  --accent: #ff3b3b;
+  --on-accent: #0a0a0a;
+  --signal: #ffb020;
+  --halo-tint: rgba(255, 59, 59, 0.16);
+  --grain-opacity: 0.035;
+  /* Card hover glow — the reference's glowing-border skill card, generalized
+     as the one shadow in the system: a soft red-tinted halo standing in for
+     ambient elevation. */
+  --shadow-halo: 0 0 80px -20px rgba(255, 59, 59, 0.45);
   /* DESIGN.md → Motion: natural deceleration, used on scroll reveals/state
-     transitions sitewide — confident arrivals, never bounce. Matches the
-     brief's `ease.soft`. `--ease-interact` is the brief's `ease.out`, for
-     hover/press feedback specifically — introduced here, not yet rewired
-     into every existing hover transition (Phase 7 does that pass). */
+     transitions sitewide — confident arrivals, never bounce.
+     `--ease-interact` is for hover/press feedback specifically. */
   --ease-plot: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-interact: cubic-bezier(0.33, 1, 0.68, 1);
-}
-
-/* Two selectors carry identical dark values on purpose: the plain
-   `[data-theme]` attribute is what the inline bootstrap script (layout.tsx)
-   sets once the reader picks a mode explicitly (localStorage-backed, wins
-   over system); the media-query form covers everyone else, following the OS
-   setting with no JS and no flash. `:not([data-theme="light"])` keeps an
-   explicit light choice from being re-overridden by the media query. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #050a1c;
-    --surface: #0d1836;
-    --surface-hover: #122048;
-    --ink: #eaf0ff;
-    --graphite: #8fa3c8;
-    --steel: #6e80a6;
-    --rule: rgba(234, 240, 255, 0.08);
-    --rule-active: rgba(228, 192, 122, 0.45);
-    --accent: #e4c07a;
-    --on-accent: #050a1c;
-    --signal: #3e7bff;
-    --halo-tint: rgba(62, 123, 255, 0.18);
-    --grain-opacity: 0.035;
-    --shadow-halo: 0 0 80px -20px rgba(62, 123, 255, 0.35);
-  }
-}
-
-:root[data-theme="dark"] {
-  --paper: #050a1c;
-  --surface: #0d1836;
-  --surface-hover: #122048;
-  --ink: #eaf0ff;
-  --graphite: #8fa3c8;
-  --steel: #6e80a6;
-  --rule: rgba(234, 240, 255, 0.08);
-  --rule-active: rgba(228, 192, 122, 0.45);
-  --accent: #e4c07a;
-  --on-accent: #050a1c;
-  --signal: #3e7bff;
-  --halo-tint: rgba(62, 123, 255, 0.18);
-  --grain-opacity: 0.035;
-  --shadow-halo: 0 0 80px -20px rgba(62, 123, 255, 0.35);
 }
 
 @theme inline {
@@ -113,6 +71,14 @@
   --text-hero: clamp(40px, 6vw + 20px, 76px);
   --text-hero--line-height: 1.02;
   --text-hero--letter-spacing: -0.015em;
+  /* Video-reference clone, 2026-09-05: the homepage hero's giant background
+     surname — the reference's signature device. Its own scale step, well
+     above --text-hero, since nothing else on the site ever runs this large.
+     Minimum kept low (not the reference's near-full-bleed ratio) so a 9-11
+     letter surname stays inside a 390px viewport without triggering the
+     overflow-wrap fallback below — see hero-giant-name. */
+  --text-giant: clamp(44px, 15vw, 300px);
+  --text-giant--line-height: 0.82;
   --text-h2: clamp(30px, 3vw + 20px, 44px);
   --text-h2--line-height: 1.1;
   --text-h3: clamp(19px, 1vw + 16px, 22px);
@@ -719,9 +685,8 @@ h3 {
   }
 }
 
-/* Button.tsx ghost variant — fill sweeps to brass (not ink), and the label
-   swaps to --on-accent so it stays legible once the fill lands underneath,
-   per BRIEF §3 <Button />. */
+/* Button.tsx ghost variant — fill sweeps to accent red, and the label swaps
+   to --on-accent so it stays legible once the fill lands underneath. */
 .btn-ghost {
   --sweep-fill-color: var(--color-accent);
   transition: color 320ms var(--ease-interact);
@@ -739,6 +704,13 @@ h3 {
   .btn-ghost:hover .cta-arrow {
     transform: translateX(4px);
   }
+}
+
+/* Button.tsx solid variant — filled white at rest (video-reference clone);
+   fill sweeps to accent red on hover/focus. No text-color swap needed: the
+   dark label clears 4.5:1 on both white and red. */
+.btn-solid {
+  --sweep-fill-color: var(--color-accent);
 }
 
 /* Card.tsx hover (BRIEF §3 <Card />) — gated to real hover-capable pointers
@@ -885,13 +857,21 @@ a:focus-visible > .cta-arrow-down {
   }
 }
 
-/* ProjectsHeroBand.tsx's /projets hero title — a deliberate one-off
-   departure from the site's type system (Bodoni Moda everywhere else),
-   kept scoped to this one heading; see CLAUDE.md. ProjectRow.tsx, which
-   originally justified this exception alongside .text-editorial-accent,
-   was deleted in the 2026-09-02 redesign — that class went with it. */
-.font-editorial {
-  font-family: Georgia, "Times New Roman", serif;
+/* Glow card (video-reference clone, 2026-09-05) — the one highlighted
+   skill/feature card per group carries a soft red halo + brightened border
+   instead of the flat hairline every other card uses, echoing the
+   reference's single glowing "Data Analytics & Tools" card. Rationed like
+   the old amber/brass rule: at most one glow-card per visible group. */
+.glow-card {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-halo);
+}
+
+/* Checklist bullet (SkillCheckCard, ExpertiseGrid) — a drawn check mark,
+   never a Unicode glyph, in the accent color. */
+.check-mark {
+  flex: none;
+  color: var(--color-accent);
 }
 
 /* Homepage "Mon expertise" grid (ExpertiseGrid.tsx) — a very subtle radial
@@ -905,61 +885,44 @@ a:focus-visible > .cta-arrow-down {
   );
 }
 
-/* Homepage hero (Hero.tsx), BRIEF §4.1 Bloc 1 + §5.2 — the site's one
-   authored entrance sequence. Every timing value below is the brief's own
-   millisecond table; kept as separate small classes rather than one
-   composite animation so each element's delay/duration reads directly off
-   the spec. */
-.hero-photo-mask {
-  mask-image: radial-gradient(closest-side, black, transparent);
-  -webkit-mask-image: radial-gradient(closest-side, black, transparent);
-}
-.hero-photo {
+/* Homepage hero (Hero.tsx) — video-reference clone, 2026-09-05. The site's
+   one authored entrance sequence: the giant background surname stamps in
+   first (a flat plane, not a scroll-jack), the portrait settles on top of
+   it, then the foreground name/role/CTA stack fades up in sequence. Kept as
+   separate small classes, each timing value readable on its own. */
+.hero-giant-name {
   opacity: 0;
-  transform: scale(1.06);
-  animation: hero-photo-in 1400ms var(--ease-plot) both;
+  transform: translateY(24px);
+  animation: hero-giant-in 900ms var(--ease-plot) 80ms both;
+  color: var(--color-accent);
+  /* Safety net, not the intended reading: a name long enough to still
+     overflow --text-giant's own minimum breaks mid-word rather than
+     clipping against the wrapper's overflow-hidden. */
+  overflow-wrap: anywhere;
+}
+@keyframes hero-giant-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-photo-mount {
+  opacity: 0;
+  transform: scale(1.04);
+  animation: hero-photo-in 1000ms var(--ease-plot) 260ms both;
 }
 @keyframes hero-photo-in {
   to {
-    opacity: 0.35;
+    opacity: 1;
     transform: scale(1);
   }
-}
-
-.hero-halo {
-  opacity: 0;
-  background: radial-gradient(
-    ellipse 50% 50% at 50% 30%,
-    color-mix(in srgb, var(--color-signal) 25%, transparent),
-    transparent 70%
-  );
-  animation: hero-fade-in 1200ms var(--ease-plot) 120ms both;
-}
-@keyframes hero-fade-in {
-  to {
-    opacity: 1;
-  }
-}
-
-.hero-mark {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 10px;
-  color: var(--color-steel);
-  opacity: 0.3;
-}
-.hero-mark-left {
-  left: 24px;
-}
-.hero-mark-right {
-  right: 24px;
 }
 
 .hero-eyebrow {
   opacity: 0;
   transform: translateY(12px);
-  animation: hero-fade-up 700ms var(--ease-plot) 260ms both;
+  animation: hero-fade-up 700ms var(--ease-plot) 520ms both;
 }
 @keyframes hero-fade-up {
   to {
@@ -968,42 +931,32 @@ a:focus-visible > .cta-arrow-down {
   }
 }
 
-.hero-name-line {
-  transform: translateY(100%);
-  animation: hero-name-in 900ms var(--ease-plot) both;
-}
-.hero-name-line-1 {
-  animation-delay: 380ms;
-}
-.hero-name-line-2 {
-  animation-delay: 460ms;
-}
-@keyframes hero-name-in {
-  to {
-    transform: translateY(0);
-  }
-}
-
-.hero-rule {
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: hero-rule-in 800ms var(--ease-plot) 700ms both;
-}
-@keyframes hero-rule-in {
-  to {
-    transform: scaleX(1);
-  }
+.hero-role-line {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: hero-fade-up 700ms var(--ease-plot) 620ms both;
 }
 
 .hero-subtitle {
   opacity: 0;
   transform: translateY(10px);
-  animation: hero-fade-up 700ms var(--ease-plot) 860ms both;
+  animation: hero-fade-up 700ms var(--ease-plot) 700ms both;
+}
+
+.hero-cta-row {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: hero-fade-up 700ms var(--ease-plot) 780ms both;
+}
+
+@keyframes hero-fade-in {
+  to {
+    opacity: 1;
+  }
 }
 
 /* Header.tsx nav links, homepage only (`.hero-nav-enter`, gated on
-   pathname === "/"). Reuses .hero-fade-in; per-link delay is set inline
-   (1100ms + 40ms × index) since it depends on the link's position. */
+   pathname === "/"). Per-link delay is set inline (900ms + 40ms × index). */
 .hero-nav-enter {
   opacity: 0;
   animation: hero-fade-in 600ms var(--ease-plot) both;
@@ -1011,7 +964,7 @@ a:focus-visible > .cta-arrow-down {
 
 .hero-scroll {
   opacity: 0;
-  animation: hero-fade-in 400ms var(--ease-plot) 1500ms both;
+  animation: hero-fade-in 400ms var(--ease-plot) 1300ms both;
 }
 .hero-scroll-seg {
   animation: hero-scroll-loop 2000ms var(--ease-plot) infinite;

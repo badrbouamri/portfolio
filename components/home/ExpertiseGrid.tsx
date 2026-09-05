@@ -12,11 +12,23 @@ export type ExpertiseItem = {
   desc: string;
 };
 
-function ExpertiseCard({ item, index }: { item: ExpertiseItem; index: number }) {
+function ExpertiseCard({
+  item,
+  index,
+  highlight = false,
+}: {
+  item: ExpertiseItem;
+  index: number;
+  highlight?: boolean;
+}) {
   const number = String(index + 1).padStart(2, "0");
 
   return (
-    <div className="flex min-h-[220px] flex-col justify-between rounded-hairline border border-rule bg-surface p-5 transition-colors duration-200 ease-[var(--ease-plot)] hover:border-accent">
+    <div
+      className={`flex min-h-[220px] flex-col justify-between rounded-hairline border p-5 transition-colors duration-200 ease-[var(--ease-plot)] hover:border-accent ${
+        highlight ? "glow-card bg-surface" : "border-rule bg-surface"
+      }`}
+    >
       <span aria-hidden="true" className="font-data text-xs text-steel">
         {number}
       </span>
@@ -27,6 +39,12 @@ function ExpertiseCard({ item, index }: { item: ExpertiseItem; index: number }) 
     </div>
   );
 }
+
+// One highlighted card per grid — the reference's single glowing skill card,
+// rationed the same way the old amber/brass "data emphasis" rule was: at
+// most one glow per visible group. The digital/data item is the deliberate
+// scarcity value in the positioning (PRODUCT.md), so it's the one that glows.
+const HIGHLIGHT_INDEX = 3;
 
 export function ExpertiseGrid({
   items,
@@ -44,14 +62,14 @@ export function ExpertiseGrid({
     <div className="overflow-x-clip overflow-y-visible">
       <Reveal stagger className="flex flex-col gap-4 sm:grid sm:grid-cols-2 sm:gap-4 lg:hidden">
         {items.map((item, i) => (
-          <ExpertiseCard key={item.title} item={item} index={i} />
+          <ExpertiseCard key={item.title} item={item} index={i} highlight={i === HIGHLIGHT_INDEX} />
         ))}
       </Reveal>
 
       <div className="hidden lg:grid lg:grid-cols-[1fr_360px_1fr] lg:items-end lg:gap-6">
         <Reveal stagger className="flex flex-col gap-4">
           {left.map((item, i) => (
-            <ExpertiseCard key={item.title} item={item} index={i} />
+            <ExpertiseCard key={item.title} item={item} index={i} highlight={i === HIGHLIGHT_INDEX} />
           ))}
         </Reveal>
 
@@ -74,7 +92,7 @@ export function ExpertiseGrid({
 
         <Reveal stagger className="flex flex-col gap-4">
           {right.map((item, i) => (
-            <ExpertiseCard key={item.title} item={item} index={i + 2} />
+            <ExpertiseCard key={item.title} item={item} index={i + 2} highlight={i + 2 === HIGHLIGHT_INDEX} />
           ))}
         </Reveal>
       </div>

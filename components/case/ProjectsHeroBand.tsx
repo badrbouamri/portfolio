@@ -1,29 +1,14 @@
-import Image from "next/image";
-
-// Engineering Projects hero band (2026-09-01) — the /projets page header,
-// cloned from a reference screenshot's dark-image + serif-title pattern.
-// Background is a user-supplied stock image (public/images/projets-hero-gears.webp,
-// 2026-09-01) rather than the site's own grid-line motif — see CLAUDE.md.
+// /projets hero band — video-reference clone, 2026-09-05. Reference's own
+// section header is a plain centered heading with a short accent rule
+// beneath it, no photo band — replaces the 2026-09-01 stock-photo band
+// (public/images/projets-hero-gears.webp) and its font-editorial exception,
+// neither of which fit the new all-grotesque, no-serif type system.
 export function ProjectsHeroBand({ title, intro }: { title: string; intro: string }) {
   return (
-    <div className="relative" data-print-avoid-break>
-      <div className="relative h-[220px] w-full overflow-hidden sm:h-[280px]" aria-hidden="true">
-        <Image
-          src="/images/projets-hero-gears.webp"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover object-bottom"
-          priority
-          fetchPriority="high"
-        />
-      </div>
-      <div className="relative z-10 mx-auto -mt-16 max-w-[1200px] px-4 sm:-mt-20 sm:px-6">
-        <div className="max-w-[640px] border border-rule bg-surface p-6 sm:p-10">
-          <h1 className="font-editorial text-3xl text-ink sm:text-4xl">{title}</h1>
-          <p className="measure mt-4 text-sm text-graphite sm:text-base">{intro}</p>
-        </div>
-      </div>
+    <div className="mx-auto w-full max-w-[1200px] px-4 pt-16 pb-4 text-center sm:px-6 sm:pt-24">
+      <h1 className="font-display text-3xl text-ink sm:text-5xl">{title}</h1>
+      <div aria-hidden className="mx-auto mt-4 h-[3px] w-16 bg-accent" />
+      <p className="measure mx-auto mt-6 text-graphite">{intro}</p>
     </div>
   );
 }

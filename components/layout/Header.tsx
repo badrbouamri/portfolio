@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./LocaleSwitcher";
-import { ThemeToggle } from "./ThemeToggle";
 import { CvButton } from "./CvButton";
 
 // BRIEF §3 <Header />. Monogram centered via a 3-column grid so it stays
@@ -147,7 +146,6 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <ThemeToggle />
           <LocaleSwitcher />
           <CvButton />
         </div>
@@ -215,7 +213,6 @@ export function Header() {
             ))}
           </nav>
           <div className="mt-auto flex items-center gap-4 pt-6">
-            <ThemeToggle />
             <LocaleSwitcher />
           </div>
         </div>

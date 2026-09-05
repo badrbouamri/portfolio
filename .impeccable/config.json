@@ -19,12 +19,6 @@
         "reason": "pre-existing, matches DESIGN.md prose spec 'Body: 16px mobile / 17px desktop' — not part of this edit"
       },
       {
-        "rule": "design-system-font",
-        "value": "georgia",
-        "createdAt": "2026-09-01T19:37:03.525Z",
-        "reason": "user confirmed: explicit request to clone reference screenshot's serif heading for Engineering Projects section only (scoped via .font-editorial)"
-      },
-      {
         "rule": "design-system-radius",
         "value": "999px",
         "files": [
