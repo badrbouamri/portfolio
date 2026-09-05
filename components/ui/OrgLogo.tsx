@@ -18,10 +18,11 @@ function ExternalLinkGlyph() {
 
 // A "worked with" credibility badge, linking out to the organisation's own
 // site — not the case study, which is already linked from Parcours/Preuves.
-// Video-reference clone (2026-09-05): logos render in full original color,
-// no grayscale-until-hover treatment, directly on the page background —
-// except the two whose own brand color needs a light plate to stay legible
-// on black (see OrganisationInfo.needsLightPlate, lib/organisations.ts).
+// Video-reference clone (2026-09-05): every logo renders in full original
+// color, no card, no grayscale-until-hover treatment, directly on the page
+// background — an explicit owner call (a light-plate fallback for the two
+// low-contrast logos, Stellantis and ENSET, was tried and removed again on
+// request; see the comment on OrganisationInfo in lib/organisations.ts).
 export function OrgLogo({
   organisation,
   officialSiteLabel,
@@ -41,8 +42,6 @@ export function OrgLogo({
   // invisible-to-AT link. tabIndex={-1} pulls this copy out of tab order.
   inert?: boolean;
 }) {
-  const plate = organisation.needsLightPlate;
-
   return (
     <a
       href={organisation.website}
@@ -50,14 +49,9 @@ export function OrgLogo({
       rel="noopener noreferrer"
       aria-label={`${organisation.name} — ${officialSiteLabel}`}
       tabIndex={inert ? -1 : undefined}
-      className={`group flex flex-col items-center transition-colors ${
-        plate
-          ? // Small, tight light plate — literal light values, not theme
-            // tokens: this is a fixed light chip regardless of theme, sized
-            // to the logo, not a full-bleed white card.
-            "rounded-hairline border border-[#dce0e3] bg-white hover:border-accent focus-visible:border-accent"
-          : "border border-transparent hover:border-rule"
-      } ${compact ? "gap-1 px-2 py-2" : "gap-2 px-4 py-3"}`}
+      className={`group flex flex-col items-center border border-transparent transition-colors hover:border-rule ${
+        compact ? "gap-1 px-2 py-2" : "gap-2 px-4 py-3"
+      }`}
     >
       <Image
         src={organisation.logo.src}

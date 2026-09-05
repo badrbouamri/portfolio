@@ -144,11 +144,7 @@ export default async function ParcoursPage({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${org.name} — ${t("experience_official_site")}`}
-                    className={`shrink-0 transition-colors ${
-                      org.needsLightPlate
-                        ? "rounded-hairline border border-[#dce0e3] bg-white px-2 py-1 hover:border-accent focus-visible:border-accent"
-                        : "opacity-90 hover:opacity-100 focus-visible:opacity-100"
-                    }`}
+                    className="shrink-0 opacity-90 transition-opacity hover:opacity-100 focus-visible:opacity-100"
                   >
                     <Image
                       src={org.logo.src}
