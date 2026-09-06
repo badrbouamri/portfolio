@@ -77,7 +77,7 @@
      Minimum kept low (not the reference's near-full-bleed ratio) so a 9-11
      letter surname stays inside a 390px viewport without triggering the
      overflow-wrap fallback below — see hero-giant-name. */
-  --text-giant: clamp(44px, 15vw, 300px);
+  --text-giant: clamp(52px, 19vw, 360px);
   --text-giant--line-height: 0.82;
   --text-h2: clamp(30px, 3vw + 20px, 44px);
   --text-h2--line-height: 1.1;
